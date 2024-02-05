@@ -1,0 +1,27 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="35dp"
+    android:height="35dp"
+    android:viewportWidth="41"
+    android:viewportHeight="41">
+
+    <group>
+
+        <!-- Круг -->
+        <path
+            android:pathData="M10.961,0.867L30.961,0.867A10,10 0,0 1,40.961 10.867L40.961,30.867A10,10 0,0 1,30.961 40.867L10.961,40.867A10,10 0,0 1,0.961 30.867L0.961,10.867A10,10 0,0 1,10.961 0.867z"
+            android:fillColor="@color/blue"/>
+
+        <!-- Текст "Confirm" -->
+        <path
+            android:pathData="M10,20 L30,20"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"/>
+
+        <path
+            android:pathData="M20,10 L20,30"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="3.5"
+            android:strokeLineCap="round"/>
+    </group>
+</vector>

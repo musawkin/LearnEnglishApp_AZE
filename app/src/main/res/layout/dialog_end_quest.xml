@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="230dp"
+    android:background="@drawable/shape_rounded_variants"
+    android:backgroundTint="#12BF75"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/tvDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Score"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/btClose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <TextView
+        android:id="@+id/tvCorrect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="  Correct: "
+        android:drawableStart="@drawable/ic_correct"
+        android:textColor="@color/white"
+        android:textSize="19sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvDialog"
+        app:layout_constraintStart_toStartOf="@+id/tvDialog"
+        app:layout_constraintTop_toBottomOf="@+id/tvDialog" />
+
+    <TextView
+        android:id="@+id/tvCorrectScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_marginStart="3dp"
+        android:textSize="19sp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCorrect"
+        app:layout_constraintStart_toEndOf="@+id/tvCorrect" />
+
+    <TextView
+        android:id="@+id/tvWrong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  Wrong: "
+        android:drawableStart="@drawable/ic_incorrect"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:textSize="19sp"
+        app:layout_constraintStart_toStartOf="@+id/tvCorrect"
+        app:layout_constraintTop_toBottomOf="@+id/tvCorrect" />
+
+    <TextView
+        android:id="@+id/tvWrongScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@color/white"
+        android:layout_marginStart="3dp"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvWrong"
+        app:layout_constraintStart_toEndOf="@+id/tvWrong" />
+
+    <Button
+        android:id="@+id/btClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="   Close   "
+        android:backgroundTint="@color/blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

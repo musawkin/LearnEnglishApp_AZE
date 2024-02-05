@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.englishwordsapp.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_questFragment"
+            app:destination="@id/questFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_translationWordsFragment"
+            app:destination="@id/translationWordsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_questFromVoiceToWritingFragment"
+            app:destination="@id/questFromVoiceToWritingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_sentenceBuildFragment"
+            app:destination="@id/sentenceBuildFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/questFragment"
+        android:name="com.example.englishwordsapp.QuestFragment"
+        android:label="fragment_quest"
+        tools:layout="@layout/fragment_quest" />
+    <fragment
+        android:id="@+id/translationWordsFragment"
+        android:name="com.example.englishwordsapp.TranslationWordsFragment"
+        android:label="fragment_translation_words"
+        tools:layout="@layout/fragment_translation_words" />
+    <fragment
+        android:id="@+id/questFromVoiceToWritingFragment"
+        android:name="com.example.englishwordsapp.QuestFromVoiceToWritingFragment"
+        android:label="fragment_quest_from_voice_to_writing"
+        tools:layout="@layout/fragment_quest_from_voice_to_writing" />
+    <fragment
+        android:id="@+id/sentenceBuildFragment"
+        android:name="com.example.englishwordsapp.SentenceBuildFragment"
+        android:label="fragment_sentence_build"
+        tools:layout="@layout/fragment_sentence_build" />
+</navigation>
