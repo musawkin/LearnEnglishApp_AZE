@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId = "com.example.englishwordsapp"
         minSdk = 28
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -48,6 +48,8 @@ dependencies {
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+//    implementation("com.google.android:flexbox:3.0.0")
 
     //coil
     implementation("io.coil-kt:coil:2.5.0")

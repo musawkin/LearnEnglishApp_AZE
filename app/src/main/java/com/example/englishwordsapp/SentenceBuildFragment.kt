@@ -17,8 +17,9 @@ import com.google.android.material.chip.Chip
 
 class SentenceBuildFragment : Fragment() {
     private var binding: FragmentSentenceBuildBinding? = null
-    private val adapterForFilled = RcAdapterForMakingSentenceEMPTY()
-    private val adapterForEmpty = RcAdapterForMakingSentenceEMPTY()
+    private val answerList = mutableListOf<String>()
+    private val suggestedList = mutableListOf<String>()
+    private var number = 0
 
 
 
@@ -26,178 +27,122 @@ class SentenceBuildFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
         binding = FragmentSentenceBuildBinding.inflate(layoutInflater)
         return binding?.root
     }
 
+    private fun createSuggestedView(){
+        binding?.suggestedChipGroup?.removeAllViews()
+        suggestedList.forEach {item->
+
+            addSuggestedViewItem(item)
+        }
+    }
+
+    private fun createAnsweredView(){
+        binding?.answerChipGroup?.removeAllViews()
+        answerList.forEach {item->
+
+            addEmptyViewItem(item)
+        }
+    }
+    private fun onSuggestedItemClicked(item: String){
+
+        answerList.add(item)
+        removeSuggestedViewItem(item)
+        addEmptyViewItem(item)
+    }
+
+    private fun onAnsweredItemClicked(item: String){
+
+        answerList.remove(item)
+        removeEmptyViewItem(item)
+        addSuggestedViewItem(item)
+
+    }
+
+    private fun addSuggestedViewItem(item: String){
+        val chip = Chip(requireContext())
+        chip.text = item
+        chip.tag = item
+        chip.setOnClickListener {
+            onSuggestedItemClicked(item)
+        }
+        binding?.suggestedChipGroup?.addView(chip)
+    }
+
+    private fun removeSuggestedViewItem(tag: String){
+        val chip = binding?.suggestedChipGroup?.findViewWithTag<Chip>(tag)
+        binding?.suggestedChipGroup?.removeView(chip)
+    }
+
+    private fun addEmptyViewItem(item: String){
+        val chip = Chip(requireContext())
+        chip.text = item
+        chip.tag = item
+        chip.setOnClickListener {
+            onAnsweredItemClicked(item)
+
+        }
+        binding?.answerChipGroup?.addView(chip)
+    }
+
+    private fun removeEmptyViewItem(tag: String){
+        val chip = binding?.answerChipGroup?.findViewWithTag<Chip>(tag)
+        binding?.answerChipGroup?.removeView(chip)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
 
-//        binding?.rcViewFilled?.adapter = adapterForFilled
-//        listOfWords.shuffle()
-//        adapterForFilled.updateData(listOfWords)
-//
-//        binding?.rcViewEmpty?.adapter = adapterForEmpty
-//        adapterForEmpty.updateData(emptyListOfWords)
-//
-//        adapterForFilled.setListener(object : RcAdapterForMakingSentenceEMPTY.RcOnClickListener{
-//            override fun onClick(position: Int) {
-//                val word = listOfWords[position]
-//                emptyListOfWords.add(word)
-//                listOfWords.removeAt(position)
-//                adapterForFilled.updateData(listOfWords)
-//                adapterForEmpty.updateData(emptyListOfWords)
-//
-//            }
-//
-//
-//        })
-//
-//        adapterForEmpty.setListener(object : RcAdapterForMakingSentenceEMPTY.RcOnClickListener{
-//            override fun onClick(position: Int) {
-//                val word = emptyListOfWords[position]
-//                listOfWords.add(word)
-//                emptyListOfWords.removeAt(position)
-//                adapterForEmpty.updateData(emptyListOfWords)
-//                adapterForFilled.updateData(listOfWords)
-//
-//            }
-//
-//
-//        })
+        createSuggestedList()
 
-        for (i in listOfWords){
-            if (listOfWords.size > 0){
-                val chip = Chip(requireContext())
-                chip.text = i
-                binding?.cGroupViewFilled?.addView(chip)
-            }else break
-        }
-
-
-        binding?.cGroupViewFilled?.children?.forEach { chip->
-
-            if (chip is Chip){
-                chip.setOnClickListener {
-
-                    val newChip = Chip(requireContext())
-                    newChip.text = chip.text
-
-                    binding?.cGroupViewFilled?.removeView(chip)
-                    binding?.cGroupViewEmpty?.addView(newChip)
-                }
-            }
-        }
-
-        binding?.cGroupViewEmpty?.children?.forEach { chip->
-
-            if (chip is Chip){
-                chip.setOnClickListener {
-
-                    val newChip = Chip(requireContext())
-                    newChip.text = chip.text
-
-                    binding?.cGroupViewEmpty?.removeView(chip)
-                    binding?.cGroupViewFilled?.addView(newChip)
-                }
-            }
-        }
-
-
-//        binding?.cGroupViewFilled?.let { cGroupViewFilled ->
-//            var index = 0
-//            do {
-//                val chip = cGroupViewFilled.getChildAt(index)
-//                if (chip is Chip) {
-//                    chip.setOnClickListener {
-//                        val newChip = Chip(binding?.cGroupViewEmpty?.context)
-//                        newChip.text = chip.text
-//                        newChip.id = chip.id
-//                        binding?.cGroupViewFilled?.removeView(chip)
-//                        binding?.cGroupViewEmpty?.addView(newChip)
-//                    }
-//                }
-//                index++
-//            } while (index > cGroupViewFilled.childCount)
-//        }
-//
-//
-//        binding?.cGroupViewEmpty?.let { cGroupViewEmpty ->
-//            var index = 0
-//            do {
-//                val chip = cGroupViewEmpty.getChildAt(index)
-//                if (chip is Chip) {
-//                    chip.setOnClickListener {
-//                        val newChip = Chip(binding?.cGroupViewFilled?.context)
-//                        newChip.text = chip.text
-//                        newChip.id = chip.id
-//                        binding?.cGroupViewEmpty?.removeView(chip)
-//                        binding?.cGroupViewFilled?.addView(newChip)
-//                    }
-//                }
-//                index++
-//            } while (index < cGroupViewEmpty.childCount)
-//        }
-
-
-
-//        for (i in 0 until binding?.cGroupViewFilled?.childCount!!){
-//            val chip = binding?.cGroupViewFilled?.getChildAt(i) as Chip
-//            chip?.setOnClickListener {
-//
-//                binding?.cGroupViewFilled?.removeView(chip)
-//
-//                val newChip = Chip(binding?.cGroupViewEmpty?.context)
-//                newChip.text = chip.text
-//
-//                binding?.cGroupViewEmpty?.addView(newChip)
-//            }
-//        }
-//
-//        for (i in 0 until binding?.cGroupViewEmpty?.childCount!!){
-//            val chip = binding?.cGroupViewEmpty?.getChildAt(i) as Chip
-//            chip?.setOnClickListener {
-//                binding?.cGroupViewEmpty?.removeView(chip)
-//
-//                val newChip = Chip(binding?.cGroupViewFilled?.context)
-//                newChip?.text = chip.text
-//
-//                binding?.cGroupViewFilled?.addView(newChip)
-//            }
-//        }
-
-
-
-
+        createSuggestedView()
+        createAnsweredView()
 
 
 
 
 
         binding?.btConfirm?.setOnClickListener {
-
-            val chip = Chip(binding?.cGroupViewEmpty?.context)
-            chip.text = "New Chip1"
-            chip.isCheckable = true
-
-            binding?.cGroupViewEmpty?.addView(chip)
-
-
-
+            createSuggestedList()
         }
 
 
     }
+    private fun createSuggestedList() {
 
-    private var listOfWords = mutableListOf(
-        "I", "go", "to", "school", "every", "day","schoolsfsdfsfsfsfsf", "schosfsffsffs"
-    )
+        val listOfSentences = Sentences.listOfStentences
+        var sentence = listOfSentences[number]
+        var sentenceInEng = sentence.inEng
+        var sentenceInAze = sentence.inAze
+        binding?.tvSentenceInAze?.text = sentenceInAze
+        suggestedList.addAll(sentenceInEng)
 
-    private var emptyListOfWords = mutableListOf<String>()
+
+
+        if (sentenceInEng == answerList){
+            number++
+
+            binding?.suggestedChipGroup?.removeAllViews()
+            binding?.answerChipGroup?.removeAllViews()
+            answerList.clear()
+            suggestedList.forEach {item->
+
+                addSuggestedViewItem(item)
+            }
+        }else {
+            Toast.makeText(requireContext(), "Incorrect sentence", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+
+    }
+
 
 }

@@ -26,7 +26,7 @@
         android:layout_marginHorizontal="25dp"
         app:layout_constraintVertical_bias="0.1"
         android:fontFamily="@font/nunito_semibold"
-        android:text="Mən hər gün məktəbə gedirəm."
+        android:text=""
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,11 +36,12 @@
 
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/cGroupViewEmpty"
+        android:id="@+id/answerChipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginHorizontal="20dp"
+        android:paddingStart="6dp"
         android:orientation="horizontal"
         android:background="@drawable/shape_rounded_containers"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,51 +49,40 @@
         app:layout_constraintTop_toBottomOf="@+id/tvSentenceInAze">
 
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/s"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:text="example"/>
+
 
     </com.google.android.material.chip.ChipGroup>
 
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/cGroupViewFilled"
-        android:layout_width="wrap_content"
+        android:id="@+id/suggestedChipGroup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="24dp"
-
-        android:background="@drawable/shape_rounded_variants"
+        android:paddingStart="6dp"
+        android:background="@drawable/shape_rounded_containers"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btConfirm">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/second"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:text="example"/>
     </com.google.android.material.chip.ChipGroup>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="120dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/blue"
         android:fontFamily="@font/nunito_semibold"
         android:paddingVertical="11dp"
-        android:layout_marginHorizontal="120dp"
         android:text="Confirm"
-        android:layout_marginTop="15dp"
         android:textSize="15sp"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cGroupViewEmpty" />
+        app:layout_constraintTop_toBottomOf="@+id/answerChipGroup" />
 </androidx.constraintlayout.widget.ConstraintLayout>
