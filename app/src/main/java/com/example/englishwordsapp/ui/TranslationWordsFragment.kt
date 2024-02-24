@@ -1,4 +1,4 @@
-package com.example.main.ui
+package com.example.englishwordsapp.ui
 
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView.OnQueryTextListener
 import com.example.englishwordsapp.databinding.FragmentTranslationWordsBinding
-import com.example.main.SimpleWordsModel
-import com.example.main.Words
+import com.example.englishwordsapp.SimpleWordsModel
+import com.example.englishwordsapp.Words
 import java.util.Locale
 
 class TranslationWordsFragment : Fragment() {

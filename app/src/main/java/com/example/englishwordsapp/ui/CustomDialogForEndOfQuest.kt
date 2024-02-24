@@ -1,4 +1,4 @@
-package com.example.main.ui
+package com.example.englishwordsapp.ui
 
 import android.app.Dialog
 import android.content.DialogInterface

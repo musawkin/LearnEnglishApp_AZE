@@ -1,9 +1,8 @@
-package com.example.main.data
+package com.example.englishwordsapp.data
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.main.data.Entity
 
 @Dao
 interface Dao {

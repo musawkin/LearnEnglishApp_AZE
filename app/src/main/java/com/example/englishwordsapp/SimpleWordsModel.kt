@@ -1,4 +1,4 @@
-package com.example.main
+package com.example.englishwordsapp
 
 class SimpleWordsModel(
     val wordInEnglish: String?,

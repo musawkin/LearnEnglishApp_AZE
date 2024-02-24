@@ -1,8 +1,7 @@
-package com.example.main.ui
+package com.example.englishwordsapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
 import com.example.englishwordsapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

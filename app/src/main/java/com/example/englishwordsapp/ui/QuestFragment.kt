@@ -1,4 +1,4 @@
-package com.example.main.ui
+package com.example.englishwordsapp.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,8 +12,8 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.FragmentQuestBinding
-import com.example.main.SimpleWordsModel
-import com.example.main.Words
+import com.example.englishwordsapp.SimpleWordsModel
+import com.example.englishwordsapp.Words
 
 
 class QuestFragment : Fragment() {

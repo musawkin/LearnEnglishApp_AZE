@@ -1,4 +1,4 @@
-package com.example.main.ui
+package com.example.englishwordsapp.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 
 import com.example.englishwordsapp.databinding.FragmentSentenceBuildBinding
-import com.example.main.Sentences
+import com.example.englishwordsapp.Sentences
 import com.google.android.material.chip.Chip
 
 class SentenceBuildFragment : Fragment() {
