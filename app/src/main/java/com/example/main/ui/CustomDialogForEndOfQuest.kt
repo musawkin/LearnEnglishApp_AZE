@@ -1,4 +1,4 @@
-package com.example.englishwordsapp
+package com.example.main.ui
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
+import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.DialogEndQuestBinding
 
 class CustomDialogForEndOfQuest: DialogFragment() {

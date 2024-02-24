@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.englishwordsapp.MainFragment"
+        android:name="com.example.main.ui.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
@@ -25,22 +25,22 @@
     </fragment>
     <fragment
         android:id="@+id/questFragment"
-        android:name="com.example.englishwordsapp.QuestFragment"
+        android:name="com.example.main.ui.QuestFragment"
         android:label="fragment_quest"
         tools:layout="@layout/fragment_quest" />
     <fragment
         android:id="@+id/translationWordsFragment"
-        android:name="com.example.englishwordsapp.TranslationWordsFragment"
+        android:name="com.example.main.ui.TranslationWordsFragment"
         android:label="fragment_translation_words"
         tools:layout="@layout/fragment_translation_words" />
     <fragment
         android:id="@+id/questFromVoiceToWritingFragment"
-        android:name="com.example.englishwordsapp.QuestFromVoiceToWritingFragment"
+        android:name="com.example.main.ui.QuestFromVoiceToWritingFragment"
         android:label="fragment_quest_from_voice_to_writing"
         tools:layout="@layout/fragment_quest_from_voice_to_writing" />
     <fragment
         android:id="@+id/sentenceBuildFragment"
-        android:name="com.example.englishwordsapp.SentenceBuildFragment"
+        android:name="com.example.main.ui.SentenceBuildFragment"
         android:label="fragment_sentence_build"
         tools:layout="@layout/fragment_sentence_build" />
 </navigation>

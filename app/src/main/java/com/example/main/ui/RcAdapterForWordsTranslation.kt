@@ -1,13 +1,11 @@
-package com.example.englishwordsapp
+package com.example.main.ui
 
-import android.content.Context
-import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.englishwordsapp.databinding.ExampleWordTranslationBinding
-import java.util.Locale
+import com.example.main.SimpleWordsModel
 
 class RcAdapterForWordsTranslation(private var listener: RvOnClickListener? = null, ): RecyclerView.Adapter<RcAdapterForWordsTranslation.MyHolder>() {
 

@@ -1,4 +1,4 @@
-package com.example.englishwordsapp
+package com.example.main.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.FragmentQuestBinding
+import com.example.main.SimpleWordsModel
+import com.example.main.Words
 
 
 class QuestFragment : Fragment() {
@@ -35,7 +37,10 @@ class QuestFragment : Fragment() {
         var initialSizeListOfWords = listOfWords.size
         binding?.progressIndicator?.max = listOfWords.size
 
-        markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!, ContinueStates.NORMAL, VariantStates.NORMAL)
+        markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!,
+            ContinueStates.NORMAL,
+            VariantStates.NORMAL
+        )
 
 
         binding?.tvProgressCount?.text = listOfWords.size.toString()
@@ -74,19 +79,34 @@ class QuestFragment : Fragment() {
         binding?.layoutVariant1?.setOnClickListener {
 
             if(binding?.tvAnswer1?.text == questionWord?.wordInAze){
-                markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!, ContinueStates.CORRECT, VariantStates.CORRECT)
+                markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!,
+                    ContinueStates.CORRECT,
+                    VariantStates.CORRECT
+                )
 
             }else{
-                markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!, ContinueStates.WRONG, VariantStates.WRONG)
+                markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!,
+                    ContinueStates.WRONG,
+                    VariantStates.WRONG
+                )
                 when {
                     binding?.tvAnswer2?.text == questionWord?.wordInAze -> {
-                        markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                     binding?.tvAnswer3?.text == questionWord?.wordInAze -> {
-                        markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                     binding?.tvAnswer4?.text == questionWord?.wordInAze -> {
-                        markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                 }
 
@@ -97,18 +117,33 @@ class QuestFragment : Fragment() {
         binding?.layoutVariant2?.setOnClickListener {
 
             if(binding?.tvAnswer2?.text == questionWord?.wordInAze){
-                markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!, ContinueStates.CORRECT, VariantStates.CORRECT)
+                markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!,
+                    ContinueStates.CORRECT,
+                    VariantStates.CORRECT
+                )
             }else{
-                markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!, ContinueStates.WRONG, VariantStates.WRONG)
+                markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!,
+                    ContinueStates.WRONG,
+                    VariantStates.WRONG
+                )
                 when {
                     binding?.tvAnswer1?.text == questionWord?.wordInAze -> {
-                        markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                     binding?.tvAnswer3?.text == questionWord?.wordInAze -> {
-                        markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                     binding?.tvAnswer4?.text == questionWord?.wordInAze -> {
-                        markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                 }
                 wrongAnswer++
@@ -120,18 +155,33 @@ class QuestFragment : Fragment() {
             val questionWordInAze = questionWord?.wordInAze
 
             if(binding?.tvAnswer3?.text == questionWordInAze){
-                markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!, ContinueStates.CORRECT, VariantStates.CORRECT)
+                markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!,
+                    ContinueStates.CORRECT,
+                    VariantStates.CORRECT
+                )
             }else{
-                markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!, ContinueStates.WRONG, VariantStates.WRONG)
+                markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!,
+                    ContinueStates.WRONG,
+                    VariantStates.WRONG
+                )
                 when {
                     binding?.tvAnswer2?.text == questionWordInAze -> {
-                        markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                     binding?.tvAnswer1?.text == questionWordInAze -> {
-                        markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                     binding?.tvAnswer4?.text == questionWordInAze -> {
-                        markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                 }
                 wrongAnswer++
@@ -141,18 +191,33 @@ class QuestFragment : Fragment() {
         binding?.layoutVariant4?.setOnClickListener {
 
             if(binding?.tvAnswer4?.text == questionWord?.wordInAze){
-                markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!, ContinueStates.CORRECT, VariantStates.CORRECT)
+                markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!,
+                    ContinueStates.CORRECT,
+                    VariantStates.CORRECT
+                )
             }else{
-                markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!, ContinueStates.WRONG, VariantStates.WRONG)
+                markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!,
+                    ContinueStates.WRONG,
+                    VariantStates.WRONG
+                )
                 when {
                     binding?.tvAnswer2?.text == questionWord?.wordInAze -> {
-                        markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                     binding?.tvAnswer3?.text == questionWord?.wordInAze -> {
-                        markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                     binding?.tvAnswer1?.text == questionWord?.wordInAze -> {
-                        markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!, ContinueStates.WRONG, VariantStates.CORRECT)
+                        markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!,
+                            ContinueStates.WRONG,
+                            VariantStates.CORRECT
+                        )
                     }
                 }
                 wrongAnswer++
@@ -162,10 +227,22 @@ class QuestFragment : Fragment() {
 
         binding?.btCorrect?.setOnClickListener {
 
-            markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!, ContinueStates.NORMAL, VariantStates.NORMAL)
-            markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!, ContinueStates.NORMAL, VariantStates.NORMAL)
-            markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!, ContinueStates.NORMAL, VariantStates.NORMAL)
-            markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!, ContinueStates.NORMAL, VariantStates.NORMAL)
+            markAnswer(binding?.layoutVariant1!!, binding?.tvAnswer1Nuber!!, binding?.tvAnswer1!!,
+                ContinueStates.NORMAL,
+                VariantStates.NORMAL
+            )
+            markAnswer(binding?.layoutVariant2!!, binding?.tvAnswer2Nuber!!, binding?.tvAnswer2!!,
+                ContinueStates.NORMAL,
+                VariantStates.NORMAL
+            )
+            markAnswer(binding?.layoutVariant3!!, binding?.tvAnswer3Nuber!!, binding?.tvAnswer3!!,
+                ContinueStates.NORMAL,
+                VariantStates.NORMAL
+            )
+            markAnswer(binding?.layoutVariant4!!, binding?.tvAnswer4Nuber!!, binding?.tvAnswer4!!,
+                ContinueStates.NORMAL,
+                VariantStates.NORMAL
+            )
 
             binding?.tvProgressCount?.text = listOfWords.size.toString()
             binding?.progressIndicator?.progress = binding?.progressIndicator?.progress!! + 1

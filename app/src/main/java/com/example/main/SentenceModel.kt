@@ -1,4 +1,4 @@
-package com.example.englishwordsapp
+package com.example.main
 
 class SentenceModel(
     val inAze: String,

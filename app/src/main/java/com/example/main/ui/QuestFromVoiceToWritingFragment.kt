@@ -1,4 +1,4 @@
-package com.example.englishwordsapp
+package com.example.main.ui
 
 import android.content.Context
 import android.graphics.Color
@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.englishwordsapp.databinding.FragmentQuestFromVoiceToWritingBinding
+import com.example.main.Words
 import java.util.Locale
 
 

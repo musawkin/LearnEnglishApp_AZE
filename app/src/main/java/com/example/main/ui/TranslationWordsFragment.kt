@@ -1,20 +1,16 @@
-package com.example.englishwordsapp
+package com.example.main.ui
 
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.speech.tts.TextToSpeech
-import android.speech.tts.UtteranceProgressListener
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView.OnQueryTextListener
-import androidx.room.util.query
 import com.example.englishwordsapp.databinding.FragmentTranslationWordsBinding
+import com.example.main.SimpleWordsModel
+import com.example.main.Words
 import java.util.Locale
-import java.util.UUID
-import java.util.UUID.*
 
 class TranslationWordsFragment : Fragment() {
 
@@ -49,7 +45,7 @@ class TranslationWordsFragment : Fragment() {
         binding?.rcView?.adapter = adapterForWords
         adapterForWords.updateData(listOfWords)
 
-        adapterForWords.setOnClickListener(object : RcAdapterForWordsTranslation.RvOnClickListener{
+        adapterForWords.setOnClickListener(object : RcAdapterForWordsTranslation.RvOnClickListener {
             override fun onClick(data: SimpleWordsModel) {
 
             }

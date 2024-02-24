@@ -1,4 +1,4 @@
-package com.example.englishwordsapp
+package com.example.main.data
 
 import android.content.Context
 import androidx.room.Database
@@ -14,7 +14,7 @@ abstract class DataBase: RoomDatabase(){
     abstract fun getDao(): Dao
 
     companion object{
-        fun getDb(context: Context): DataBase{
+        fun getDb(context: Context): DataBase {
             return Room.databaseBuilder(
                 context.applicationContext,
                 DataBase::class.java,
