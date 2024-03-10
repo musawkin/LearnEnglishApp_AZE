@@ -2,7 +2,9 @@ package com.example.englishwordsapp
 
 class SimpleWordsModel(
     val wordInEnglish: String?,
-    val wordInAze: String?,
-    val transcription: String? = null
+    val translationToAze: String?,
+    val transcription: String?,
+    val partOfSpeech: String?,
+    val level: String?,
 ) {
 }

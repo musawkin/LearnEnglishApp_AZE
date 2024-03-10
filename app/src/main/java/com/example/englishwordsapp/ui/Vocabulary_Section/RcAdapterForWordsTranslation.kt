@@ -1,4 +1,4 @@
-package com.example.englishwordsapp.ui
+package com.example.englishwordsapp.ui.Vocabulary_Section
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -32,7 +32,7 @@ class RcAdapterForWordsTranslation(private var listener: RvOnClickListener? = nu
 
         fun bind(data: SimpleWordsModel, listener: RvOnClickListener?, position: Int){
             binding.tvWordInEng.text = data.wordInEnglish
-            binding.tvWordInAze.text = data.wordInAze
+            binding.tvWordInAze.text = data.translationToAze
             binding.tvWordTranscript.text = data.transcription
 
 

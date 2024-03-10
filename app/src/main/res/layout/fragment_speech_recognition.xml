@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".QuestFromVoiceToWritingFragment">
+    tools:context=".ui.Speech_Recognition_Section.SpeechRecognitionFragment">
 
     <ImageButton
         android:id="@+id/imageButtonClose"
@@ -101,8 +101,21 @@
         app:layout_constraintStart_toEndOf="@+id/etInputCorrectAnswerLayout"
  />
 
+    <Button
+        android:id="@+id/btSkip"
+        android:layout_width="310dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#2574FF"
+        android:text="@string/button_skip"
+        android:textAllCaps="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/continueButtonLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/correctLayout"
+        android:id="@+id/continueButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#0EAD69"
@@ -134,7 +147,7 @@
             app:layout_constraintTop_toTopOf="@+id/imageView" />
 
         <android.widget.Button
-            android:id="@+id/btCorrect"
+            android:id="@+id/btContinue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_button_footer"
@@ -152,6 +165,27 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/progressBarLoadingData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:indeterminate="true"
+            android:progressTint="@color/blue" />
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

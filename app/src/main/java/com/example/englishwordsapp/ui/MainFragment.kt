@@ -30,7 +30,7 @@ class MainFragment : Fragment() {
 
 
         binding?.bt1?.setOnClickListener{
-            findNavController().navigate(R.id.action_mainFragment_to_questFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_quizFragment)
         }
 
         binding?.bt2?.setOnClickListener{
@@ -38,7 +38,7 @@ class MainFragment : Fragment() {
         }
 
         binding?.bt3?.setOnClickListener{
-            findNavController().navigate(R.id.action_mainFragment_to_questFromVoiceToWritingFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_speechRecognitionFragment)
         }
         binding?.bt4?.setOnClickListener{
             findNavController().navigate(R.id.action_mainFragment_to_sentenceBuildFragment)

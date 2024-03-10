@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.DialogEndQuestBinding
 
-class CustomDialogForEndOfQuest: DialogFragment() {
+class ResultDialogFragment: DialogFragment() {
     private var binding: DialogEndQuestBinding? = null
     private var countOfCorrectAnswer: String? = null
     private var countOfWrongAnswer: String? = null

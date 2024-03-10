@@ -1,4 +1,4 @@
-package com.example.englishwordsapp.ui
+package com.example.englishwordsapp.ui.Vocabulary_Section
 
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -6,10 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView.OnQueryTextListener
+import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import com.example.englishwordsapp.databinding.FragmentTranslationWordsBinding
 import com.example.englishwordsapp.SimpleWordsModel
-import com.example.englishwordsapp.Words
 import java.util.Locale
 
 class TranslationWordsFragment : Fragment() {
@@ -17,6 +18,7 @@ class TranslationWordsFragment : Fragment() {
     private var binding: FragmentTranslationWordsBinding? = null
     private val adapterForWords = RcAdapterForWordsTranslation()
     lateinit var textToSpeech: TextToSpeech
+    private val viewModel by viewModels<VocabularyTranslationViewModel>()
 
 
     override fun onCreateView(
@@ -43,7 +45,28 @@ class TranslationWordsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.rcView?.adapter = adapterForWords
-        adapterForWords.updateData(listOfWords)
+        viewModel.wordsModelData.observe(viewLifecycleOwner){result->
+
+            result?.let {
+                when(result){
+                    is VocabularyWordsResponseState.Success ->{
+                        adapterForWords.updateData(result.listOfQuestions)
+                        binding?.progressBarLoadingData?.isVisible = false
+                    }
+                    is VocabularyWordsResponseState.Error ->{
+                        val errorText = result.errorException
+                        Toast.makeText(requireContext(), "Error: $errorText", Toast.LENGTH_SHORT).show()
+
+                    }
+                    is VocabularyWordsResponseState.Loading ->{
+                        val loading = result.isLoading
+                        binding?.progressBarLoadingData?.isVisible = loading
+                    }
+                }
+            }
+        }
+        viewModel.getWordsList()
+
 
         adapterForWords.setOnClickListener(object : RcAdapterForWordsTranslation.RvOnClickListener {
             override fun onClick(data: SimpleWordsModel) {
@@ -55,27 +78,26 @@ class TranslationWordsFragment : Fragment() {
             }
         })
 
-        binding?.searchView?.setOnQueryTextListener(object : OnQueryTextListener{
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let { query->
-                    val filteredList = listOfWords.filter { item ->
-                        item.wordInEnglish?.contains(query, ignoreCase = true) == true
-                    }.toMutableList()
-                    adapterForWords.updateData(filteredList)
-                    return true
-                }
-                return false
-            }
-
-        })
+//        binding?.searchView?.setOnQueryTextListener(object : OnQueryTextListener{
+//            override fun onQueryTextSubmit(p0: String?): Boolean {
+//                return true
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                newText?.let { query->
+//                    val filteredList = listOfWords.filter { item ->
+//                        item.wordInEnglish?.contains(query, ignoreCase = true) == true
+//                    }.toMutableList()
+//                    adapterForWords.updateData(filteredList)
+//                    return true
+//                }
+//                return false
+//            }
+//
+//        })
 
     }
 
-    private val listOfWords = Words.listOfWords
 
     override fun onDestroy() {
         if (::textToSpeech.isInitialized) {
