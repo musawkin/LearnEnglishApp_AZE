@@ -43,139 +43,121 @@ class QuizFragment : Fragment() {
             result?.let {
                 when(result){
                     is QuizQuestionsResponseState.Success ->{
-                        listOfWords.addAll(result.listOfQuestions)
-
-                        binding?.progressIndicator?.max = listOfWords.size
-                        binding?.tvProgressCount?.text = listOfWords.size.toString()
-                        countOfAllQuestions = listOfWords.size
-
-                        listOfWords.shuffle()
-                        questionModel = listOfWords.last()
-                        listOfWords.removeLast()
-                        val questionWord = questionModel?.question
-                        val answerWords = questionModel?.answers?.shuffled()
-                        correctAnswer = questionModel?.correctAnswer
-                        binding?.tvQuestionWord?.text = questionWord
-
-                        binding?.tvAnswer1?.text = answerWords?.get(0)
-                        binding?.tvAnswer2?.text = answerWords?.get(1)
-                        binding?.tvAnswer3?.text = answerWords?.get(2)
-                        binding?.tvAnswer4?.text = answerWords?.get(3)
-
-                        binding?.progressBarLoadingData?.isVisible = false
-
+                        handleOnSuccessResult(result.listOfQuestions)
                     }
                     is QuizQuestionsResponseState.Error ->{
-                        val errorText = result.errorException
-                        Toast.makeText(requireContext(), "Error: $errorText", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), "Error: ${result.errorException}", Toast.LENGTH_LONG).show()
                     }
                     is QuizQuestionsResponseState.Loading ->{
-                        val loading = result.isLoading
-                        binding?.progressBarLoadingData?.isVisible = loading
+                        binding?.progressBarLoadingData?.isVisible = result.isLoading
                     }
                 }
             }
         }
+
         viewModel.getQuestionList("beginner_level")
 
         binding?.layoutVariant1?.setOnClickListener {
-            if (correctAnswer == binding?.tvAnswer1?.text){
-                checkAnswer(binding?.layoutVariant1, binding?.tvAnswer1Nuber, binding?.tvAnswer1, VariantStates.CORRECT)
-            }else{
-                checkAnswer(binding?.layoutVariant1, binding?.tvAnswer1Nuber, binding?.tvAnswer1, VariantStates.WRONG)
+            if (correctAnswer == binding?.tvAnswer1?.text) {
+                checkAnswer(
+                    binding?.layoutVariant1,
+                    binding?.tvAnswer1Nuber,
+                    binding?.tvAnswer1,
+                    VariantStates.CORRECT
+                )
+            } else {
+                checkAnswer(
+                    binding?.layoutVariant1,
+                    binding?.tvAnswer1Nuber,
+                    binding?.tvAnswer1,
+                    VariantStates.WRONG
+                )
 
-            }        }
+            }
+        }
+
         binding?.layoutVariant2?.setOnClickListener {
-            if (correctAnswer == binding?.tvAnswer2?.text){
-                checkAnswer(binding?.layoutVariant2, binding?.tvAnswer2Nuber, binding?.tvAnswer2, VariantStates.CORRECT)
-            }else{
-                checkAnswer(binding?.layoutVariant2, binding?.tvAnswer2Nuber, binding?.tvAnswer2, VariantStates.WRONG)
+            if (correctAnswer == binding?.tvAnswer2?.text) {
+                checkAnswer(
+                    binding?.layoutVariant2,
+                    binding?.tvAnswer2Nuber,
+                    binding?.tvAnswer2,
+                    VariantStates.CORRECT
+                )
+            } else {
+                checkAnswer(
+                    binding?.layoutVariant2,
+                    binding?.tvAnswer2Nuber,
+                    binding?.tvAnswer2,
+                    VariantStates.WRONG
+                )
 
-            }        }
+            }
+        }
+
         binding?.layoutVariant3?.setOnClickListener {
-            if (correctAnswer == binding?.tvAnswer3?.text){
-                checkAnswer(binding?.layoutVariant3, binding?.tvAnswer3Nuber, binding?.tvAnswer3, VariantStates.CORRECT)
-            }else{
-                checkAnswer(binding?.layoutVariant3, binding?.tvAnswer3Nuber, binding?.tvAnswer3, VariantStates.WRONG)
+            if (correctAnswer == binding?.tvAnswer3?.text) {
+                checkAnswer(
+                    binding?.layoutVariant3,
+                    binding?.tvAnswer3Nuber,
+                    binding?.tvAnswer3,
+                    VariantStates.CORRECT
+                )
+            } else {
+                checkAnswer(
+                    binding?.layoutVariant3,
+                    binding?.tvAnswer3Nuber,
+                    binding?.tvAnswer3,
+                    VariantStates.WRONG
+                )
 
-            }        }
+            }
+        }
+
         binding?.layoutVariant4?.setOnClickListener {
-            if (correctAnswer == binding?.tvAnswer4?.text){
-                checkAnswer(binding?.layoutVariant4, binding?.tvAnswer4Nuber, binding?.tvAnswer4, VariantStates.CORRECT)
-            }else{
-                checkAnswer(binding?.layoutVariant4, binding?.tvAnswer4Nuber, binding?.tvAnswer4, VariantStates.WRONG)
+            if (correctAnswer == binding?.tvAnswer4?.text) {
+                checkAnswer(
+                    binding?.layoutVariant4,
+                    binding?.tvAnswer4Nuber,
+                    binding?.tvAnswer4,
+                    VariantStates.CORRECT
+                )
+            } else {
+                checkAnswer(
+                    binding?.layoutVariant4,
+                    binding?.tvAnswer4Nuber,
+                    binding?.tvAnswer4,
+                    VariantStates.WRONG
+                )
 
             }
         }
 
         binding?.btContinue?.setOnClickListener {
             changeContinueButtonState(ContinueBtStates.NORMAL)
+
             checkAnswer(binding?.layoutVariant1, binding?.tvAnswer1Nuber, binding?.tvAnswer1, VariantStates.NORMAL)
             checkAnswer(binding?.layoutVariant2, binding?.tvAnswer2Nuber, binding?.tvAnswer2, VariantStates.NORMAL)
             checkAnswer(binding?.layoutVariant4, binding?.tvAnswer4Nuber, binding?.tvAnswer4, VariantStates.NORMAL)
             checkAnswer(binding?.layoutVariant3, binding?.tvAnswer3Nuber, binding?.tvAnswer3, VariantStates.NORMAL)
 
-            binding?.tvProgressCount?.text = listOfWords.size.toString()
-            binding?.progressIndicator?.progress = binding?.progressIndicator?.progress!! + 1
+            increaseStep()
 
             if(listOfWords.size > 0) {
-
-                questionModel = listOfWords.last()
-                listOfWords.removeLast()
-                val questionWord = questionModel?.question
-                val answerWords = questionModel?.answers?.shuffled()
-                correctAnswer = questionModel?.correctAnswer
-                binding?.tvQuestionWord?.text = questionWord
-
-                binding?.tvAnswer1?.text = answerWords?.get(0)
-                binding?.tvAnswer2?.text = answerWords?.get(1)
-                binding?.tvAnswer3?.text = answerWords?.get(2)
-                binding?.tvAnswer4?.text = answerWords?.get(3)
+                showQuestion()
             }else {
-                countOfAllQuestions?.let {
-                    val countOfCorrectAnswer = it - wrongAnswer
-                    val dialogFragment = ResultDialogFragment()
-                    dialogFragment.isCancelable = false
-                    dialogFragment.setScore(countOfCorrectAnswer.toString(), wrongAnswer.toString())
-                    dialogFragment.show(
-                        parentFragmentManager,
-                        ResultDialogFragment::class.java.canonicalName
-                    )
-                }
+                showResult()
             }
         }
 
         binding?.btSkip?.setOnClickListener {
-
             questionModel?.let { listOfWords.add(0, it) }
 
             if (listOfWords.size > 0) {
-
-                questionModel = listOfWords.last()
-                listOfWords.removeLast()
-                val questionWord = questionModel?.question
-                val answerWords = questionModel?.answers?.shuffled()
-                correctAnswer = questionModel?.correctAnswer
-                binding?.tvQuestionWord?.text = questionWord
-
-                binding?.tvAnswer1?.text = answerWords?.get(0)
-                binding?.tvAnswer2?.text = answerWords?.get(1)
-                binding?.tvAnswer3?.text = answerWords?.get(2)
-                binding?.tvAnswer4?.text = answerWords?.get(3)
+                showQuestion()
             } else {
-                countOfAllQuestions?.let {
-                    val countOfCorrectAnswer = it - wrongAnswer
-                    val dialogFragment = ResultDialogFragment()
-                    dialogFragment.isCancelable = false
-                    dialogFragment.setScore(countOfCorrectAnswer.toString(), wrongAnswer.toString())
-                    dialogFragment.show(
-                        parentFragmentManager,
-                        ResultDialogFragment::class.java.canonicalName
-                    )
-                }
+                showResult()
             }
-
-
         }
 
         binding?.imageButtonClose?.setOnClickListener {
@@ -184,171 +166,252 @@ class QuizFragment : Fragment() {
 
     }
 
+    private fun handleOnSuccessResult(listOfQuestions: List<QuizQuestionsModel>){
+        listOfWords.addAll(listOfQuestions)
 
+        binding?.progressIndicator?.max = listOfWords.size
+        binding?.tvProgressCount?.text = listOfWords.size.toString()
+        countOfAllQuestions = listOfWords.size
 
-    private fun changeContinueButtonState(buttonState: ContinueBtStates){
-        when(buttonState){
-            ContinueBtStates.CORRECT -> {
+        listOfWords.shuffle()
+        showQuestion()
+        binding?.progressBarLoadingData?.isVisible = false
+    }
 
-                binding?.continueButtonLayout?.isVisible = true
-                binding?.continueButtonLayout?.setBackgroundResource(R.color.green)
-                binding?.imageView?.setImageResource(R.drawable.ic_correct)
-                binding?.tvCorrectOrWrong?.text = "Correct!"
-                binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(),R.color.green))
-                binding?.btSkip?.isVisible = false
+    private fun increaseStep() {
+        binding?.tvProgressCount?.text = listOfWords.size.toString()
+        binding?.progressIndicator?.progress = binding?.progressIndicator?.progress?.plus(1) ?: 0
+    }
 
-                binding?.layoutVariant1?.isClickable = false
-                binding?.layoutVariant2?.isClickable = false
-                binding?.layoutVariant3?.isClickable = false
-                binding?.layoutVariant4?.isClickable = false
+    private fun showQuestion(){
+        questionModel = listOfWords.last()
+        listOfWords.removeLast()
+        val questionWord = questionModel?.question
+        val answerWords = questionModel?.answers?.shuffled()
+        correctAnswer = questionModel?.correctAnswer
+        binding?.tvQuestionWord?.text = questionWord
 
-            }
-            ContinueBtStates.WRONG ->{
+        binding?.tvAnswer1?.text = answerWords?.get(0)
+        binding?.tvAnswer2?.text = answerWords?.get(1)
+        binding?.tvAnswer3?.text = answerWords?.get(2)
+        binding?.tvAnswer4?.text = answerWords?.get(3)
+    }
 
-                binding?.continueButtonLayout?.isVisible = true
-                binding?.continueButtonLayout?.setBackgroundResource(R.color.red)
-                binding?.imageView?.setImageResource(R.drawable.ic_incorrect)
-                binding?.tvCorrectOrWrong?.text = "Wrong!"
-                binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(),R.color.red))
-                binding?.btSkip?.isVisible = false
-
-                binding?.layoutVariant1?.isClickable = false
-                binding?.layoutVariant2?.isClickable = false
-                binding?.layoutVariant3?.isClickable = false
-                binding?.layoutVariant4?.isClickable = false
-
-            }
-
-            ContinueBtStates.NORMAL ->{
-
-                binding?.continueButtonLayout?.isVisible = false
-                binding?.btSkip?.isVisible = true
-
-                binding?.layoutVariant1?.isClickable = true
-                binding?.layoutVariant2?.isClickable = true
-                binding?.layoutVariant3?.isClickable = true
-                binding?.layoutVariant4?.isClickable = true
-            }
+    private fun showResult(){
+        countOfAllQuestions?.let {
+            val countOfCorrectAnswer = it - wrongAnswer
+            val dialogFragment = ResultDialogFragment()
+            dialogFragment.isCancelable = false
+            dialogFragment.setScore(countOfCorrectAnswer.toString(), wrongAnswer.toString())
+            dialogFragment.show(
+                parentFragmentManager,
+                ResultDialogFragment::class.java.canonicalName
+            )
         }
     }
 
+    private fun changeContinueButtonState(buttonState: ContinueBtStates){
+        when(buttonState){
+            ContinueBtStates.CORRECT -> handleCorrectAnswerButton()
+            ContinueBtStates.WRONG -> handleWrongAnswerButton()
+            ContinueBtStates.NORMAL -> normalStateContinueButton()
+        }
+    }
+
+    private fun handleCorrectAnswerButton() {
+        binding?.continueButtonLayout?.isVisible = true
+        binding?.continueButtonLayout?.setBackgroundResource(R.color.green)
+        binding?.imageView?.setImageResource(R.drawable.ic_correct)
+        binding?.tvCorrectOrWrong?.text = "Correct!"
+        binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
+        binding?.btSkip?.isVisible = false
+
+        binding?.layoutVariant1?.isClickable = false
+        binding?.layoutVariant2?.isClickable = false
+        binding?.layoutVariant3?.isClickable = false
+        binding?.layoutVariant4?.isClickable = false
+    }
+
+    private fun handleWrongAnswerButton() {
+        binding?.continueButtonLayout?.isVisible = true
+        binding?.continueButtonLayout?.setBackgroundResource(R.color.red)
+        binding?.imageView?.setImageResource(R.drawable.ic_incorrect)
+        binding?.tvCorrectOrWrong?.text = "Wrong!"
+        binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+        binding?.btSkip?.isVisible = false
+
+        binding?.layoutVariant1?.isClickable = false
+        binding?.layoutVariant2?.isClickable = false
+        binding?.layoutVariant3?.isClickable = false
+        binding?.layoutVariant4?.isClickable = false
+    }
+
+    private fun normalStateContinueButton() {
+        binding?.continueButtonLayout?.isVisible = false
+        binding?.btSkip?.isVisible = true
+
+        binding?.layoutVariant1?.isClickable = true
+        binding?.layoutVariant2?.isClickable = true
+        binding?.layoutVariant3?.isClickable = true
+        binding?.layoutVariant4?.isClickable = true
+    }
     private fun checkAnswer(
         layout: LinearLayout?,
         textViewVariantNumber: TextView?,
         textViewVariantValue: TextView?,
         variantStates: VariantStates
 
-        ){
-        when(variantStates){
-            VariantStates.CORRECT ->{
-                layout?.background = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.shape_rounded_containers_correct
-                )
+    ) {
+        when (variantStates) {
+            VariantStates.CORRECT -> handleCorrectAnswer(
+                layout,
+                textViewVariantNumber,
+                textViewVariantValue
+            )
 
-                textViewVariantNumber?.background = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.shape_rounded_variants_correct
-                )
+            VariantStates.WRONG -> handleWrongAnswer(
+                layout,
+                textViewVariantNumber,
+                textViewVariantValue
+            )
 
-                textViewVariantNumber?.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.white
+            VariantStates.NORMAL -> variantsNormalState(
+                layout,
+                textViewVariantNumber,
+                textViewVariantValue
+            )
+        }
+    }
+
+    private fun handleCorrectAnswer(
+        layout: LinearLayout?,
+        textViewVariantNumber: TextView?,
+        textViewVariantValue: TextView?,
+    ) {
+        layout?.background = ContextCompat.getDrawable(
+            requireContext(),
+            R.drawable.shape_rounded_containers_correct
+        )
+
+        textViewVariantNumber?.background = ContextCompat.getDrawable(
+            requireContext(),
+            R.drawable.shape_rounded_variants_correct
+        )
+
+        textViewVariantNumber?.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.white
+            )
+        )
+
+        textViewVariantValue?.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.green
+            )
+        )
+
+        changeContinueButtonState(ContinueBtStates.CORRECT)
+    }
+
+    private fun handleWrongAnswer(
+        layout: LinearLayout?,
+        textViewVariantNumber: TextView?,
+        textViewVariantValue: TextView?,
+    ){
+            layout?.background = ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.shape_rounded_containers_wrong
+            )
+
+            textViewVariantNumber?.background = ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.shape_rounded_variants_wrong
+            )
+
+            textViewVariantNumber?.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.white
+                )
+            )
+
+            textViewVariantValue?.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                R.color.red
+            ))
+
+            wrongAnswer++
+
+            when(correctAnswer){
+                binding?.tvAnswer1?.text -> {
+                    handleCorrectAnswer(
+                        binding?.layoutVariant1,
+                        binding?.tvAnswer1Nuber,
+                        binding?.tvAnswer1
                     )
-                )
+                }
 
-                textViewVariantValue?.setTextColor(ContextCompat.getColor(
-                    requireContext(),
-                    R.color.green
-                ))
-
-                changeContinueButtonState(ContinueBtStates.CORRECT)
-            }
-            VariantStates.WRONG ->{
-                layout?.background = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.shape_rounded_containers_wrong
-                )
-
-                textViewVariantNumber?.background = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.shape_rounded_variants_wrong
-                )
-
-                textViewVariantNumber?.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.white
+                binding?.tvAnswer2?.text ->{
+                    handleCorrectAnswer(
+                        binding?.layoutVariant2,
+                        binding?.tvAnswer2Nuber,
+                        binding?.tvAnswer2
                     )
-                )
+                }
 
-                textViewVariantValue?.setTextColor(ContextCompat.getColor(
-                    requireContext(),
-                    R.color.red
-                ))
+                binding?.tvAnswer3?.text ->{
+                    handleCorrectAnswer(
+                        binding?.layoutVariant3,
+                        binding?.tvAnswer3Nuber,
+                        binding?.tvAnswer3
+                    )
+                }
 
-                changeContinueButtonState(ContinueBtStates.WRONG)
-                wrongAnswer++
-
-                when(correctAnswer){
-                    binding?.tvAnswer1?.text ->{
-                        binding?.layoutVariant1?.setBackgroundResource(R.drawable.shape_rounded_containers_correct)
-                        binding?.tvAnswer1Nuber?.setBackgroundResource(R.drawable.shape_rounded_variants_correct)
-                        binding?.tvAnswer1Nuber?.setTextColor(Color.WHITE)
-                        binding?.tvAnswer1?.setTextColor(Color.rgb(14,173,105))
-                    }
-
-                    binding?.tvAnswer2?.text ->{
-                        binding?.layoutVariant2?.setBackgroundResource(R.drawable.shape_rounded_containers_correct)
-                        binding?.tvAnswer2Nuber?.setBackgroundResource(R.drawable.shape_rounded_variants_correct)
-                        binding?.tvAnswer2Nuber?.setTextColor(Color.WHITE)
-                        binding?.tvAnswer2?.setTextColor(Color.rgb(14,173,105))
-                    }
-
-                    binding?.tvAnswer3?.text ->{
-                        binding?.layoutVariant3?.setBackgroundResource(R.drawable.shape_rounded_containers_correct)
-                        binding?.tvAnswer3Nuber?.setBackgroundResource(R.drawable.shape_rounded_variants_correct)
-                        binding?.tvAnswer3Nuber?.setTextColor(Color.WHITE)
-                        binding?.tvAnswer3?.setTextColor(Color.rgb(14,173,105))
-                    }
-
-                    binding?.tvAnswer4?.text ->{
-                        binding?.layoutVariant4?.setBackgroundResource(R.drawable.shape_rounded_containers_correct)
-                        binding?.tvAnswer4Nuber?.setBackgroundResource(R.drawable.shape_rounded_variants_correct)
-                        binding?.tvAnswer4Nuber?.setTextColor(Color.WHITE)
-                        binding?.tvAnswer4?.setTextColor(Color.rgb(14,173,105))
-                    }
+                binding?.tvAnswer4?.text ->{
+                    handleCorrectAnswer(
+                        binding?.layoutVariant4,
+                        binding?.tvAnswer4Nuber,
+                        binding?.tvAnswer4
+                    )
                 }
             }
-            VariantStates.NORMAL ->{
-                layout?.background = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.shape_rounded_containers
-                )
+        changeContinueButtonState(ContinueBtStates.WRONG)
+    }
 
-                textViewVariantNumber?.background = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.shape_rounded_variants
-                )
+    private fun variantsNormalState(
+        layout: LinearLayout?,
+        textViewVariantNumber: TextView?,
+        textViewVariantValue: TextView?,
+    ) {
 
-                textViewVariantNumber?.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.textVariantsColor
-                    )
-                )
+        layout?.background = ContextCompat.getDrawable(
+            requireContext(),
+            R.drawable.shape_rounded_containers
+        )
 
-                textViewVariantValue?.setTextColor(ContextCompat.getColor(
-                    requireContext(),
-                    R.color.textVariantsColor
-                ))
+        textViewVariantNumber?.background = ContextCompat.getDrawable(
+            requireContext(),
+            R.drawable.shape_rounded_variants
+        )
 
-                changeContinueButtonState(ContinueBtStates.NORMAL)
+        textViewVariantNumber?.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.textVariantsColor
+            )
+        )
 
-            }
-        }
-        }
+        textViewVariantValue?.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.textVariantsColor
+            )
+        )
+
+        changeContinueButtonState(ContinueBtStates.NORMAL)
+    }
 
 
     private enum class ContinueBtStates{

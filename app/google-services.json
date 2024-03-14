@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1029904544414",
+    "project_id": "learnenglishapp-bf4cb",
+    "storage_bucket": "learnenglishapp-bf4cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029904544414:android:5d52f17cdf49a0f8fdc18f",
+        "android_client_info": {
+          "package_name": "com.example.englishwordsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA6-Deu8DWg2tSwPoBCGAzRpegyXMbIl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
