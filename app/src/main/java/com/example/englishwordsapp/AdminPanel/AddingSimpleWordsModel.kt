@@ -1,7 +1,5 @@
 package com.example.englishwordsapp.AdminPanel
 
-import android.util.Log
-import com.example.englishwordsapp.Words
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 

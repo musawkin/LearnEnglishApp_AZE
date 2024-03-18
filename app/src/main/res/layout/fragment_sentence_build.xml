@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Sentence_Build_Section.SentenceBuildFragment">
+    tools:context=".ui.main.tabs.Learn.Sentence_Build_Section.SentenceBuildFragment">
 
     <ImageButton
         android:id="@+id/imageButtonClose"

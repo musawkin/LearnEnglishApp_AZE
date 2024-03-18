@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/learn"
+    app:startDestination="@id/learnFragment">
+    <fragment
+        android:id="@+id/learnFragment"
+        android:name="com.example.englishwordsapp.ui.main.tabs.Learn.LearnFragment"
+        android:label="fragment_learn"
+        tools:layout="@layout/fragment_learn" >
+        <action
+            android:id="@+id/action_learnFragment_to_translationWordsFragment"
+            app:destination="@id/translationWordsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/translationWordsFragment"
+        android:name="com.example.englishwordsapp.ui.main.tabs.Learn.Vocabulary_Section.TranslationWordsFragment"
+        android:label="fragment_translation_words"
+        tools:layout="@layout/fragment_translation_words" />
+</navigation>

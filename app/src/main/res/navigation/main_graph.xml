@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/tabsFragment">
+    <fragment
+        android:id="@+id/tabsFragment"
+        android:name="com.example.englishwordsapp.ui.main.tabs.TabsFragment"
+        android:label="fragment_tabs"
+        tools:layout="@layout/fragment_tabs" >
+        <action
+            android:id="@+id/action_tabsFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_sentenceBuildFragment"
+            app:destination="@id/sentenceBuildFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_speechRecognitionFragment2"
+            app:destination="@id/speechRecognitionFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.example.englishwordsapp.ui.main.tabs.Learn.Interactive_Quiz_Section.QuizFragment"
+        android:label="fragment_quiz"
+        tools:layout="@layout/fragment_quiz" />
+    <fragment
+        android:id="@+id/sentenceBuildFragment"
+        android:name="com.example.englishwordsapp.ui.main.tabs.Learn.Sentence_Build_Section.SentenceBuildFragment"
+        android:label="fragment_sentence_build"
+        tools:layout="@layout/fragment_sentence_build" />
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.englishwordsapp.ui.main.Auth.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_tabsFragment"
+            app:destination="@id/tabsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/speechRecognitionFragment2"
+        android:name="com.example.englishwordsapp.ui.main.tabs.Learn.Speech_Recognition_Section.SpeechRecognitionFragment"
+        android:label="fragment_speech_recognition"
+        tools:layout="@layout/fragment_speech_recognition" />
+</navigation>
