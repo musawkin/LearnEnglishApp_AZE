@@ -44,6 +44,8 @@ class SpeechRecognitionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val difficultyLevel = arguments?.getString("difficultyLevel")
+
         viewModel.wordsModelData.observe(viewLifecycleOwner){ result->
             result?.let {
                 when(result){

@@ -10,6 +10,7 @@ import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.FragmentLearnBinding
 import com.example.englishwordsapp.findTopNavController
 import com.example.englishwordsapp.ui.main.tabs.Learn.Interactive_Quiz_Section.QuizFragment
+import com.example.englishwordsapp.ui.main.tabs.Learn.Speech_Recognition_Section.SpeechRecognitionFragment
 
 
 class LearnFragment : Fragment() {
@@ -31,7 +32,7 @@ class LearnFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.bt1?.setOnClickListener {
-            showDifficultyLevelDialog()
+            showDifficultyLevelDialog(QuizFragment(), R.id.quizFragment)
         }
 
         binding?.bt2?.setOnClickListener {
@@ -42,7 +43,7 @@ class LearnFragment : Fragment() {
         }
 
         binding?.bt3?.setOnClickListener {
-            findTopNavController().navigate(R.id.speechRecognitionFragment2)
+            showDifficultyLevelDialog(SpeechRecognitionFragment(),R.id.speechRecognitionFragment2 )
         }
         binding?.bt4?.setOnClickListener {
             findTopNavController().navigate(R.id.sentenceBuildFragment)
@@ -50,22 +51,27 @@ class LearnFragment : Fragment() {
 
     }
 
-    private fun showDifficultyLevelDialog(){
+    private fun showDifficultyLevelDialog(fragment: Fragment, fragmentID: Int){
         val dialog = LevelSetDialogFragment()
         dialog.onLevelSelectedListener = object : LevelSetDialogFragment.OnLevelSelectedListener {
             override fun onLevelSelected(level: String) {
-                startPracticeFragment(level)
+                startQuizFragment(level, fragment, fragmentID)
             }
         }
         dialog.show(childFragmentManager, "DifficultyLevelDialog")
     }
 
-    fun startPracticeFragment(difficultyLevel: String) {
-        val fragment = QuizFragment()
+    private fun startQuizFragment(
+        difficultyLevel: String,
+        fragment: Fragment,
+        fragmentID: Int
+    ) {
         val bundle = Bundle()
         bundle.putString("difficultyLevel", difficultyLevel)
         fragment.arguments = bundle
-        findTopNavController().navigate(R.id.quizFragment, bundle)
+        findTopNavController().navigate(fragmentID, bundle)
     }
+
+
 
 }

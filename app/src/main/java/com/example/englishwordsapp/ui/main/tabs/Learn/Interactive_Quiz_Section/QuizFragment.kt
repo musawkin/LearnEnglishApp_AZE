@@ -27,8 +27,6 @@ class QuizFragment : Fragment() {
     private var countOfAllQuestions: Int? = null
     private var questionModel: QuizQuestionsModel? = null
 
-    private val dificultyLeve: String? = null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
