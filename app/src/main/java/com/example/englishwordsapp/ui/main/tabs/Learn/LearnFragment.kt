@@ -10,6 +10,7 @@ import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.FragmentLearnBinding
 import com.example.englishwordsapp.findTopNavController
 import com.example.englishwordsapp.ui.main.tabs.Learn.Interactive_Quiz_Section.QuizFragment
+import com.example.englishwordsapp.ui.main.tabs.Learn.Sentence_Build_Section.SentenceBuildFragment
 import com.example.englishwordsapp.ui.main.tabs.Learn.Speech_Recognition_Section.SpeechRecognitionFragment
 
 
@@ -46,22 +47,21 @@ class LearnFragment : Fragment() {
             showDifficultyLevelDialog(SpeechRecognitionFragment(),R.id.speechRecognitionFragment2 )
         }
         binding?.bt4?.setOnClickListener {
-            findTopNavController().navigate(R.id.sentenceBuildFragment)
+            showDifficultyLevelDialog(SentenceBuildFragment(), R.id.sentenceBuildFragment)
         }
-
     }
 
     private fun showDifficultyLevelDialog(fragment: Fragment, fragmentID: Int){
         val dialog = LevelSetDialogFragment()
         dialog.onLevelSelectedListener = object : LevelSetDialogFragment.OnLevelSelectedListener {
             override fun onLevelSelected(level: String) {
-                startQuizFragment(level, fragment, fragmentID)
+                startFragment(level, fragment, fragmentID)
             }
         }
         dialog.show(childFragmentManager, "DifficultyLevelDialog")
     }
 
-    private fun startQuizFragment(
+    private fun startFragment(
         difficultyLevel: String,
         fragment: Fragment,
         fragmentID: Int

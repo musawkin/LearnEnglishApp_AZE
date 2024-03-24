@@ -68,7 +68,7 @@ class TranslationWordsFragment : Fragment() {
                 }
             }
         }
-        viewModel.getWordsList()
+        viewModel.getWordsList("beginner_level")
 
         adapterForWords.setOnClickListener(object : RcAdapterForWordsTranslation.RvOnClickListener {
             override fun onClick(data: SimpleWordsModel) {
@@ -87,7 +87,7 @@ class TranslationWordsFragment : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let { query ->
                     val filteredList = listOfWords.filter { item ->
-                        item.wordInEnglish?.contains(
+                        item.word?.contains(
                             query,
                             ignoreCase = true
                         ) == true || item.translationToAze?.contains(

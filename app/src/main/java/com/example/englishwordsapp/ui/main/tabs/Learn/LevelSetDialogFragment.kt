@@ -38,12 +38,12 @@ class LevelSetDialogFragment : DialogFragment() {
         binding?.btStart?.setOnClickListener {
 
             var selectedLevel: String? = null
-                when(binding?.radioGroupLevels?.checkedRadioButtonId){
-                    binding?.beginnerLevel?.id -> selectedLevel = "beginner_level"
-                    binding?.elementaryLevel?.id -> selectedLevel = "elementary_level"
-                    binding?.intermediateLevel?.id -> selectedLevel = "intermediate_level"
-                    binding?.advanceLevel?.id -> selectedLevel = "advance_level"
-                }
+            when (binding?.radioGroupLevels?.checkedRadioButtonId) {
+                binding?.beginnerLevel?.id -> selectedLevel = "beginner_level"
+                binding?.elementaryLevel?.id -> selectedLevel = "elementary_level"
+                binding?.intermediateLevel?.id -> selectedLevel = "intermediate_level"
+                binding?.advanceLevel?.id -> selectedLevel = "advance_level"
+            }
 
             if (selectedLevel != null) {
                 onLevelSelectedListener?.onLevelSelected(selectedLevel)

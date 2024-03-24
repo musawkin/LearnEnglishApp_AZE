@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.flow
 
 class QuizRepositoryImpl: QuizRepository {
 
-    override suspend fun getQuestionList(wordsLevel: String) = flow<ResultWrapper<List<QuizQuestionsModel>>?> {
+    override suspend fun getQuestionList(difficultyLevel: String) = flow<ResultWrapper<List<QuizQuestionsModel>>?> {
         val db = Firebase.firestore
         val docRef =
             db.collection("wordsForQuiz")
-                .document(wordsLevel)
+                .document(difficultyLevel)
                 .collection("questionsModel")
         val result = kotlin.runCatching {
             Tasks.await(docRef.get())
@@ -30,6 +30,5 @@ class QuizRepositoryImpl: QuizRepository {
             )
         }.orEmpty()
         emit(ResultWrapper.Success(mappedList))
-
     }
 }

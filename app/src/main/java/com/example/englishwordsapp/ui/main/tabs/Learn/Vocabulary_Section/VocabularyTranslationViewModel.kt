@@ -3,6 +3,8 @@ package com.example.englishwordsapp.ui.main.tabs.Learn.Vocabulary_Section
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.englishwordsapp.data.model.core.ResultWrapper
+import com.example.englishwordsapp.data.repositories.VocabularyRepositoryImpl
 import com.example.englishwordsapp.ui.main.tabs.Learn.SimpleWordsModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -10,46 +12,28 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class VocabularyTranslationViewModel: ViewModel() {
+class VocabularyTranslationViewModel : ViewModel() {
 
     val wordsModelData = MutableLiveData<VocabularyWordsResponseState>()
-    private val listOfWordsModel = mutableListOf<SimpleWordsModel>()
-
-    fun getWordsList(){
+    private val vocabularyRepository = VocabularyRepositoryImpl()
+    fun getWordsList(difficultyLevel: String) {
+        wordsModelData.postValue(VocabularyWordsResponseState.Loading(true))
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
-
-                wordsModelData.postValue(VocabularyWordsResponseState.Loading(true))
-
-                val db = Firebase.firestore
-                val docRef =
-                    db.collection("wordsForVocabulary")
-                docRef.get()
-                    .addOnSuccessListener { documents ->
-
-                        for(document in documents){
-
-                            val dataList = document.data
-                            val wordEng = dataList["word"] as String
-                            val translation = dataList["translationToAze"] as String
-                            val transcription = dataList["transcription"] as String
-                            val partsOfSpeech = dataList["partOfSpeech"] as String
-                            val level = dataList["level"] as String
-
-                            listOfWordsModel.add(SimpleWordsModel(wordEng,translation,transcription,partsOfSpeech,level))
-
+            withContext(Dispatchers.IO) {
+                vocabularyRepository.getWordsList(difficultyLevel).collect {
+                    when (it) {
+                        is ResultWrapper.Success -> {
+                            wordsModelData.postValue(VocabularyWordsResponseState.Loading(false))
+                            wordsModelData.postValue(VocabularyWordsResponseState.Success(it.data))
                         }
-                        wordsModelData.postValue(
-                            VocabularyWordsResponseState.Success(
-                                listOfWordsModel
-                            )
-                        )
-
-                    }.addOnFailureListener { exception ->
-                        wordsModelData.postValue(VocabularyWordsResponseState.Error("$exception"))
+                        is ResultWrapper.Error -> {
+                            wordsModelData.postValue(VocabularyWordsResponseState.Loading(false))
+                            wordsModelData.postValue(VocabularyWordsResponseState.Error(it.error.orEmpty()))
+                        }
+                        else -> {}
                     }
+                }
             }
         }
-
     }
 }

@@ -36,6 +36,8 @@ class SentenceBuildFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val difficultyLevel = arguments?.getString("difficultyLevel")
+
         viewModel.questionModelData.observe(viewLifecycleOwner) { result ->
             result?.let {
                 when (result) {
@@ -57,7 +59,7 @@ class SentenceBuildFragment : Fragment() {
                 }
             }
         }
-        viewModel.getSentenceModel()
+        difficultyLevel?.let { viewModel.getSentenceModel(it) }
 
         binding?.btConfirm?.setOnClickListener {
             checkAnswerList()

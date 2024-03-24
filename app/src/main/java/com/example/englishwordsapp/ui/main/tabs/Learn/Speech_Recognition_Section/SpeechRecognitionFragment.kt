@@ -61,7 +61,7 @@ class SpeechRecognitionFragment : Fragment() {
                 }
             }
         }
-        viewModel.getWordsList()
+        difficultyLevel?.let { viewModel.getWordsList(it) }
 
         binding?.imagePlaySpeaker?.setOnClickListener {
             pronounceWord()
@@ -152,7 +152,7 @@ class SpeechRecognitionFragment : Fragment() {
 
     private fun setQuestion(){
         binding?.etInputCorrectAnswer?.text?.clear()
-        wordInSpeaker = listOfWords.last().wordInEnglish
+        wordInSpeaker = listOfWords.last().word
         pronounceWord()
         questionModel = listOfWords.last()
         listOfWords.removeLast()

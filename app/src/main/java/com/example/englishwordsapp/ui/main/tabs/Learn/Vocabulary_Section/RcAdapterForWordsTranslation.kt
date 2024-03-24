@@ -31,13 +31,13 @@ class RcAdapterForWordsTranslation(private var listener: RvOnClickListener? = nu
     class MyHolder(var binding: ExampleWordTranslationBinding): ViewHolder(binding.root) {
 
         fun bind(data: SimpleWordsModel, listener: RvOnClickListener?, position: Int){
-            binding.tvWordInEng.text = data.wordInEnglish
+            binding.tvWordInEng.text = data.word
             binding.tvWordInAze.text = data.translationToAze
             binding.tvWordTranscript.text = data.transcription
 
 
             binding.imagePlaySpeaker.setOnClickListener {
-                listener?.playSpeaker(data.wordInEnglish!!, position)
+                listener?.playSpeaker(data.word!!, position)
             }
 
         }

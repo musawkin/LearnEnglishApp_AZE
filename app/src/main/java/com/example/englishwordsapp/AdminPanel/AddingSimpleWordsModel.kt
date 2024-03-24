@@ -16,7 +16,7 @@ class AddingSimpleWordsModel {
                 "partOfSpeech" to i.partOfSpeech,
                 "transcription" to i.transcription,
                 "translationToAze" to i.translationToAze,
-                "word" to i.wordInEnglish
+                "word" to i.word
             )
 
 //            db.collection("wordsForVocabulary")

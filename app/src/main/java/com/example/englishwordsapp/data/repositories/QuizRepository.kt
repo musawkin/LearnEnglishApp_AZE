@@ -5,5 +5,5 @@ import com.example.englishwordsapp.ui.main.tabs.Learn.Interactive_Quiz_Section.Q
 import kotlinx.coroutines.flow.Flow
 
 interface QuizRepository {
-    suspend fun getQuestionList(wordsLevel: String): Flow<ResultWrapper<List<QuizQuestionsModel>>?>
+    suspend fun getQuestionList(difficultyLevel: String): Flow<ResultWrapper<List<QuizQuestionsModel>>?>
 }

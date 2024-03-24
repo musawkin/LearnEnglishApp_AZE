@@ -3,6 +3,9 @@ package com.example.englishwordsapp.ui.main.tabs.Learn.Sentence_Build_Section
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.englishwordsapp.data.model.core.ResultWrapper
+import com.example.englishwordsapp.data.repositories.SentenceBuildRepositoryImpl
+import com.example.englishwordsapp.ui.main.tabs.Learn.Interactive_Quiz_Section.QuizQuestionsResponseState
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
@@ -12,38 +15,27 @@ import kotlinx.coroutines.withContext
 class SentenceBuildViewModel : ViewModel() {
 
     val questionModelData = MutableLiveData<SentenceModelResponseState>()
-    private val listOfSentenceModel = mutableListOf<SentenceModel>()
-    fun getSentenceModel() {
+    private val sentenceBuildRepository = SentenceBuildRepositoryImpl()
+    fun getSentenceModel(level: String) {
         questionModelData.postValue(SentenceModelResponseState.Loading(true))
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-
-                val db = Firebase.firestore
-                val docRef =
-                    db.collection("sentences")
-                        .document("beginner_level")
-                        .collection("sentences_beginner_level")
-
-                docRef.get()
-                    .addOnSuccessListener { documents ->
-
-                        for (document in documents) {
-                            val data = document.data
-                            val question = data["question"] as String
-                            val answerWordsList = data["answerWordsList"] as List<String>
-
-                            listOfSentenceModel.add(SentenceModel(question, answerWordsList))
+                sentenceBuildRepository.getSentencesList(level).collect{
+                    when(it){
+                        is ResultWrapper.Success ->{
+                            questionModelData.postValue(SentenceModelResponseState.Loading(false))
+                            questionModelData.postValue(SentenceModelResponseState.Success(it.data))
                         }
-                        questionModelData.postValue(
-                            SentenceModelResponseState.Success(
-                                listOfSentenceModel
-                            )
-                        )
-
-                }.addOnFailureListener { exception ->
-                    questionModelData.postValue(SentenceModelResponseState.Error("$exception"))
-
+                        is ResultWrapper.Error ->{
+                            questionModelData.postValue(SentenceModelResponseState.Loading(false))
+                            questionModelData.postValue(SentenceModelResponseState.Error(it.error.orEmpty()))
+                        }
+                        else -> {
+                            questionModelData.postValue(SentenceModelResponseState.Loading(false))
+                        }
+                    }
                 }
+
             }
         }
     }

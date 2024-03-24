@@ -16,11 +16,11 @@ class QuizViewModel: ViewModel() {
     val questionModelData = MutableLiveData<QuizQuestionsResponseState>()
     private val quizRepository = QuizRepositoryImpl()
 
-    fun getQuestionList(wordsLevel: String){
+    fun getQuestionList(difficultyLevel: String){
         questionModelData.postValue(QuizQuestionsResponseState.Loading(true))
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                quizRepository.getQuestionList(wordsLevel).collect{
+                quizRepository.getQuestionList(difficultyLevel).collect{
                     when(it){
                         is ResultWrapper.Success ->{
                             questionModelData.postValue(QuizQuestionsResponseState.Loading(false))

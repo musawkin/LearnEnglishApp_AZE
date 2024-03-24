@@ -3,6 +3,10 @@ package com.example.englishwordsapp.ui.main.tabs.Learn.Speech_Recognition_Sectio
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.englishwordsapp.data.model.core.ResultWrapper
+import com.example.englishwordsapp.data.repositories.SpeechRecognitionRepository
+import com.example.englishwordsapp.data.repositories.SpeechRecognitionRepositoryImpl
+import com.example.englishwordsapp.ui.main.tabs.Learn.Interactive_Quiz_Section.QuizQuestionsResponseState
 import com.example.englishwordsapp.ui.main.tabs.Learn.SimpleWordsModel
 import com.example.englishwordsapp.ui.main.tabs.Learn.Vocabulary_Section.VocabularyWordsResponseState
 import com.google.firebase.firestore.ktx.firestore
@@ -14,41 +18,29 @@ import kotlinx.coroutines.withContext
 class SpeechRecognitionViewModel: ViewModel() {
 
     val wordsModelData = MutableLiveData<VocabularyWordsResponseState>()
-    private val listOfWordsModel = mutableListOf<SimpleWordsModel>()
+    private val speechRecognitionRepository = SpeechRecognitionRepositoryImpl()
 
-    fun getWordsList(){
+    fun getWordsList(difficultyLevel: String){
+        wordsModelData.postValue(VocabularyWordsResponseState.Loading(true))
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-
-                wordsModelData.postValue(VocabularyWordsResponseState.Loading(true))
-
-                val db = Firebase.firestore
-                val docRef =
-                    db.collection("wordsForVocabulary").whereEqualTo("level", "beginner_level")
-                docRef.get()
-                    .addOnSuccessListener { documents ->
-
-                        for(document in documents){
-
-                            val dataList = document.data
-                            val wordEng = dataList["word"] as String
-                            val translation = dataList["translationToAze"] as String
-                            val transcription = dataList["transcription"] as String
-                            val partsOfSpeech = dataList["partOfSpeech"] as String
-                            val level = dataList["level"] as String
-
-                            listOfWordsModel.add(SimpleWordsModel(wordEng,translation,transcription,partsOfSpeech,level))
-
+                speechRecognitionRepository.getWordsList(difficultyLevel).collect{
+                    when(it){
+                        is ResultWrapper.Success ->{
+                            wordsModelData.postValue(VocabularyWordsResponseState.Loading(false))
+                            wordsModelData.postValue(VocabularyWordsResponseState.Success(it.data))
                         }
-                        wordsModelData.postValue(VocabularyWordsResponseState.Success(listOfWordsModel))
-
-                    }.addOnFailureListener { exception ->
-                        wordsModelData.postValue(VocabularyWordsResponseState.Error("$exception"))
+                        is ResultWrapper.Error->{
+                            wordsModelData.postValue(VocabularyWordsResponseState.Loading(false))
+                            wordsModelData.postValue(VocabularyWordsResponseState.Error(it.error.orEmpty()))
+                        }
+                        else -> {
+                            wordsModelData.postValue(VocabularyWordsResponseState.Loading(false))
+                        }
                     }
+                }
             }
         }
-
     }
-
 }
 
