@@ -5,19 +5,19 @@
         android:id="@+id/learn"
         android:title="Learn"
         android:orderInCategory="1"
-        android:icon="@drawable/ic_launcher_foreground"/>
+        android:icon="@drawable/ic_book"/>
 
     <item
         android:id="@+id/profile"
         android:title="Profile"
         android:orderInCategory="2"
-        android:icon="@drawable/confirm_button"/>
+        android:icon="@drawable/ic_personal_info"/>
 
     <item
         android:id="@+id/settings"
         android:title="Settings"
         android:orderInCategory="3"
-        android:icon="@drawable/ic_speaker"/>
+        android:icon="@drawable/ic_settings_button"/>
 
 
 

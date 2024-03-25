@@ -1,4 +1,4 @@
-package com.example.englishwordsapp.data.model.core
+package com.example.englishwordsapp.data.model
 
 class SentenceResponseModel(
     val question: String? = null,

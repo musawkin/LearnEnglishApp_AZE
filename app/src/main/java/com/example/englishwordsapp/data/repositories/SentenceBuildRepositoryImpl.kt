@@ -1,9 +1,8 @@
 package com.example.englishwordsapp.data.repositories
 
 import com.example.englishwordsapp.data.model.core.ResultWrapper
-import com.example.englishwordsapp.data.model.core.SentenceResponseModel
+import com.example.englishwordsapp.data.model.SentenceResponseModel
 import com.example.englishwordsapp.ui.main.tabs.Learn.Sentence_Build_Section.SentenceModel
-import com.example.englishwordsapp.ui.main.tabs.Learn.Sentence_Build_Section.SentenceModelResponseState
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
