@@ -31,7 +31,6 @@ class TabsFragment : Fragment() {
         binding?.bottomNav?.let { NavigationUI.setupWithNavController(it, navController) }
 
 
-
     }
 
 

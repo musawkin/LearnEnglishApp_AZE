@@ -16,7 +16,7 @@
         android:background="@drawable/shape_rounded_for_bottom_nav"
         app:itemIconTint="@drawable/selector_for_bottomnav"
         app:backgroundTint="@color/white"
-        style="@style/Widget.Material3.BottomNavigationView"
+        app:itemActiveIndicatorStyle="@null"
         app:menu="@menu/bottom_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

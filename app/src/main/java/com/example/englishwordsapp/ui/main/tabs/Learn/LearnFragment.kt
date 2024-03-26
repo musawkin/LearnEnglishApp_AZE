@@ -32,21 +32,21 @@ class LearnFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.bt1?.setOnClickListener {
+        binding?.btQuiz?.setOnClickListener {
             showDifficultyLevelDialog(QuizFragment(), R.id.quizFragment)
         }
 
-        binding?.bt2?.setOnClickListener {
+        binding?.btVocabularyTranslation?.setOnClickListener {
             val direction =
                 LearnFragmentDirections
                     .actionLearnFragmentToTranslationWordsFragment()
             findNavController().navigate(direction)
         }
 
-        binding?.bt3?.setOnClickListener {
+        binding?.btSpeechRecognition?.setOnClickListener {
             showDifficultyLevelDialog(SpeechRecognitionFragment(),R.id.speechRecognitionFragment2 )
         }
-        binding?.bt4?.setOnClickListener {
+        binding?.btSentenceBuild?.setOnClickListener {
             showDifficultyLevelDialog(SentenceBuildFragment(), R.id.sentenceBuildFragment)
         }
     }
