@@ -6,7 +6,7 @@
     app:startDestination="@id/learnFragment">
     <fragment
         android:id="@+id/learnFragment"
-        android:name="com.example.englishwordsapp.ui.main.tabs.Learn.LearnFragment"
+        android:name="com.example.englishwordsapp.ui.main.tabs.learn.LearnFragment"
         android:label="fragment_learn"
         tools:layout="@layout/fragment_learn" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/translationWordsFragment"
-        android:name="com.example.englishwordsapp.ui.main.tabs.Learn.Vocabulary_Section.TranslationWordsFragment"
+        android:name="com.example.englishwordsapp.ui.main.tabs.learn.vocabulary.TranslationWordsFragment"
         android:label="fragment_translation_words"
         tools:layout="@layout/fragment_translation_words" />
 </navigation>

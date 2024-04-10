@@ -45,7 +45,7 @@
         android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="close image button"
-        android:src="@drawable/ic_close"
+        android:src="@drawable/ic_close_white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

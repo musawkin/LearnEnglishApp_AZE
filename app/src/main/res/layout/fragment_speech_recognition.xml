@@ -3,8 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.main.tabs.Learn.Speech_Recognition_Section.SpeechRecognitionFragment">
+    tools:context=".ui.main.tabs.learn.speechRecognition.SpeechRecognitionFragment">
+
+    <View
+        android:id="@+id/topWelcomeView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/blue"
+        app:layout_constraintDimensionRatio="h,7:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </View>
 
     <ImageButton
         android:id="@+id/imageButtonClose"
@@ -14,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="close image button"
-        android:src="@drawable/ic_close"
+        android:src="@drawable/ic_close_white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -27,7 +39,7 @@
         android:fontFamily="@font/nunito_semibold"
         android:text="Count"
         android:textSize="17sp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         app:layout_constraintVertical_bias="0.005"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:paddingHorizontal="50dp"
-        app:indicatorColor="@color/blue"
+        app:indicatorColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvProgressCount"
@@ -50,12 +62,14 @@
 
     <ImageView
         android:id="@+id/imagePlaySpeaker"
-        android:layout_width="164dp"
-        android:layout_height="163dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="171dp"
+        android:layout_height="170dp"
         android:background="@drawable/shape_rounded_variants_for_speaker"
-        android:src="@drawable/ic_speaker"
         android:elevation="4dp"
+        android:padding="5dp"
+        android:src="@drawable/earphones"
+        app:layout_constraintVertical_bias="0.25"
+        app:layout_constraintBottom_toTopOf="@+id/btSkip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressIndicator" />
@@ -64,7 +78,7 @@
         android:id="@+id/etInputCorrectAnswerLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="45dp"
         android:textColorHint="#A7A8B1"
         app:hintEnabled="false"
         android:layout_marginStart="15dp"
@@ -106,7 +120,7 @@
         android:layout_width="310dp"
         android:layout_height="58dp"
         android:layout_marginBottom="24dp"
-        android:backgroundTint="#2574FF"
+        android:backgroundTint="@color/blue"
         android:text="@string/button_skip"
         android:textAllCaps="true"
         android:visibility="visible"
@@ -119,7 +133,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#0EAD69"
-        android:visibility="visible"
+        android:visibility="gone"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -171,7 +185,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

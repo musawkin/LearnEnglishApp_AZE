@@ -1,15 +1,15 @@
 package com.example.englishwordsapp.data.repositories
 
-import android.util.Log
 import com.example.englishwordsapp.data.model.core.ResultWrapper
 import com.example.englishwordsapp.data.model.SimpleWordsResponse
-import com.example.englishwordsapp.ui.main.tabs.Learn.SimpleWordsModel
+import com.example.englishwordsapp.ui.main.tabs.learn.SimpleWordsModel
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class SpeechRecognitionRepositoryImpl: SpeechRecognitionRepository {
+class SpeechRecognitionRepositoryImpl @Inject constructor(): SpeechRecognitionRepository {
     override suspend fun getWordsList(difficultyLevel: String) = flow<ResultWrapper<List<SimpleWordsModel>>?> {
         val db = Firebase.firestore
         val docRef =

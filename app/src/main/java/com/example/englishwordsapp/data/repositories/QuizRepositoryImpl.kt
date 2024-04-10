@@ -1,16 +1,15 @@
 package com.example.englishwordsapp.data.repositories
 
-import android.util.Log
 import com.example.englishwordsapp.data.model.QuizQuestionsResponse
 import com.example.englishwordsapp.data.model.core.ResultWrapper
-import com.example.englishwordsapp.ui.main.tabs.Learn.Interactive_Quiz_Section.QuizQuestionsModel
-import com.example.englishwordsapp.ui.main.tabs.Learn.Interactive_Quiz_Section.QuizQuestionsResponseState
+import com.example.englishwordsapp.ui.main.tabs.learn.quiz.QuizQuestionsModel
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class QuizRepositoryImpl: QuizRepository {
+class QuizRepositoryImpl @Inject constructor(): QuizRepository {
 
     override suspend fun getQuestionList(difficultyLevel: String) = flow<ResultWrapper<List<QuizQuestionsModel>>?> {
         val db = Firebase.firestore

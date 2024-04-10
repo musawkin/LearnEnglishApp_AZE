@@ -4,7 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.tabs.Learn.Sentence_Build_Section.SentenceBuildFragment">
+    tools:context=".ui.main.tabs.learn.sentenceBuild.SentenceBuildFragment">
+
+    <View
+        android:id="@+id/topWelcomeView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/blue"
+        app:layout_constraintDimensionRatio="h,5:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </View>
 
     <ImageButton
         android:id="@+id/imageButtonClose"
@@ -14,7 +25,7 @@
         android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="close image button"
-        android:src="@drawable/ic_close"
+        android:src="@drawable/ic_close_white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -26,7 +37,7 @@
         android:fontFamily="@font/nunito_semibold"
         android:text="Count"
         android:textSize="17sp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         app:layout_constraintVertical_bias="0.005"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:paddingHorizontal="50dp"
-        app:indicatorColor="@color/blue"
+        app:indicatorColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvProgressCount"
@@ -47,20 +58,32 @@
         app:trackCornerRadius="12dp"
         app:trackThickness="16dp" />
 
-    <TextView
-        android:id="@+id/tvSentenceInAze"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvSentenceInAze"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="25dp"
-        app:layout_constraintVertical_bias="0.05"
-        android:fontFamily="@font/nunito_semibold"
-        android:text=""
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="23dp"
+        android:layout_marginVertical="12dp"
+        android:backgroundTint="#FFFFFF"
+        app:cardCornerRadius="25dp"
+        app:layout_constraintBottom_toBottomOf="@id/topWelcomeView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressIndicator" />
+        app:layout_constraintTop_toBottomOf="@id/topWelcomeView">
+
+        <TextView
+            android:id="@+id/tvSentenceInAze"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="13dp"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center_horizontal"
+            android:text="example sentence example"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </androidx.cardview.widget.CardView>
 
 
     <com.google.android.material.chip.ChipGroup
@@ -74,10 +97,7 @@
         android:background="@drawable/shape_rounded_containers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSentenceInAze">
-
-
-
+        app:layout_constraintTop_toBottomOf="@+id/cvSentenceInAze">
 
     </com.google.android.material.chip.ChipGroup>
 
@@ -113,6 +133,71 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/answerChipGroup" />
+
+    <Button
+        android:id="@+id/btSkip"
+        android:layout_width="310dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/blue"
+        android:text="@string/button_skip"
+        android:textAllCaps="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/continueButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0EAD69"
+        android:visibility="gone"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_correct"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCorrectOrWrong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/rubik_regular"
+            android:text="Correct!"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+        <android.widget.Button
+            android:id="@+id/btContinue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button_footer"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/tittle_continue"
+            android:textAllCaps="true"
+            android:padding="18dp"
+            android:textSize="16dp"
+            android:textColor="#0EAD69"
+            android:layout_margin="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/progressBarLoadingData"

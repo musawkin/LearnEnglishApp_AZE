@@ -21,17 +21,17 @@
     </fragment>
     <fragment
         android:id="@+id/quizFragment"
-        android:name="com.example.englishwordsapp.ui.main.tabs.Learn.Interactive_Quiz_Section.QuizFragment"
+        android:name="com.example.englishwordsapp.ui.main.tabs.learn.quiz.QuizFragment"
         android:label="fragment_quiz"
         tools:layout="@layout/fragment_quiz" />
     <fragment
         android:id="@+id/sentenceBuildFragment"
-        android:name="com.example.englishwordsapp.ui.main.tabs.Learn.Sentence_Build_Section.SentenceBuildFragment"
+        android:name="com.example.englishwordsapp.ui.main.tabs.learn.sentenceBuild.SentenceBuildFragment"
         android:label="fragment_sentence_build"
         tools:layout="@layout/fragment_sentence_build" />
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.englishwordsapp.ui.main.Auth.SignInFragment"
+        android:name="com.example.englishwordsapp.ui.main.auth.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/speechRecognitionFragment2"
-        android:name="com.example.englishwordsapp.ui.main.tabs.Learn.Speech_Recognition_Section.SpeechRecognitionFragment"
+        android:name="com.example.englishwordsapp.ui.main.tabs.learn.speechRecognition.SpeechRecognitionFragment"
         android:label="fragment_speech_recognition"
         tools:layout="@layout/fragment_speech_recognition" />
 </navigation>

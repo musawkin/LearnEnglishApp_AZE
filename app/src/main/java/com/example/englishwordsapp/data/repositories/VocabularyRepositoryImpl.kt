@@ -2,13 +2,14 @@ package com.example.englishwordsapp.data.repositories
 
 import com.example.englishwordsapp.data.model.SimpleWordsResponse
 import com.example.englishwordsapp.data.model.core.ResultWrapper
-import com.example.englishwordsapp.ui.main.tabs.Learn.SimpleWordsModel
+import com.example.englishwordsapp.ui.main.tabs.learn.SimpleWordsModel
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class VocabularyRepositoryImpl: VocabularyRepository {
+class VocabularyRepositoryImpl @Inject constructor(): VocabularyRepository {
     override suspend fun getWordsList(difficultyLevel: String) = flow<ResultWrapper<List<SimpleWordsModel>>?> {
         val db = Firebase.firestore
         val docRef = db.collection("wordsForVocabulary")

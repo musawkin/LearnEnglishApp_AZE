@@ -5,17 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.main.tabs.Learn.LearnFragment">
+    tools:context=".ui.main.tabs.learn.LearnFragment">
 
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.2"
+        android:scaleType="fitXY"
         android:src="@drawable/background_for_learn_fragment2"
-        android:alpha="0.1"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
+
     <View
         android:id="@+id/topWelcomeView"
         android:layout_width="0dp"
@@ -25,7 +27,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </View>
 
     <TextView
@@ -64,180 +65,167 @@
         android:layout_gravity="bottom"
         android:layout_marginHorizontal="23dp"
         android:layout_marginVertical="12dp"
+        android:backgroundTint="#FFFFFF"
         app:cardCornerRadius="25dp"
-        android:backgroundTint="#CEECFE"
         app:layout_constraintBottom_toBottomOf="@id/topWelcomeView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topWelcomeView" >
-
-
+        app:layout_constraintTop_toBottomOf="@id/topWelcomeView">
 
         <TextView
             android:id="@+id/tvWantToLearn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="13dp"
             android:fontFamily="@font/nunito_bold"
             android:gravity="center_horizontal"
-            android:layout_margin="13dp"
             android:text="What do you want to learn ?"
             android:textColor="@color/black"
-            android:textSize="20sp"/>
-
+            android:textSize="20sp" />
     </androidx.cardview.widget.CardView>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:orientation="vertical"
-        android:paddingHorizontal="55dp"
-        app:layout_constraintTop_toBottomOf="@id/viewWantToLearn">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btQuiz"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="#EFE0FF"
-            app:cardCornerRadius="25dp" >
-
-            <View
-                android:layout_width="90dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="-10dp"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="13dp"
-                android:backgroundTint="@color/white"
-                android:background="@drawable/shape_rounded_containers"/>
-            <TextView
-                android:id="@+id/tvQuizSection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_bold"
-                android:layout_gravity="bottom"
-                android:layout_margin="13dp"
-                android:text="Quiz"
-                android:textColor="#9A71C6"
-                android:textSize="23sp"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="55dp"
-                android:scaleX="1.5"
-                android:scaleY="1.2"
-                android:src="@drawable/quiz_button_image"/>
-
-        </androidx.cardview.widget.CardView>
+        android:paddingHorizontal="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewWantToLearn"
+        app:layout_constraintVertical_bias="0.3">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btVocabularyTranslation"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="#B0E4E0"
-            app:cardCornerRadius="25dp" >
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#FFADAD"
+            app:cardCornerRadius="25dp">
 
             <View
                 android:layout_width="150dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="-10dp"
                 android:layout_gravity="bottom"
+                android:layout_marginStart="-10dp"
                 android:layout_marginBottom="13dp"
-                android:backgroundTint="@color/white"
-                android:background="@drawable/shape_rounded_containers"/>
+                android:background="@drawable/shape_rounded_containers"
+                android:backgroundTint="@color/white" />
 
             <TextView
                 android:id="@+id/tvVocabularySection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_bold"
                 android:layout_gravity="bottom"
                 android:layout_margin="13dp"
+                android:fontFamily="@font/nunito_bold"
                 android:text="Vocabulary"
-                android:textColor="#64ADA7"
-                android:textSize="23sp"/>
+                android:textColor="#EA8C8C"
+                android:textSize="23sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="70dp"
-                android:scaleX="1.5"
-                android:scaleY="1.2"
-                android:src="@drawable/vocabulary_section_image"/>
-
+                android:scaleX="1.4"
+                android:scaleY="1"
+                android:src="@drawable/vocabulary_button_image" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/btSpeechRecognition"
+            android:id="@+id/btQuiz"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="#3763A1"
-            app:cardCornerRadius="25dp" >
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#B0E4E0"
+            app:cardCornerRadius="25dp">
 
             <View
-                android:layout_width="155dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="-10dp"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
                 android:layout_gravity="bottom"
+                android:layout_marginStart="-10dp"
                 android:layout_marginBottom="13dp"
-                android:backgroundTint="@color/white"
-                android:background="@drawable/shape_rounded_containers"/>
+                android:background="@drawable/shape_rounded_containers"
+                android:backgroundTint="@color/white" />
 
             <TextView
-                android:id="@+id/tvSpeechRecognitionSection"
+                android:id="@+id/tvQuizSection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_bold"
                 android:layout_gravity="bottom"
                 android:layout_margin="13dp"
-                android:text="Speech \nRecognition"
-                android:textColor="#64ADA7"
-                android:textSize="23sp"/>
+                android:fontFamily="@font/nunito_bold"
+                android:text="Quiz"
+                android:textColor="#64BDB6"
+                android:textSize="23sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="70dp"
-                android:scaleX="1.3"
-                android:scaleY="1.0"
-                android:src="@drawable/speech_recognition_image"/>
-
+                android:layout_marginStart="65dp"
+                android:scaleX="1.4"
+                android:scaleY="1.2"
+                android:src="@drawable/quiz_section_image" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btSentenceBuild"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="#3763A1"
-            app:cardCornerRadius="25dp" >
-
-            <View
-                android:layout_width="155dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="-10dp"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="13dp"
-                android:backgroundTint="@color/white"
-                android:background="@drawable/shape_rounded_containers"/>
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#FEE4D3"
+            app:cardCornerRadius="25dp">
 
             <TextView
-                android:id="@+id/tvSentenceBuildSection"
+                android:id="@+id/tvBuildSentence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_bold"
                 android:layout_gravity="bottom"
-                android:layout_margin="13dp"
-                android:text="Build \nSentence"
-                android:textColor="#64ADA7"
-                android:textSize="23sp"/>
+                android:layout_marginBottom="13dp"
+                android:background="@drawable/shape_rounded_for_tv"
+                android:fontFamily="@font/nunito_bold"
+                android:lineSpacingExtra="-7dp"
+                android:paddingHorizontal="10dp"
+                android:text="Build\nSentence"
+                android:textColor="#EAAA80"
+                android:textSize="23sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="70dp"
+                android:layout_marginBottom="3dp"
+                android:scaleX="1.3"
+                android:scaleY="1.1"
+                android:src="@drawable/build_sentence7" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btSpeechRecognition"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#3763A1"
+            app:cardCornerRadius="25dp">
+
+            <TextView
+                android:id="@+id/tvSpeechRecognition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="13dp"
+                android:background="@drawable/shape_rounded_for_tv"
+                android:fontFamily="@font/nunito_bold"
+                android:lineSpacingExtra="-7dp"
+                android:paddingHorizontal="10dp"
+                android:text="Speech\nRecognition"
+                android:textColor="#4F79B4"
+                android:textSize="23sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -246,11 +234,8 @@
                 android:layout_marginStart="70dp"
                 android:scaleX="1.3"
                 android:scaleY="1.0"
-                android:src="@drawable/speech_recognition_image"/>
+                android:src="@drawable/speech_recognition_image" />
 
         </androidx.cardview.widget.CardView>
-
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
