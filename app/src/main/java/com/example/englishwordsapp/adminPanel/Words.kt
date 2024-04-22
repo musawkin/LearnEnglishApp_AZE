@@ -1,6 +1,6 @@
 package com.example.englishwordsapp.adminPanel
 
-import com.example.englishwordsapp.ui.main.tabs.learn.SimpleWordsModel
+import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
 
 object Words {
 

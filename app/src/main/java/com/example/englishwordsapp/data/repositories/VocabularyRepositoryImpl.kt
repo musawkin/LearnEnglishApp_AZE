@@ -2,7 +2,7 @@ package com.example.englishwordsapp.data.repositories
 
 import com.example.englishwordsapp.data.model.SimpleWordsResponse
 import com.example.englishwordsapp.data.model.core.ResultWrapper
-import com.example.englishwordsapp.ui.main.tabs.learn.SimpleWordsModel
+import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase

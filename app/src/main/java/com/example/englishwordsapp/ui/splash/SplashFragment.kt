@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.englishwordsapp.databinding.FragmentSplashBinding
-import com.example.englishwordsapp.ui.main.MainActivity
-import com.example.englishwordsapp.ui.main.MainActivityArgs
+import com.example.englishwordsapp.ui.MainActivity
+import com.example.englishwordsapp.ui.MainActivityArgs
 
 
 class SplashFragment : Fragment() {

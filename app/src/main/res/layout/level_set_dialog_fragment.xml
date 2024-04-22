@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/shape_rounded_variants"
     android:backgroundTint="#12BF75"
-    tools:context=".ui.main.tabs.learn.LevelSetDialogFragment">
+    tools:context=".ui.main.learn.LevelSetDialogFragment">
 
     <TextView
         android:id="@+id/tvLevel"

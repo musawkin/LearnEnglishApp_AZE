@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_splash" />
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.example.englishwordsapp.ui.main.MainActivity"
+        android:name="com.example.englishwordsapp.ui.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" >
 

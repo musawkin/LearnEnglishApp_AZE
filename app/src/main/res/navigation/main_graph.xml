@@ -6,9 +6,9 @@
     app:startDestination="@id/tabsFragment">
     <fragment
         android:id="@+id/tabsFragment"
-        android:name="com.example.englishwordsapp.ui.main.tabs.TabsFragment"
+        android:name="com.example.englishwordsapp.ui.main.MainFragment"
         android:label="fragment_tabs"
-        tools:layout="@layout/fragment_tabs" >
+        tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_tabsFragment_to_quizFragment"
             app:destination="@id/quizFragment" />
@@ -21,17 +21,17 @@
     </fragment>
     <fragment
         android:id="@+id/quizFragment"
-        android:name="com.example.englishwordsapp.ui.main.tabs.learn.quiz.QuizFragment"
+        android:name="com.example.englishwordsapp.ui.main.learn.quiz.QuizFragment"
         android:label="fragment_quiz"
         tools:layout="@layout/fragment_quiz" />
     <fragment
         android:id="@+id/sentenceBuildFragment"
-        android:name="com.example.englishwordsapp.ui.main.tabs.learn.sentenceBuild.SentenceBuildFragment"
+        android:name="com.example.englishwordsapp.ui.main.learn.sentenceBuild.SentenceBuildFragment"
         android:label="fragment_sentence_build"
         tools:layout="@layout/fragment_sentence_build" />
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.englishwordsapp.ui.main.auth.SignInFragment"
+        android:name="com.example.englishwordsapp.ui.auth.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/speechRecognitionFragment2"
-        android:name="com.example.englishwordsapp.ui.main.tabs.learn.speechRecognition.SpeechRecognitionFragment"
+        android:name="com.example.englishwordsapp.ui.main.learn.speechRecognition.SpeechRecognitionFragment"
         android:label="fragment_speech_recognition"
         tools:layout="@layout/fragment_speech_recognition" />
 </navigation>
