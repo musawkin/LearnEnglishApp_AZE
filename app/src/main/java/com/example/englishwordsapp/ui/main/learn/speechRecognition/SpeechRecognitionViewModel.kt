@@ -62,7 +62,6 @@ class SpeechRecognitionViewModel @Inject constructor(
                 _progress.value = wordsList.size
             }
         }
-
     }
 
     fun skipWord() {

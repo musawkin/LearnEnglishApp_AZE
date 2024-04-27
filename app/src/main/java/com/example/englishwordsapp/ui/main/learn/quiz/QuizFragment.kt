@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.englishwordsapp.R
+import com.example.englishwordsapp.data.model.core.ResultWrapper
 import com.example.englishwordsapp.databinding.FragmentQuizBinding
 import com.example.englishwordsapp.ui.main.learn.ResultDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,11 +23,10 @@ class QuizFragment : Fragment() {
 
     private var binding: FragmentQuizBinding? = null
     private val viewModel by viewModels<QuizViewModel>()
-    private val listOfWords = mutableListOf<QuizQuestionsModel>()
-    private var correctAnswer: String? = null
-    private var wrongAnswer = 0
     private var countOfAllQuestions: Int? = null
-    private var questionModel: QuizQuestionsModel? = null
+    private var wrongAnswer = 0
+    private val variantsAdapter by lazy { QuizVariantsListAdapter() }
+    private val listOfWords = mutableListOf<QuizQuestionsModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,132 +38,85 @@ class QuizFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding?.rcViewVariants?.adapter = variantsAdapter
         val difficultyLevel = arguments?.getString("difficultyLevel")
 
         viewModel.questionModelData.observe(viewLifecycleOwner){result ->
             result?.let {
                 when(result){
                     is QuizState.Success ->{
-                        handleOnSuccessResult(result.listOfQuestions)
+                        val list = mutableListOf<Pair<String, String>>()
+                        binding?.progressBarLoadingData?.isVisible = false
+                        binding?.tvQuestionWord?.text = result.question.question
+                        val map = result.question.variants
+                        map.forEach { s, s2 ->
+                            list.add(Pair(s,s2))
+                        }
+                        variantsAdapter.submitList(list)
                     }
                     is QuizState.Error ->{
-                        Toast.makeText(requireContext(), "Error: ${result.errorException}", Toast.LENGTH_LONG).show()
+
                     }
                     is QuizState.Loading ->{
                         binding?.progressBarLoadingData?.isVisible = result.isLoading
                     }
-                    else -> {}
                 }
             }
         }
 
         difficultyLevel?.let { viewModel.getQuestionList(it) }
 
-        binding?.layoutVariant1?.setOnClickListener {
-            if (correctAnswer == binding?.tvAnswer1?.text) {
-                checkAnswer(
-                    binding?.layoutVariant1,
-                    binding?.tvAnswer1Nuber,
-                    binding?.tvAnswer1,
-                    VariantStates.CORRECT
-                )
-            } else {
-                checkAnswer(
-                    binding?.layoutVariant1,
-                    binding?.tvAnswer1Nuber,
-                    binding?.tvAnswer1,
-                    VariantStates.WRONG
-                )
-
+        variantsAdapter.onItemClickListener { variant ->
+            if (variant.first == "true"){
+                changeContinueButtonState(ContinueBtStates.CORRECT)
+            }
+            else {
+                changeContinueButtonState(ContinueBtStates.WRONG)
+                wrongAnswer++
             }
         }
 
-        binding?.layoutVariant2?.setOnClickListener {
-            if (correctAnswer == binding?.tvAnswer2?.text) {
-                checkAnswer(
-                    binding?.layoutVariant2,
-                    binding?.tvAnswer2Nuber,
-                    binding?.tvAnswer2,
-                    VariantStates.CORRECT
-                )
-            } else {
-                checkAnswer(
-                    binding?.layoutVariant2,
-                    binding?.tvAnswer2Nuber,
-                    binding?.tvAnswer2,
-                    VariantStates.WRONG
-                )
-
+        viewModel.countOfQuestions.observe(viewLifecycleOwner){count->
+            count?.let {
+                countOfAllQuestions = count
+                binding?.progressIndicator?.max = count
             }
         }
 
-        binding?.layoutVariant3?.setOnClickListener {
-            if (correctAnswer == binding?.tvAnswer3?.text) {
-                checkAnswer(
-                    binding?.layoutVariant3,
-                    binding?.tvAnswer3Nuber,
-                    binding?.tvAnswer3,
-                    VariantStates.CORRECT
-                )
-            } else {
-                checkAnswer(
-                    binding?.layoutVariant3,
-                    binding?.tvAnswer3Nuber,
-                    binding?.tvAnswer3,
-                    VariantStates.WRONG
-                )
-
+        viewModel.progress.observe(viewLifecycleOwner){progress->
+            progress?.let {
+                binding?.tvProgressCount?.text = (progress + 1).toString()
             }
         }
 
-        binding?.layoutVariant4?.setOnClickListener {
-            if (correctAnswer == binding?.tvAnswer4?.text) {
-                checkAnswer(
-                    binding?.layoutVariant4,
-                    binding?.tvAnswer4Nuber,
-                    binding?.tvAnswer4,
-                    VariantStates.CORRECT
-                )
-            } else {
-                checkAnswer(
-                    binding?.layoutVariant4,
-                    binding?.tvAnswer4Nuber,
-                    binding?.tvAnswer4,
-                    VariantStates.WRONG
-                )
-
-            }
-        }
 
         binding?.btContinue?.setOnClickListener {
             changeContinueButtonState(ContinueBtStates.NORMAL)
+            binding?.progressIndicator?.progress = binding?.progressIndicator?.progress?.plus(1) ?: 0
+            binding?.rcViewVariants?.isClickable = true
 
-            checkAnswer(binding?.layoutVariant1, binding?.tvAnswer1Nuber, binding?.tvAnswer1, VariantStates.NORMAL
-            )
-            checkAnswer(binding?.layoutVariant2, binding?.tvAnswer2Nuber, binding?.tvAnswer2, VariantStates.NORMAL
-            )
-            checkAnswer(binding?.layoutVariant4, binding?.tvAnswer4Nuber, binding?.tvAnswer4,VariantStates.NORMAL
-            )
-            checkAnswer(binding?.layoutVariant3, binding?.tvAnswer3Nuber, binding?.tvAnswer3,VariantStates.NORMAL
-            )
-
-            increaseStep()
-
-            if(listOfWords.size > 0) {
-                showQuestion()
-            }else {
+            if (viewModel.questionsList.isNotEmpty()){
+                viewModel.setNewQuestion()
+            }
+            else{
                 showResult()
+            }
+        }
+
+        viewModel.question.observe(viewLifecycleOwner){question->
+            question?.let {
+                val list = mutableListOf<Pair<String, String>>()
+                binding?.tvQuestionWord?.text = question.question
+                val map = question.variants
+                map.forEach { s, s2 ->
+                    list.add(Pair(s,s2))
+                }
+                variantsAdapter.submitList(list)
             }
         }
 
         binding?.btSkip?.setOnClickListener {
-            questionModel?.let { listOfWords.add(0, it) }
-
-            if (listOfWords.size > 0) {
-                showQuestion()
-            } else {
-                showResult()
-            }
+                viewModel.skipQuestion()
         }
 
         binding?.imageButtonClose?.setOnClickListener {
@@ -172,36 +125,6 @@ class QuizFragment : Fragment() {
 
     }
 
-    private fun handleOnSuccessResult(listOfQuestions: List<QuizQuestionsModel>){
-        listOfWords.addAll(listOfQuestions)
-
-        binding?.progressIndicator?.max = listOfWords.size
-        binding?.tvProgressCount?.text = listOfWords.size.toString()
-        countOfAllQuestions = listOfWords.size
-
-        listOfWords.shuffle()
-        showQuestion()
-        binding?.progressBarLoadingData?.isVisible = false
-    }
-
-    private fun increaseStep() {
-        binding?.tvProgressCount?.text = listOfWords.size.toString()
-        binding?.progressIndicator?.progress = binding?.progressIndicator?.progress?.plus(1) ?: 0
-    }
-
-    private fun showQuestion(){
-        questionModel = listOfWords.last()
-        listOfWords.removeLast()
-        val questionWord = questionModel?.question
-        val answerWords = questionModel?.answers?.shuffled()
-        correctAnswer = questionModel?.correctAnswer
-        binding?.tvQuestionWord?.text = questionWord
-
-        binding?.tvAnswer1?.text = answerWords?.get(0)
-        binding?.tvAnswer2?.text = answerWords?.get(1)
-        binding?.tvAnswer3?.text = answerWords?.get(2)
-        binding?.tvAnswer4?.text = answerWords?.get(3)
-    }
 
     private fun showResult(){
         countOfAllQuestions?.let {
@@ -232,7 +155,7 @@ class QuizFragment : Fragment() {
         binding?.tvCorrectOrWrong?.text = "Correct!"
         binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
 
-        false.changeVariantsClickState()
+//        false.changeVariantsClickState()
     }
 
     private fun handleWrongAnswerButton() {
@@ -243,179 +166,21 @@ class QuizFragment : Fragment() {
         binding?.tvCorrectOrWrong?.text = "Wrong!"
         binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
 
-        false.changeVariantsClickState()
+//        false.changeVariantsClickState()
     }
 
     private fun normalStateContinueButton() {
         binding?.continueButtonLayout?.isVisible = false
         binding?.btSkip?.isVisible = true
 
-        true.changeVariantsClickState()
+//        true.changeVariantsClickState()
     }
 
-    private  fun Boolean.changeVariantsClickState() {
-        binding?.layoutVariant1?.isClickable = this
-        binding?.layoutVariant2?.isClickable = this
-        binding?.layoutVariant3?.isClickable = this
-        binding?.layoutVariant4?.isClickable = this
-    }
-    private fun checkAnswer(
-        layout: LinearLayout?,
-        textViewVariantNumber: TextView?,
-        textViewVariantValue: TextView?,
-        variantStates: VariantStates
 
-    ) {
-        when (variantStates) {
-            VariantStates.CORRECT -> handleCorrectAnswer(
-                layout,
-                textViewVariantNumber,
-                textViewVariantValue
-            )
+    private fun checkAnswer() {
 
-            VariantStates.WRONG -> handleWrongAnswer(
-                layout,
-                textViewVariantNumber,
-                textViewVariantValue
-            )
-
-            VariantStates.NORMAL -> variantsNormalState(
-                layout,
-                textViewVariantNumber,
-                textViewVariantValue
-            )
-        }
     }
 
-    private fun handleCorrectAnswer(
-        layout: LinearLayout?,
-        textViewVariantNumber: TextView?,
-        textViewVariantValue: TextView?,
-    ) {
-        layout?.background = ContextCompat.getDrawable(
-            requireContext(),
-            R.drawable.shape_rounded_containers_correct
-        )
-
-        textViewVariantNumber?.background = ContextCompat.getDrawable(
-            requireContext(),
-            R.drawable.shape_rounded_variants_correct
-        )
-
-        textViewVariantNumber?.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.white
-            )
-        )
-
-        textViewVariantValue?.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.green
-            )
-        )
-
-        changeContinueButtonState(ContinueBtStates.CORRECT)
-    }
-
-    private fun handleWrongAnswer(
-        layout: LinearLayout?,
-        textViewVariantNumber: TextView?,
-        textViewVariantValue: TextView?,
-    ){
-            layout?.background = ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.shape_rounded_containers_wrong
-            )
-
-            textViewVariantNumber?.background = ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.shape_rounded_variants_wrong
-            )
-
-            textViewVariantNumber?.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.white
-                )
-            )
-
-            textViewVariantValue?.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                R.color.red
-            ))
-
-            wrongAnswer++
-
-            when(correctAnswer){
-                binding?.tvAnswer1?.text -> {
-                    handleCorrectAnswer(
-                        binding?.layoutVariant1,
-                        binding?.tvAnswer1Nuber,
-                        binding?.tvAnswer1
-                    )
-                }
-
-                binding?.tvAnswer2?.text ->{
-                    handleCorrectAnswer(
-                        binding?.layoutVariant2,
-                        binding?.tvAnswer2Nuber,
-                        binding?.tvAnswer2
-                    )
-                }
-
-                binding?.tvAnswer3?.text ->{
-                    handleCorrectAnswer(
-                        binding?.layoutVariant3,
-                        binding?.tvAnswer3Nuber,
-                        binding?.tvAnswer3
-                    )
-                }
-
-                binding?.tvAnswer4?.text ->{
-                    handleCorrectAnswer(
-                        binding?.layoutVariant4,
-                        binding?.tvAnswer4Nuber,
-                        binding?.tvAnswer4
-                    )
-                }
-            }
-        changeContinueButtonState(ContinueBtStates.WRONG)
-    }
-
-    private fun variantsNormalState(
-        layout: LinearLayout?,
-        textViewVariantNumber: TextView?,
-        textViewVariantValue: TextView?,
-    ) {
-
-        layout?.background = ContextCompat.getDrawable(
-            requireContext(),
-            R.drawable.shape_rounded_containers
-        )
-
-        textViewVariantNumber?.background = ContextCompat.getDrawable(
-            requireContext(),
-            R.drawable.shape_rounded_variants
-        )
-
-        textViewVariantNumber?.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.textVariantsColor
-            )
-        )
-
-        textViewVariantValue?.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.textVariantsColor
-            )
-        )
-
-        changeContinueButtonState(ContinueBtStates.NORMAL)
-    }
 
 
     private enum class ContinueBtStates{

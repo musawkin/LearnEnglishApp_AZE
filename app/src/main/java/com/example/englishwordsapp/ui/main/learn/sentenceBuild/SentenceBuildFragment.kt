@@ -42,11 +42,11 @@ class SentenceBuildFragment : Fragment() {
 
         val difficultyLevel = arguments?.getString("difficultyLevel")
 
-        viewModel.questionModelData.observe(viewLifecycleOwner) { result ->
+        viewModel.responseModelData.observe(viewLifecycleOwner) { result ->
             result?.let {
                 when (result) {
                     is SentenceBuildState.Success -> {
-                        handleOnSuccessResult(result.listOfQuestions)
+                        setQuestion(result.sentenceModel)
                     }
                     is SentenceBuildState.Error -> {
                         Toast.makeText(
@@ -68,14 +68,8 @@ class SentenceBuildFragment : Fragment() {
         }
 
         binding?.btSkip?.setOnClickListener {
-            sentenceModelForSkipButton?.let { listOfSentences.add(0, it) }
             changeContinueButtonState(ContinueBtStates.NORMAL)
 
-            if (listOfSentences.size > 0){
-                setQuestion()
-            }else{
-                Toast.makeText(requireContext(), "Result", Toast.LENGTH_SHORT).show()
-            }
         }
 
         binding?.btContinue?.setOnClickListener {
@@ -88,31 +82,18 @@ class SentenceBuildFragment : Fragment() {
         }
     }
 
-    private fun handleOnSuccessResult(listOfQuestions: List<SentenceModel>){
-        listOfSentences.addAll(listOfQuestions)
 
-        listOfSentences.shuffle()
-        setQuestion()
-
-        binding?.progressIndicator?.max = listOfSentences.size
-        binding?.tvProgressCount?.text = listOfSentences.size.toString()
-
-        binding?.progressBarLoadingData?.isVisible = false
-    }
-
-    private fun  setQuestion(){
+    private fun  setQuestion(sentenceModel: SentenceModel){
         binding?.suggestedChipGroup?.removeAllViews()
         binding?.answerChipGroup?.removeAllViews()
         suggestedList.clear()
         answerList.clear()
 
-        binding?.tvSentenceInAze?.text = listOfSentences.last().question
-        sentenceModelForSkipButton = listOfSentences.last()
-        suggestedList.addAll(listOfSentences.last().answerWordsList)
+        binding?.tvSentenceInAze?.text = sentenceModel.question
+        suggestedList.addAll(sentenceModel.answerWordsList)
         suggestedList.shuffle()
         createSuggestedView()
         createAnsweredView()
-        listOfSentences.removeLast()
     }
 
     private fun createSuggestedView() {
@@ -174,34 +155,30 @@ class SentenceBuildFragment : Fragment() {
 
     private fun checkAnswerList() {
 
-        if (listOfSentences.size > 0) {
-            val rightAnswerList = sentenceModelForSkipButton?.answerWordsList
 
-            var isRight = false
-
-            isRight = answerList.size != 0 && answerList == rightAnswerList
-            changeContinueButtonState(ContinueBtStates.CORRECT)
-
-            if (isRight) {
-
-                setQuestion()
-
-                binding?.tvProgressCount?.text = listOfSentences.size.toString()
-                binding?.progressIndicator?.progress = binding?.progressIndicator?.progress!! + 1
-
-            } else {
-                changeContinueButtonState(ContinueBtStates.WRONG)
-            }
-        }else {
-            val sentence = listOfSentences[sentenceIndex]
-            val rightAnswerList = sentence.answerWordsList
-            if(answerList.size != 0 && answerList == rightAnswerList){
-                Toast.makeText(requireContext(), "Done", Toast.LENGTH_LONG).show()
-
-            }else{
-                changeContinueButtonState(ContinueBtStates.WRONG)
-            }
-        }
+//            isRight = answerList.size != 0 && answerList == rightAnswerList
+//            changeContinueButtonState(ContinueBtStates.CORRECT)
+//
+//            if (isRight) {
+//
+//                setQuestion()
+//
+//                binding?.tvProgressCount?.text = listOfSentences.size.toString()
+//                binding?.progressIndicator?.progress = binding?.progressIndicator?.progress!! + 1
+//
+//            } else {
+//                changeContinueButtonState(ContinueBtStates.WRONG)
+//            }
+//        }else {
+//            val sentence = listOfSentences[sentenceIndex]
+//            val rightAnswerList = sentence.answerWordsList
+//            if(answerList.size != 0 && answerList == rightAnswerList){
+//                Toast.makeText(requireContext(), "Done", Toast.LENGTH_LONG).show()
+//
+//            }else{
+//                changeContinueButtonState(ContinueBtStates.WRONG)
+//            }
+//        }
     }
 
     private fun changeContinueButtonState(buttonState: ContinueBtStates){

@@ -69,8 +69,6 @@ class TranslationWordsFragment : Fragment() {
                     is VocabularyState.Loading -> {
                         binding?.progressBarLoadingData?.isVisible = result.isLoading
                     }
-
-                    else -> {  }
                 }
             }
         }
@@ -116,7 +114,6 @@ class TranslationWordsFragment : Fragment() {
         binding?.ivFilterginSearch?.setOnClickListener {
             showFilterDialog()
         }
-
     }
 
     override fun onDestroy() {
