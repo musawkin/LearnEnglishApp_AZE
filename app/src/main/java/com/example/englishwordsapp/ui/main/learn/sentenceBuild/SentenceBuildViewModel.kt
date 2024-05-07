@@ -21,18 +21,38 @@ class SentenceBuildViewModel @Inject constructor(
     private val _responseModelData = MutableLiveData<SentenceBuildState>()
     val responseModelData: LiveData<SentenceBuildState> = _responseModelData
 
+    private val _countOfQuestions = MutableLiveData<Int>(0)
+    val countOfQuestions: LiveData<Int> = _countOfQuestions
+
+
+    private val _progress = MutableLiveData(0)
+    val progress: LiveData<Int> = _progress
+
     private val _questionModel = MutableLiveData<SentenceModel>()
     val questionModel: LiveData<SentenceModel> = _questionModel
 
     private var questionModelForSkipButton: SentenceModel? = null
     val sentencesList = mutableListOf<SentenceModel>()
 
-    fun chekAnswer(answer: List<String>){
+    fun chekAnswer(answer: List<String>): Boolean{
         if (answer == _questionModel.value?.answerWordsList){
-
+            return true
         }else{
-
+            return false
         }
+    }
+    fun setQuestion(){
+        val word = sentencesList.removeLast()
+        questionModelForSkipButton = word
+        _questionModel.value = word
+        _progress.value = sentencesList.size
+    }
+
+    fun skipQuestion(){
+        questionModelForSkipButton?.let { sentencesList.add(0, it) }
+        val word = sentencesList.removeLast()
+        questionModelForSkipButton = word
+        _questionModel.value = word
     }
     fun getSentenceModel(level: String) {
         _responseModelData.postValue(SentenceBuildState.Loading(true))
@@ -44,11 +64,11 @@ class SentenceBuildViewModel @Inject constructor(
                             _responseModelData.postValue(SentenceBuildState.Loading(false))
                             sentencesList.addAll(it.data)
                             withContext(Dispatchers.Main){
-//                                _countOfQuestions.value = questionsList.size
+                                _countOfQuestions.value = sentencesList.size
                                 val word = sentencesList.removeLast()
                                 questionModelForSkipButton = word
                                 _questionModel.value = word
-//                                _progress.value = questionsList.size
+                                _progress.value = sentencesList.size
                             }
                             _responseModelData.postValue(SentenceBuildState.Success(_questionModel.value!!))
                         }

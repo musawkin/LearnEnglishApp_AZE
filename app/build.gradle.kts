@@ -6,6 +6,8 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
+    id("kotlin-android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -70,7 +72,7 @@ dependencies {
 
     //daggerHilt
     implementation("com.google.dagger:hilt-android:2.46.1")
-    implementation("com.google.firebase:firebase-firestore:24.10.3")
+    implementation("com.google.firebase:firebase-firestore:24.11.1")
     kapt("com.google.dagger:hilt-android-compiler:2.46.1")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -79,12 +81,14 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.13.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.android.car.ui:car-ui-lib:2.6.0")
 
+    //paging 3
+    implementation ("androidx.paging:paging-runtime-ktx:3.2.1")
 
     //navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")

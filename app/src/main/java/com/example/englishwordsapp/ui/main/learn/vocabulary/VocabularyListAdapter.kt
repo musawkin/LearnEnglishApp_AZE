@@ -29,6 +29,13 @@ class VocabularyListAdapter: ListAdapter<SimpleWordsModel, VocabularyListAdapter
 
     }
 
+    fun addItems(newItems: List<SimpleWordsModel>) {
+        val oldList = mutableListOf<SimpleWordsModel>()
+        oldList.addAll(currentList)
+        oldList.addAll(newItems)
+        submitList(oldList)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VocabularyWH {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ExampleWordTranslationBinding.inflate(inflater, parent, false)

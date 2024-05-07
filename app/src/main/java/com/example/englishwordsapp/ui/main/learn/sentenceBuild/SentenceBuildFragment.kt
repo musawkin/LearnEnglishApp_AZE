@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.FragmentSentenceBuildBinding
+import com.example.englishwordsapp.ui.main.learn.ResultDialogFragment
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,11 +20,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class SentenceBuildFragment : Fragment() {
     private var binding: FragmentSentenceBuildBinding? = null
     private val viewModel by viewModels<SentenceBuildViewModel>()
+    private var countOfAllQuestions: Int? = null
+    private var wrongAnswer = 0
     private val answerList = mutableListOf<String>()
     private val suggestedList = mutableListOf<String>()
-    private var listOfSentences = mutableListOf<SentenceModel>()
-    private var sentenceModelForSkipButton: SentenceModel? = null
-    private var sentenceIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,6 @@ class SentenceBuildFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val difficultyLevel = arguments?.getString("difficultyLevel")
-
         viewModel.responseModelData.observe(viewLifecycleOwner) { result ->
             result?.let {
                 when (result) {
@@ -63,18 +62,47 @@ class SentenceBuildFragment : Fragment() {
         }
         difficultyLevel?.let { viewModel.getSentenceModel(it) }
 
+        viewModel.countOfQuestions.observe(viewLifecycleOwner){count->
+            count?.let {
+                countOfAllQuestions = count
+                binding?.progressIndicator?.max = count
+            }
+        }
+
+        viewModel.progress.observe(viewLifecycleOwner){progress->
+            progress?.let {
+                binding?.tvProgressCount?.text = (progress + 1).toString()
+            }
+        }
+
         binding?.btConfirm?.setOnClickListener {
-            checkAnswerList()
+            if (viewModel.chekAnswer(answerList)){
+                changeContinueButtonState(ContinueBtStates.CORRECT)
+            }else{
+                changeContinueButtonState(ContinueBtStates.WRONG)
+                wrongAnswer++
+            }
         }
 
         binding?.btSkip?.setOnClickListener {
-            changeContinueButtonState(ContinueBtStates.NORMAL)
+            viewModel.skipQuestion()
+        }
 
+        viewModel.questionModel.observe(viewLifecycleOwner){question->
+            question?.let {
+                setQuestion(question)
+            }
         }
 
         binding?.btContinue?.setOnClickListener {
-            checkAnswerList()
             changeContinueButtonState(ContinueBtStates.NORMAL)
+            binding?.progressIndicator?.progress = binding?.progressIndicator?.progress?.plus(1) ?: 0
+
+            if (viewModel.sentencesList.isNotEmpty()){
+                viewModel.setQuestion()
+            }else{
+                showResult()
+            }
         }
 
         binding?.imageButtonClose?.setOnClickListener {
@@ -153,32 +181,17 @@ class SentenceBuildFragment : Fragment() {
         binding?.answerChipGroup?.removeView(chip)
     }
 
-    private fun checkAnswerList() {
-
-
-//            isRight = answerList.size != 0 && answerList == rightAnswerList
-//            changeContinueButtonState(ContinueBtStates.CORRECT)
-//
-//            if (isRight) {
-//
-//                setQuestion()
-//
-//                binding?.tvProgressCount?.text = listOfSentences.size.toString()
-//                binding?.progressIndicator?.progress = binding?.progressIndicator?.progress!! + 1
-//
-//            } else {
-//                changeContinueButtonState(ContinueBtStates.WRONG)
-//            }
-//        }else {
-//            val sentence = listOfSentences[sentenceIndex]
-//            val rightAnswerList = sentence.answerWordsList
-//            if(answerList.size != 0 && answerList == rightAnswerList){
-//                Toast.makeText(requireContext(), "Done", Toast.LENGTH_LONG).show()
-//
-//            }else{
-//                changeContinueButtonState(ContinueBtStates.WRONG)
-//            }
-//        }
+    private fun showResult(){
+        countOfAllQuestions?.let {
+            val countOfCorrectAnswer = it - wrongAnswer
+            val dialogFragment = ResultDialogFragment()
+            dialogFragment.isCancelable = false
+            dialogFragment.setScore(countOfCorrectAnswer.toString(), wrongAnswer.toString())
+            dialogFragment.show(
+                parentFragmentManager,
+                ResultDialogFragment::class.java.canonicalName
+            )
+        }
     }
 
     private fun changeContinueButtonState(buttonState: ContinueBtStates){
@@ -197,21 +210,25 @@ class SentenceBuildFragment : Fragment() {
         binding?.tvCorrectOrWrong?.text = "Correct!"
         binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
 
+        binding?.btConfirm?.isClickable = false
     }
 
     private fun handleWrongAnswerButton() {
+        binding?.btSkip?.isVisible = false
         binding?.continueButtonLayout?.isVisible = true
         binding?.continueButtonLayout?.setBackgroundResource(R.color.red)
         binding?.imageView?.setImageResource(R.drawable.ic_incorrect)
         binding?.tvCorrectOrWrong?.text = "Wrong!"
         binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
 
+        binding?.btConfirm?.isClickable = false
     }
 
     private fun normalStateContinueButton() {
         binding?.continueButtonLayout?.isVisible = false
         binding?.btSkip?.isVisible = true
 
+        binding?.btConfirm?.isClickable = true
     }
 
     private enum class ContinueBtStates{

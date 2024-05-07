@@ -2,6 +2,7 @@ package com.example.englishwordsapp.ui.main.learn.vocabulary
 
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,13 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.paging.PagedList
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.englishwordsapp.databinding.FragmentTranslationWordsBinding
 import com.example.englishwordsapp.ui.main.learn.FilterWordsDialogFragment
 import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
+import com.google.firebase.firestore.DocumentSnapshot
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -24,7 +29,7 @@ class TranslationWordsFragment : Fragment() {
     private val listOfWords = mutableListOf<SimpleWordsModel>()
     private lateinit var textToSpeech: TextToSpeech
     private val viewModel by viewModels<VocabularyTranslationViewModel>()
-
+    private var lastLoadedItem: SimpleWordsModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,12 +56,35 @@ class TranslationWordsFragment : Fragment() {
 
         binding?.rcView?.adapter = adapterForWords
 
+
+        binding?.rcView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                Log.d("MUSA222", "isLoading:${viewModel.isLoading} ")
+                Log.d("MUSA222", "isLastPage:${viewModel.isLastPage} ")
+
+                if (!viewModel.isLoading && !viewModel.isLastPage) {
+                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
+                        // Вызов метода загрузки следующей страницы данных во вьюмодели
+                        viewModel.loadNextPageOfWords("beginner_level", adapterForWords.currentList.lastOrNull())
+                    }
+                }
+            }
+        })
+
         viewModel.wordsModelData.observe(viewLifecycleOwner) { result ->
             result?.let {
                 when (result) {
                     is VocabularyState.Success -> {
-                        adapterForWords.submitList(result.listOfQuestions)
-                        listOfWords.addAll(result.listOfQuestions)
+                        adapterForWords.addItems(result.listOfWords)
+//                        listOfWords.addAll(result.listOfWords)
+                        lastLoadedItem = result.listOfWords.lastOrNull()
+
                         binding?.progressBarLoadingData?.isVisible = false
                     }
                     is VocabularyState.Error -> {
