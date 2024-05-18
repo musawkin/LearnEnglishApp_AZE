@@ -26,7 +26,6 @@ class QuizFragment : Fragment() {
     private var countOfAllQuestions: Int? = null
     private var wrongAnswer = 0
     private val variantsAdapter by lazy { QuizVariantsListAdapter() }
-    private val listOfWords = mutableListOf<QuizQuestionsModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

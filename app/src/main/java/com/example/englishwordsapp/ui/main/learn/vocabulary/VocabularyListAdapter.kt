@@ -2,26 +2,27 @@ package com.example.englishwordsapp.ui.main.learn.vocabulary
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.englishwordsapp.databinding.ExampleWordTranslationBinding
 import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
 
-class VocabularyListAdapter: ListAdapter<SimpleWordsModel, VocabularyListAdapter.VocabularyWH>(DIFF_UTIL) {
+class VocabularyListAdapter: PagingDataAdapter<SimpleWordsModel, VocabularyListAdapter.VocabularyWH>(DIFF_UTIL) {
 
-    private var onItemClik: ((word: SimpleWordsModel) -> Unit)? = null
+    private var onItemClick: ((word: SimpleWordsModel?) -> Unit)? = null
 
-    fun onItemClickListener(onItemClick: (word: SimpleWordsModel) -> Unit){
-        this.onItemClik = onItemClick
+    fun onItemClickListener(onItemClick: (word: SimpleWordsModel?) -> Unit){
+        this.onItemClick = onItemClick
     }
     class VocabularyWH(
         private val binding: ExampleWordTranslationBinding
     ): ViewHolder(binding.root) {
-        fun bind(data: SimpleWordsModel, onItemClick: ((word: SimpleWordsModel) -> Unit)?){
-            binding.tvWordInEng.text = data.word
-            binding.tvWordInAze.text = data.translationToAze
-            binding.tvWordTranscript.text = data.transcription
+        fun bind(data: SimpleWordsModel?, onItemClick: ((word: SimpleWordsModel?) -> Unit)?){
+            binding.tvWordInEng.text = data?.word
+            binding.tvWordInAze.text = data?.translationToAze
+            binding.tvWordTranscript.text = data?.transcription
             binding.imagePlaySpeaker.setOnClickListener {
                 onItemClick?.invoke(data)
             }
@@ -29,12 +30,6 @@ class VocabularyListAdapter: ListAdapter<SimpleWordsModel, VocabularyListAdapter
 
     }
 
-    fun addItems(newItems: List<SimpleWordsModel>) {
-        val oldList = mutableListOf<SimpleWordsModel>()
-        oldList.addAll(currentList)
-        oldList.addAll(newItems)
-        submitList(oldList)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VocabularyWH {
         val inflater = LayoutInflater.from(parent.context)
@@ -43,7 +38,7 @@ class VocabularyListAdapter: ListAdapter<SimpleWordsModel, VocabularyListAdapter
     }
 
     override fun onBindViewHolder(holder: VocabularyWH, position: Int) {
-        holder.bind(currentList[position], onItemClik)
+        holder.bind(getItem(position), onItemClick)
     }
 
     companion object{

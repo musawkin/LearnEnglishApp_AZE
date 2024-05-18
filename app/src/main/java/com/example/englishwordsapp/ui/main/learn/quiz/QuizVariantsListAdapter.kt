@@ -1,6 +1,5 @@
 package com.example.englishwordsapp.ui.main.learn.quiz
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -25,7 +24,7 @@ class QuizVariantsListAdapter : ListAdapter<Pair<String, String>, QuizVariantsLi
     ) : ViewHolder(binding.root) {
         private var correctItem = 0L
         fun bind(data: Pair<String, String>, position: Int, onItemClick: ((variant: Pair<String, String>) -> Unit)?) {
-            binding.tvContainerNumber.text = (position + 1).toString()
+            binding.tvContainerNumber.setText(position + 1)
             binding.tvContainerAnswer.text = data.second
 
             binding.linearLayout.setBackgroundResource(R.drawable.shape_rounded_containers)
@@ -62,7 +61,7 @@ class QuizVariantsListAdapter : ListAdapter<Pair<String, String>, QuizVariantsLi
     }
 
     override fun onBindViewHolder(holder: QuizWH, position: Int) {
-        holder.bind(currentList[position], position, onItemClick)
+        holder.bind(getItem(position), position, onItemClick)
 
     }
 

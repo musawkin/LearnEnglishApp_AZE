@@ -11,10 +11,13 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.englishwordsapp.databinding.FragmentTranslationWordsBinding
+import com.example.englishwordsapp.extensions.collectFlow
 import com.example.englishwordsapp.ui.main.learn.FilterWordsDialogFragment
 import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
 import com.google.firebase.firestore.DocumentSnapshot
@@ -26,10 +29,10 @@ class TranslationWordsFragment : Fragment() {
 
     private var binding: FragmentTranslationWordsBinding? = null
     private val adapterForWords by lazy { VocabularyListAdapter() }
+    private val loadingAdapter by lazy { LoaderStateAdapter() }
     private val listOfWords = mutableListOf<SimpleWordsModel>()
     private lateinit var textToSpeech: TextToSpeech
     private val viewModel by viewModels<VocabularyTranslationViewModel>()
-    private var lastLoadedItem: SimpleWordsModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,67 +57,29 @@ class TranslationWordsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.rcView?.adapter = adapterForWords
+        binding?.rcView?.adapter = adapterForWords.withLoadStateFooter(loadingAdapter)
 
-
-        binding?.rcView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val visibleItemCount = layoutManager.childCount
-                val totalItemCount = layoutManager.itemCount
-                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-
-                Log.d("MUSA222", "isLoading:${viewModel.isLoading} ")
-                Log.d("MUSA222", "isLastPage:${viewModel.isLastPage} ")
-
-                if (!viewModel.isLoading ) {
-                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
-                        // Вызов метода загрузки следующей страницы данных во вьюмодели
-                        viewModel.loadNextPageOfWords("beginner_level", adapterForWords.currentList.lastOrNull())
-                    }
-                }
-            }
-        })
-
+        collectFlow(adapterForWords.loadStateFlow, ::onAdapterLoadingChange)
         viewModel.wordsModelData.observe(viewLifecycleOwner) { result ->
-            result?.let {
-                when (result) {
-                    is VocabularyState.Success -> {
-                        adapterForWords.addItems(result.listOfWords)
-//                        listOfWords.addAll(result.listOfWords)
-                        lastLoadedItem = result.listOfWords.lastOrNull()
-
-                        binding?.progressBarLoadingData?.isVisible = false
-                    }
-                    is VocabularyState.Error -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "Error: ${result.errorException}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    is VocabularyState.Loading -> {
-                        binding?.progressBarLoadingData?.isVisible = result.isLoading
-                    }
+            when(result){
+                is VocabularyState.Success -> {
+                    adapterForWords.submitData(viewLifecycleOwner.lifecycle, result.listOfWords)
                 }
+
+                is VocabularyState.Error -> {}
+                is VocabularyState.Loading -> {}
             }
+
         }
-        viewModel.getWordsList("beginner_level")
+        viewModel.getWordsWithPaging()
 
         adapterForWords.onItemClickListener { word->
-            textToSpeech.setLanguage(Locale.US)
-            textToSpeech.speak(word.word, TextToSpeech.QUEUE_FLUSH, null, null)
+            word?.let {
+                textToSpeech.setLanguage(Locale.US)
+                textToSpeech.speak(word.word, TextToSpeech.QUEUE_FLUSH, null, null)
+            }
         }
 
-//        adapterForWords.setOnClickListener(object : VocabularyAdapter.RvOnClickListener {
-//            override fun onClick(data: SimpleWordsModel) {
-//            }
-//            override fun playSpeaker(text: String, position: Int) {
-//                textToSpeech.setLanguage(Locale.US)
-//                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
-//            }
-//        })
 
         binding?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -132,7 +97,7 @@ class TranslationWordsFragment : Fragment() {
                             ignoreCase = true
                         ) == true
                     }.toMutableList()
-                    adapterForWords.submitList(filteredList)
+//                    adapterForWords.submitList(filteredList)
                     return true
                 }
                 return false
@@ -142,6 +107,10 @@ class TranslationWordsFragment : Fragment() {
         binding?.ivFilterginSearch?.setOnClickListener {
             showFilterDialog()
         }
+    }
+
+    private fun onAdapterLoadingChange(combinedLoadStates: CombinedLoadStates) {
+        binding?.progressBar?.isVisible = (combinedLoadStates.refresh == LoadState.Loading)
     }
 
     override fun onDestroy() {
@@ -156,5 +125,6 @@ class TranslationWordsFragment : Fragment() {
         val dialog = FilterWordsDialogFragment()
         dialog.show(childFragmentManager, "FilterDialog")
     }
+
 
 }
