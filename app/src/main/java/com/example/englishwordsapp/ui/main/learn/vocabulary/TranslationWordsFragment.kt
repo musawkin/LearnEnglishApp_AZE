@@ -68,7 +68,7 @@ class TranslationWordsFragment : Fragment() {
                 Log.d("MUSA222", "isLoading:${viewModel.isLoading} ")
                 Log.d("MUSA222", "isLastPage:${viewModel.isLastPage} ")
 
-                if (!viewModel.isLoading && !viewModel.isLastPage) {
+                if (!viewModel.isLoading ) {
                     if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
                         // Вызов метода загрузки следующей страницы данных во вьюмодели
                         viewModel.loadNextPageOfWords("beginner_level", adapterForWords.currentList.lastOrNull())

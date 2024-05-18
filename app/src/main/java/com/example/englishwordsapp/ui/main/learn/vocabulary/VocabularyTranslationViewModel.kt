@@ -32,7 +32,8 @@ class VocabularyTranslationViewModel @Inject constructor(
                         is ResultWrapper.Success -> {
                             wordsModelData.postValue(VocabularyState.Loading(false))
                             isLoading = false
-                            isLastPage = it.data.size < 3
+                            isLastPage = it.data.isNotEmpty()
+
                             wordsModelData.postValue(VocabularyState.Success(it.data))
                         }
                         is ResultWrapper.Error -> {
@@ -56,7 +57,7 @@ class VocabularyTranslationViewModel @Inject constructor(
                         is ResultWrapper.Success -> {
                             isLoading = false // Устанавливаем флаг isLoading в false после завершения загрузки
                             // Проверяем, есть ли данные на следующей странице, и устанавливаем соответствующий флаг isLastPage
-                            isLastPage = it.data.size < 3
+                            isLastPage = it.data.isNotEmpty()
                             wordsModelData.postValue(VocabularyState.Success(it.data))
                         }
                         is ResultWrapper.Error -> {
