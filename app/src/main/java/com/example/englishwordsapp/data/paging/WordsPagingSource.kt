@@ -20,14 +20,14 @@ class WordsPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<QuerySnapshot>): LoadResult<QuerySnapshot, SimpleWordsModel> {
         return try {
             val currentPage = params.key ?: db.collection("wordsForVocabulary")
-                .limit(10)
+                .limit(30)
                 .get()
                 .await()
 
             val lastDocumentSnapshot = currentPage.documents[currentPage.size() - 1]
 
             val nextPage = db.collection("wordsForVocabulary")
-                .limit(10)
+                .limit(30)
                 .startAfter(lastDocumentSnapshot)
                 .get()
                 .await()

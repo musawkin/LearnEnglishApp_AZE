@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 
 fun Fragment.findTopNavController(): NavController {
-        val topLevelHost = requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentContainerInActivity) as NavHostFragment?
+        val topLevelHost = requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentContainerMainGraph) as NavHostFragment?
         return topLevelHost?.navController ?: findNavController()
     }
 

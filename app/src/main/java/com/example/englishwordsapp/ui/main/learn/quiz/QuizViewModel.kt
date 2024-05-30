@@ -47,6 +47,7 @@ class QuizViewModel @Inject constructor(
         _question.value = word
     }
 
+    //TODO : Buna baxmaq lazımdır
     fun getQuestionList(difficultyLevel: String){
         _questionModelData.postValue(QuizState.Loading(true))
         viewModelScope.launch {

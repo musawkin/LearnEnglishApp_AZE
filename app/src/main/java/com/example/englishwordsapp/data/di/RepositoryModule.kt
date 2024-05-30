@@ -7,8 +7,6 @@ import com.example.englishwordsapp.data.repositories.SentenceBuildRepository
 import com.example.englishwordsapp.data.repositories.SentenceBuildRepositoryImpl
 import com.example.englishwordsapp.data.repositories.SpeechRecognitionRepository
 import com.example.englishwordsapp.data.repositories.SpeechRecognitionRepositoryImpl
-import com.example.englishwordsapp.data.repositories.VocabularyRepository
-import com.example.englishwordsapp.data.repositories.VocabularyRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,10 +31,7 @@ object RepositoryModule {
         return SpeechRecognitionRepositoryImpl()
     }
 
-    @Provides
-    fun provideVocabularyRepository(): VocabularyRepository{
-        return VocabularyRepositoryImpl()
-    }
+
 
 
 }

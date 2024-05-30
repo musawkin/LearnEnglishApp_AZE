@@ -44,14 +44,9 @@ class QuizFragment : Fragment() {
             result?.let {
                 when(result){
                     is QuizState.Success ->{
-                        val list = mutableListOf<Pair<String, String>>()
                         binding?.progressBarLoadingData?.isVisible = false
                         binding?.tvQuestionWord?.text = result.question.question
-                        val map = result.question.variants
-                        map.forEach { s, s2 ->
-                            list.add(Pair(s,s2))
-                        }
-                        variantsAdapter.submitList(list)
+                        variantsAdapter.submitList(result.question.variants)
                     }
                     is QuizState.Error ->{
 
@@ -66,7 +61,7 @@ class QuizFragment : Fragment() {
         difficultyLevel?.let { viewModel.getQuestionList(it) }
 
         variantsAdapter.onItemClickListener { variant ->
-            if (variant.first == "true"){
+            if (variant.isCorrect){
                 changeContinueButtonState(ContinueBtStates.CORRECT)
             }
             else {
@@ -104,13 +99,8 @@ class QuizFragment : Fragment() {
 
         viewModel.question.observe(viewLifecycleOwner){question->
             question?.let {
-                val list = mutableListOf<Pair<String, String>>()
                 binding?.tvQuestionWord?.text = question.question
-                val map = question.variants
-                map.forEach { s, s2 ->
-                    list.add(Pair(s,s2))
-                }
-                variantsAdapter.submitList(list)
+                variantsAdapter.submitList(it.variants)
             }
         }
 

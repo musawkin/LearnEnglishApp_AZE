@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.FragmentLearnBinding
@@ -12,10 +13,12 @@ import com.example.englishwordsapp.extensions.findTopNavController
 import com.example.englishwordsapp.ui.main.learn.quiz.QuizFragment
 import com.example.englishwordsapp.ui.main.learn.sentenceBuild.SentenceBuildFragment
 import com.example.englishwordsapp.ui.main.learn.speechRecognition.SpeechRecognitionFragment
+import com.google.firebase.auth.FirebaseAuth
 
 
 class LearnFragment : Fragment() {
     private var binding: FragmentLearnBinding? = null
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +30,8 @@ class LearnFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setNamePhoto()
 
         binding?.btQuiz?.setOnClickListener {
             showDifficultyLevelDialog(QuizFragment(), R.id.quizFragment)
@@ -64,6 +69,21 @@ class LearnFragment : Fragment() {
         findTopNavController().navigate(fragmentID, bundle)
     }
 
+    private fun setNamePhoto(){
+        auth = FirebaseAuth.getInstance()
+
+        var currentUser = auth.currentUser
+        if (currentUser != null){
+            var name = currentUser.displayName
+            var photoUrl = currentUser.photoUrl
+            if (name!=null){
+                binding?.tvGreetings?.text = "Hi, " + name
+            }
+
+        }else{
+            Toast.makeText(requireContext(), "Error receiving data", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 
 }

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1029904544414",
+    "firebase_url": "https://learnenglishapp-bf4cb-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "learnenglishapp-bf4cb",
     "storage_bucket": "learnenglishapp-bf4cb.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.example.englishwordsapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1029904544414-8rntr8rirr1duqe4d91kjqqf8eoltmmu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.englishwordsapp",
+            "certificate_hash": "c14012eb2e1fed159ee3657a9114625ad5a05b96"
+          }
+        },
+        {
+          "client_id": "1029904544414-a5skkdsrsilteelo2u0g0aq8vfom8ck4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBA6-Deu8DWg2tSwPoBCGAzRpegyXMbIl0"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029904544414-a5skkdsrsilteelo2u0g0aq8vfom8ck4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

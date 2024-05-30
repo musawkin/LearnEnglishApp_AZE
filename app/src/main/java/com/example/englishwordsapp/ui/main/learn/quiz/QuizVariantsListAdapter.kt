@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.ExampleForQuizVariantsBinding
 
-class QuizVariantsListAdapter : ListAdapter<Pair<String, String>, QuizVariantsListAdapter.QuizWH>(
+class QuizVariantsListAdapter : ListAdapter<AnswerModel, QuizVariantsListAdapter.QuizWH>(
     DIF_UTIL
 ) {
-    private var onItemClick: ((variant: Pair<String, String>) -> Unit)? = null
+    private var onItemClick: ((variant: AnswerModel) -> Unit)? = null
 
 
-    fun onItemClickListener(onItemClick: (variant: Pair<String, String>) -> Unit) {
+    fun onItemClickListener(onItemClick: (variant: AnswerModel) -> Unit) {
         this.onItemClick = onItemClick
     }
 
@@ -23,9 +23,9 @@ class QuizVariantsListAdapter : ListAdapter<Pair<String, String>, QuizVariantsLi
         private val binding: ExampleForQuizVariantsBinding
     ) : ViewHolder(binding.root) {
         private var correctItem = 0L
-        fun bind(data: Pair<String, String>, position: Int, onItemClick: ((variant: Pair<String, String>) -> Unit)?) {
-            binding.tvContainerNumber.setText(position + 1)
-            binding.tvContainerAnswer.text = data.second
+        fun bind(data: AnswerModel, position: Int, onItemClick: ((AnswerModel) -> Unit)?) {
+            binding.tvContainerNumber.text = position.inc().toString()
+            binding.tvContainerAnswer.text = data.answer
 
             binding.linearLayout.setBackgroundResource(R.drawable.shape_rounded_containers)
             binding.tvContainerNumber.setBackgroundResource(R.drawable.shape_rounded_variants)
@@ -33,7 +33,7 @@ class QuizVariantsListAdapter : ListAdapter<Pair<String, String>, QuizVariantsLi
             binding.tvContainerAnswer.setTextColor(Color.GRAY)
 
             itemView.setOnClickListener {
-                if(data.first == "true") {
+                if(data.isCorrect) {
                     onItemClick?.invoke(data)
                     binding.linearLayout.setBackgroundResource(R.drawable.shape_rounded_containers_correct)
                     binding.tvContainerNumber.setBackgroundResource(R.drawable.shape_rounded_variants_correct)
@@ -66,20 +66,20 @@ class QuizVariantsListAdapter : ListAdapter<Pair<String, String>, QuizVariantsLi
     }
 
     companion object {
-        val DIF_UTIL = object : DiffUtil.ItemCallback<Pair<String, String>>() {
+        val DIF_UTIL = object : DiffUtil.ItemCallback<AnswerModel>() {
             override fun areItemsTheSame(
-                oldItem: Pair<String, String>,
-                newItem: Pair<String, String>
+                oldItem: AnswerModel,
+                newItem: AnswerModel
             ): Boolean {
-                return oldItem.first == newItem.first
+                return oldItem.answer == newItem.answer
             }
 
             override fun areContentsTheSame(
-                oldItem: Pair<String, String>,
-                newItem: Pair<String, String>
+                oldItem: AnswerModel,
+                newItem: AnswerModel
             ): Boolean {
-                return oldItem.first == newItem.first &&
-                        oldItem.second == newItem.second
+                return oldItem.answer == newItem.answer &&
+                        oldItem.isCorrect == newItem.isCorrect
             }
 
 

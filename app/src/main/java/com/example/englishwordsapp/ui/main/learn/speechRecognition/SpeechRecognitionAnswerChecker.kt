@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 class SpeechRecognitionAnswerChecker @Inject constructor() {
 
-    fun checkAnswer(wrightAnswer: String, userAnswer: String): Boolean{
-        return wrightAnswer == userAnswer
+    fun checkAnswer(rightAnswer: String, userAnswer: String): Boolean{
+        return rightAnswer == userAnswer
     }
 }

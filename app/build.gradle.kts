@@ -1,3 +1,5 @@
+import io.grpc.internal.SharedResourceHolder.release
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -24,8 +26,18 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("C:/Users/User/Desktop/own/myKeystore/keystore1.jks")
+            storePassword = "moisey25526"
+            keyAlias = "key0"
+            keyPassword = "moisey25526"
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -72,23 +84,28 @@ dependencies {
 
     //daggerHilt
     implementation("com.google.dagger:hilt-android:2.46.1")
-    implementation("com.google.firebase:firebase-firestore:24.11.1")
     kapt("com.google.dagger:hilt-android-compiler:2.46.1")
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    //Firebase
+    implementation("com.google.firebase:firebase-firestore:25.0.0")
+    implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
+    implementation("com.google.firebase:firebase-bom:33.0.0")
+    implementation("com.google.android.gms:play-services-auth:21.1.1")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.core:core-ktx:1.13.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
+    implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.android.car.ui:car-ui-lib:2.6.0")
 
     //paging 3
-    implementation ("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation ("androidx.paging:paging-runtime-ktx:3.3.0")
 
     //navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")

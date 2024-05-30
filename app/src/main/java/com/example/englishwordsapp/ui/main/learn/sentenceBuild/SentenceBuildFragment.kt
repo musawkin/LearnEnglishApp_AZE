@@ -76,12 +76,17 @@ class SentenceBuildFragment : Fragment() {
         }
 
         binding?.btConfirm?.setOnClickListener {
-            if (viewModel.chekAnswer(answerList)){
-                changeContinueButtonState(ContinueBtStates.CORRECT)
+            if(viewModel.sentencesList.isNotEmpty()){
+                if (viewModel.chekAnswer(answerList)){
+                    changeContinueButtonState(ContinueBtStates.CORRECT)
+                }else{
+                    changeContinueButtonState(ContinueBtStates.WRONG)
+                    wrongAnswer++
+                }
             }else{
-                changeContinueButtonState(ContinueBtStates.WRONG)
-                wrongAnswer++
+                showResult()
             }
+
         }
 
         binding?.btSkip?.setOnClickListener {
@@ -97,19 +102,13 @@ class SentenceBuildFragment : Fragment() {
         binding?.btContinue?.setOnClickListener {
             changeContinueButtonState(ContinueBtStates.NORMAL)
             binding?.progressIndicator?.progress = binding?.progressIndicator?.progress?.plus(1) ?: 0
-
-            if (viewModel.sentencesList.isNotEmpty()){
-                viewModel.setQuestion()
-            }else{
-                showResult()
-            }
+            viewModel.setQuestion()
         }
 
         binding?.imageButtonClose?.setOnClickListener {
             findNavController().popBackStack()
         }
     }
-
 
     private fun  setQuestion(sentenceModel: SentenceModel){
         binding?.suggestedChipGroup?.removeAllViews()
@@ -137,14 +136,12 @@ class SentenceBuildFragment : Fragment() {
     }
 
     private fun onSuggestedItemClicked(item: String) {
-
         answerList.add(item)
         removeSuggestedViewItem(item)
         addEmptyViewItem(item)
     }
 
     private fun onAnsweredItemClicked(item: String) {
-
         answerList.remove(item)
         removeEmptyViewItem(item)
         addSuggestedViewItem(item)

@@ -16,4 +16,5 @@ object DataSourceModule {
     fun provideQuizDatasource(firebaseFirestore: FirebaseFirestore): QuizDatasource{
         return QuizFirebaseDatasource(firebaseFirestore)
     }
+
 }

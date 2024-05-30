@@ -48,16 +48,22 @@ class SpeechRecognitionViewModel @Inject constructor(
         val word = _word.value?.word
         val isCorrect = wordsAnswerChecker.checkAnswer(word.toString(), userAnswer)
 
-        if (wordsList.isEmpty()) {
-            _state.value = SpeechRecognitionAnswerWordState.Last(countOfCorrectAnswer)
-            _progress.value = wordsList.size
-        } else {
-            if (isCorrect) {
+        when{
+            wordsList.isEmpty() && isCorrect ->{
+                countOfCorrectAnswer++
+                _state.value = _countOfQuestions.value?.let { SpeechRecognitionAnswerWordState.CorrectLast(it,countOfCorrectAnswer) }
+                _progress.value = wordsList.size
+            }
+            wordsList.isEmpty() && !isCorrect ->{
+                _state.value = _countOfQuestions.value?.let { SpeechRecognitionAnswerWordState.WrongLast(it,countOfCorrectAnswer) }
+                _progress.value = wordsList.size
+            }
+            wordsList.isNotEmpty() && isCorrect ->{
+                countOfCorrectAnswer++
                 _state.value = SpeechRecognitionAnswerWordState.CORRECT
                 _progress.value = wordsList.size
-                countOfCorrectAnswer++
-
-            } else {
+            }
+            wordsList.isNotEmpty() && !isCorrect ->{
                 _state.value = SpeechRecognitionAnswerWordState.WRONG
                 _progress.value = wordsList.size
             }

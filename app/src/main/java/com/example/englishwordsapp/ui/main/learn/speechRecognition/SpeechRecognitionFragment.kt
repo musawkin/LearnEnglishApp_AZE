@@ -22,7 +22,6 @@ import java.util.Locale
 class SpeechRecognitionFragment : Fragment() {
     private var binding: FragmentSpeechRecognitionBinding? = null
     private lateinit var textToSpeech: TextToSpeech
-    private var countOfAllQuestions: Int? = null
     private var isResultShown = false
     private val viewModel by viewModels<SpeechRecognitionViewModel>()
 
@@ -42,14 +41,12 @@ class SpeechRecognitionFragment : Fragment() {
 
         viewModel.progress.observe(viewLifecycleOwner){count->
             count?.let {
-                binding?.tvProgressCount?.text = count.toString()
-                binding?.progressIndicator?.progress = count
+                binding?.tvProgressCount?.text = (count + 1).toString()
             }
         }
 
         viewModel.countOfQuestions.observe(viewLifecycleOwner){count->
             count?.let {
-                countOfAllQuestions = count
                 binding?.progressIndicator?.max = count
             }
         }
@@ -74,29 +71,38 @@ class SpeechRecognitionFragment : Fragment() {
 
         binding?.btConfirm?.setOnClickListener {
             hideKeyboard(binding?.btConfirm!!)
+            viewModel.checkAnswer(binding?.etInputCorrectAnswer?.text.toString()
+                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() })
+
             viewModel.state.observe(viewLifecycleOwner) { state ->
                 state?.let {
                     when (state) {
-                       is SpeechRecognitionAnswerWordState.CORRECT -> {
+                        is SpeechRecognitionAnswerWordState.CORRECT -> {
                             changeContinueButtonState(ContinueBtStates.CORRECT)
                         }
 
-                       is SpeechRecognitionAnswerWordState.WRONG -> {
+                        is SpeechRecognitionAnswerWordState.WRONG -> {
                             changeContinueButtonState(ContinueBtStates.WRONG)
                         }
 
-                       is SpeechRecognitionAnswerWordState.Last -> {
-                            if (!isResultShown){
-                                showResult(state.countOfCorrectAnswer)
+                        is SpeechRecognitionAnswerWordState.CorrectLast -> {
+                            changeContinueButtonState(ContinueBtStates.CORRECT)
+                            if (!isResultShown) {
+                                showResult(state.countOfAllQuestions, state.countOfCorrectAnswer)
                                 isResultShown = true
+                            }
+                        }
 
+                        is SpeechRecognitionAnswerWordState.WrongLast -> {
+                            changeContinueButtonState(ContinueBtStates.WRONG)
+                            if (!isResultShown) {
+                                showResult(state.countOfAllQuestions, state.countOfCorrectAnswer)
+                                isResultShown = true
                             }
                         }
                     }
                 }
             }
-            viewModel.checkAnswer(binding?.etInputCorrectAnswer?.text.toString()
-                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() })
         }
 
         binding?.imagePlaySpeaker?.setOnClickListener {
@@ -109,6 +115,7 @@ class SpeechRecognitionFragment : Fragment() {
         }
 
         binding?.btContinue?.setOnClickListener {
+            increaseStep()
             changeContinueButtonState(ContinueBtStates.NORMAL)
             viewModel.startRecognition()
             viewModel.word.observe(viewLifecycleOwner){word->
@@ -143,9 +150,8 @@ class SpeechRecognitionFragment : Fragment() {
         textToSpeech.speak(word, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 
-    private fun showResult(countOfCorrectAnswer: Int){
-        countOfAllQuestions?.let {
-            val wrongAnswer = it - countOfCorrectAnswer
+    private fun showResult(countOfAllQuestions: Int, countOfCorrectAnswer: Int){
+            val wrongAnswer = countOfAllQuestions - countOfCorrectAnswer
             val dialogFragment = ResultDialogFragment()
             dialogFragment.isCancelable = false
             dialogFragment.setScore(countOfCorrectAnswer.toString(), wrongAnswer.toString())
@@ -153,14 +159,13 @@ class SpeechRecognitionFragment : Fragment() {
                 parentFragmentManager,
                 ResultDialogFragment::class.java.canonicalName
             )
-        }
+
     }
-//
-//    private fun increaseStep() {
-//        binding?.tvProgressCount?.text = listOfWords.size.toString()
-//        binding?.progressIndicator?.progress = binding?.progressIndicator?.progress?.plus(1) ?: 0
-//    }
-//
+
+    private fun increaseStep() {
+        binding?.progressIndicator?.progress = binding?.progressIndicator?.progress?.plus(1) ?: 0
+    }
+
 
     private fun changeContinueButtonState(buttonState: ContinueBtStates){
         when(buttonState){

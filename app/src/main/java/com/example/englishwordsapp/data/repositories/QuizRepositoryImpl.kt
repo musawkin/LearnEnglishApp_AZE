@@ -2,6 +2,7 @@ package com.example.englishwordsapp.data.repositories
 
 import com.example.englishwordsapp.data.datasource.QuizDatasource
 import com.example.englishwordsapp.data.model.core.ResultWrapper
+import com.example.englishwordsapp.ui.main.learn.quiz.AnswerModel
 import com.example.englishwordsapp.ui.main.learn.quiz.QuizQuestionsModel
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -16,7 +17,9 @@ class QuizRepositoryImpl @Inject constructor(
                 val mappedList = result.data.map {
                     QuizQuestionsModel(
                         question = it.question.orEmpty(),
-                        variants = it.variants.orEmpty()
+                        variants = it.variants?.mapIndexed { index, s ->
+                            AnswerModel(answer = s, isCorrect = index == it.answer)
+                        }.orEmpty()
                     )
                 }
                 emit(ResultWrapper.Success(mappedList))

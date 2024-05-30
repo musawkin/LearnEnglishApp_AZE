@@ -22,6 +22,9 @@ import com.example.englishwordsapp.ui.main.learn.FilterWordsDialogFragment
 import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
 import com.google.firebase.firestore.DocumentSnapshot
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -65,7 +68,6 @@ class TranslationWordsFragment : Fragment() {
                 is VocabularyState.Success -> {
                     adapterForWords.submitData(viewLifecycleOwner.lifecycle, result.listOfWords)
                 }
-
                 is VocabularyState.Error -> {}
                 is VocabularyState.Loading -> {}
             }
