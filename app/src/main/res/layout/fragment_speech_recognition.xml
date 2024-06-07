@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.main.learn.speechRecognition.SpeechRecognitionFragment">
 
     <View
@@ -12,23 +12,28 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/blue"
-        app:layout_constraintDimensionRatio="h,7:2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.17"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0">
+
     </View>
 
     <ImageButton
         android:id="@+id/imageButtonClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="close image button"
         android:src="@drawable/ic_close_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintVertical_bias="0.03" />
 
 
     <TextView
@@ -38,61 +43,66 @@
         android:layout_marginTop="7dp"
         android:fontFamily="@font/nunito_semibold"
         android:text="Count"
-        android:textSize="17sp"
         android:textColor="@color/white"
-        app:layout_constraintVertical_bias="0.005"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@id/progressIndicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButtonClose" />
+        app:layout_constraintTop_toTopOf="@id/topWelcomeView"
+        app:layout_constraintVertical_bias="0.87" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:paddingHorizontal="50dp"
-        app:indicatorColor="@color/green"
         style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:indicatorColor="@color/green"
+        app:layout_constraintBottom_toBottomOf="@id/topWelcomeView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvProgressCount"
+        app:layout_constraintTop_toTopOf="@id/topWelcomeView"
+        app:layout_constraintVertical_bias="0.83"
+        app:layout_constraintWidth_percent="0.8"
         app:trackColor="#EEEEEF"
-        app:trackCornerRadius="12dp"
+        app:trackCornerRadius="6dp"
+        app:trackStopIndicatorSize="0dp"
         app:trackThickness="16dp" />
 
     <ImageView
         android:id="@+id/imagePlaySpeaker"
-        android:layout_width="171dp"
-        android:layout_height="170dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@drawable/shape_rounded_variants_for_speaker"
         android:elevation="4dp"
         android:padding="5dp"
         android:src="@drawable/earphones"
-        app:layout_constraintVertical_bias="0.25"
-        app:layout_constraintBottom_toTopOf="@+id/btSkip"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressIndicator" />
+        app:layout_constraintTop_toBottomOf="@+id/topWelcomeView"
+        app:layout_constraintVertical_bias="0.16"
+        app:layout_constraintWidth_percent="0.45" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etInputCorrectAnswerLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
         android:textColorHint="#A7A8B1"
         app:hintEnabled="false"
-        android:layout_marginStart="15dp"
-        app:layout_constraintTop_toBottomOf="@id/imagePlaySpeaker"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintVertical_bias="0.27"
+        app:layout_constraintBottom_toTopOf="@+id/btSkip"
         app:layout_constraintEnd_toStartOf="@id/btConfirm"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagePlaySpeaker">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etInputCorrectAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rounded_containers_for_input_text"
-            android:hint="Write correct answer..."
+            android:hint="Write the answer..."
             android:inputType="text"
             android:padding="11.5dp" />
 
@@ -102,39 +112,41 @@
         android:id="@+id/btConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cornerRadius="14dp"
-        android:text="Confirm"
-        android:textSize="15sp"
-        android:layout_marginEnd="15dp"
-        android:paddingVertical="11dp"
         android:layout_marginBottom="-3dp"
         android:backgroundTint="@color/blue"
         android:fontFamily="@font/nunito_semibold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingVertical="11dp"
+        android:text="Confirm"
+        android:textSize="15sp"
+        app:cornerRadius="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/etInputCorrectAnswerLayout"
-        app:layout_constraintStart_toEndOf="@+id/etInputCorrectAnswerLayout"
- />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etInputCorrectAnswerLayout" />
 
     <Button
         android:id="@+id/btSkip"
-        android:layout_width="310dp"
-        android:layout_height="58dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:backgroundTint="@color/blue"
         android:text="@string/button_skip"
+        android:layout_marginHorizontal="24dp"
         android:textAllCaps="true"
+        app:layout_constraintHeight_percent="0.076"
+        app:layout_constraintWidth_percent="0.75"
         android:visibility="visible"
+        app:layout_constraintVertical_bias="0.97"
         app:layout_constraintBottom_toTopOf="@id/continueButtonLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/continueButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#0EAD69"
-        android:visibility="gone"
         android:padding="20dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -164,15 +176,15 @@
             android:id="@+id/btContinue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="15dp"
             android:background="@drawable/shape_button_footer"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/nunito_bold"
+            android:padding="18dp"
             android:text="@string/tittle_continue"
             android:textAllCaps="true"
-            android:padding="18dp"
-            android:textSize="16dp"
             android:textColor="#0EAD69"
-            android:layout_margin="15dp"
+            android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />

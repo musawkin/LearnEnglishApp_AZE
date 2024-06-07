@@ -37,6 +37,9 @@ class SpeechRecognitionViewModel @Inject constructor(
     private val wordsList = mutableListOf<SimpleWordsModel>()
     private var questionModelForSkipButton: SimpleWordsModel? = null
 
+    val wordsModelData = MutableLiveData<WordRecognitionState>()
+
+
     fun startRecognition() {
         val word = wordsList.removeLast()
         questionModelForSkipButton = word
@@ -116,7 +119,6 @@ class SpeechRecognitionViewModel @Inject constructor(
         }
     }
 
-    val wordsModelData = MutableLiveData<WordRecognitionState>()
 
 }
 

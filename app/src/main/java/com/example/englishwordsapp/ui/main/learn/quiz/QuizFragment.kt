@@ -79,7 +79,7 @@ class QuizFragment : Fragment() {
 
         viewModel.progress.observe(viewLifecycleOwner){progress->
             progress?.let {
-                binding?.tvProgressCount?.text = (progress + 1).toString()
+                binding?.tvProgressCount?.text = progress.inc().toString()
             }
         }
 
@@ -114,7 +114,6 @@ class QuizFragment : Fragment() {
 
     }
 
-
     private fun showResult(){
         countOfAllQuestions?.let {
             val countOfCorrectAnswer = it - wrongAnswer
@@ -143,8 +142,6 @@ class QuizFragment : Fragment() {
         binding?.imageView?.setImageResource(R.drawable.ic_correct)
         binding?.tvCorrectOrWrong?.text = "Correct!"
         binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
-
-//        false.changeVariantsClickState()
     }
 
     private fun handleWrongAnswerButton() {
@@ -154,29 +151,14 @@ class QuizFragment : Fragment() {
         binding?.imageView?.setImageResource(R.drawable.ic_incorrect)
         binding?.tvCorrectOrWrong?.text = "Wrong!"
         binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
-
-//        false.changeVariantsClickState()
     }
 
     private fun normalStateContinueButton() {
         binding?.continueButtonLayout?.isVisible = false
         binding?.btSkip?.isVisible = true
-
-//        true.changeVariantsClickState()
     }
-
-
-    private fun checkAnswer() {
-
-    }
-
-
 
     private enum class ContinueBtStates{
-        NORMAL, CORRECT, WRONG
-    }
-
-    private enum class VariantStates {
         NORMAL, CORRECT, WRONG
     }
 

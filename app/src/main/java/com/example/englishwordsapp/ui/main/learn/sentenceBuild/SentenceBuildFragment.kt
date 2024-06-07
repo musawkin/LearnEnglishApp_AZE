@@ -20,8 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class SentenceBuildFragment : Fragment() {
     private var binding: FragmentSentenceBuildBinding? = null
     private val viewModel by viewModels<SentenceBuildViewModel>()
-    private var countOfAllQuestions: Int? = null
-    private var wrongAnswer = 0
     private val answerList = mutableListOf<String>()
     private val suggestedList = mutableListOf<String>()
 
@@ -64,29 +62,28 @@ class SentenceBuildFragment : Fragment() {
 
         viewModel.countOfQuestions.observe(viewLifecycleOwner){count->
             count?.let {
-                countOfAllQuestions = count
                 binding?.progressIndicator?.max = count
             }
         }
 
         viewModel.progress.observe(viewLifecycleOwner){progress->
             progress?.let {
-                binding?.tvProgressCount?.text = (progress + 1).toString()
+                binding?.tvProgressCount?.text = progress.inc().toString()
             }
         }
 
         binding?.btConfirm?.setOnClickListener {
-            if(viewModel.sentencesList.isNotEmpty()){
-                if (viewModel.chekAnswer(answerList)){
-                    changeContinueButtonState(ContinueBtStates.CORRECT)
-                }else{
-                    changeContinueButtonState(ContinueBtStates.WRONG)
-                    wrongAnswer++
+            val isAnswerCorrect = viewModel.chekAnswer(answerList)
+            if (viewModel.sentencesList.isNotEmpty()) {
+                changeContinueButtonState(if (isAnswerCorrect) ContinueBtStates.CORRECT else ContinueBtStates.WRONG)
+            } else {
+                changeContinueButtonState(if (isAnswerCorrect) ContinueBtStates.CORRECT else ContinueBtStates.WRONG)
+                viewModel.countOfQuestions.observe(viewLifecycleOwner) { data ->
+                    data?.let {
+                        showResult(it, viewModel.countOfCorrectQeustions())
+                    }
                 }
-            }else{
-                showResult()
             }
-
         }
 
         binding?.btSkip?.setOnClickListener {
@@ -178,17 +175,15 @@ class SentenceBuildFragment : Fragment() {
         binding?.answerChipGroup?.removeView(chip)
     }
 
-    private fun showResult(){
-        countOfAllQuestions?.let {
-            val countOfCorrectAnswer = it - wrongAnswer
+    private fun showResult(allQuestions: Int, correctAnswers: Int){
+            val countOfWrongAnswer = allQuestions - correctAnswers
             val dialogFragment = ResultDialogFragment()
             dialogFragment.isCancelable = false
-            dialogFragment.setScore(countOfCorrectAnswer.toString(), wrongAnswer.toString())
+            dialogFragment.setScore(correctAnswers.toString(), countOfWrongAnswer.toString())
             dialogFragment.show(
                 parentFragmentManager,
                 ResultDialogFragment::class.java.canonicalName
             )
-        }
     }
 
     private fun changeContinueButtonState(buttonState: ContinueBtStates){
@@ -206,7 +201,6 @@ class SentenceBuildFragment : Fragment() {
         binding?.imageView?.setImageResource(R.drawable.ic_correct)
         binding?.tvCorrectOrWrong?.text = "Correct!"
         binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
-
         binding?.btConfirm?.isClickable = false
     }
 
@@ -217,14 +211,12 @@ class SentenceBuildFragment : Fragment() {
         binding?.imageView?.setImageResource(R.drawable.ic_incorrect)
         binding?.tvCorrectOrWrong?.text = "Wrong!"
         binding?.btContinue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
-
         binding?.btConfirm?.isClickable = false
     }
 
     private fun normalStateContinueButton() {
         binding?.continueButtonLayout?.isVisible = false
         binding?.btSkip?.isVisible = true
-
         binding?.btConfirm?.isClickable = true
     }
 

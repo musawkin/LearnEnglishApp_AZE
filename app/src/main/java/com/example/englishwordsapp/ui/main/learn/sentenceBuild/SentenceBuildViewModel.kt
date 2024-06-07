@@ -21,9 +21,10 @@ class SentenceBuildViewModel @Inject constructor(
     private val _responseModelData = MutableLiveData<SentenceBuildState>()
     val responseModelData: LiveData<SentenceBuildState> = _responseModelData
 
-    private val _countOfQuestions = MutableLiveData<Int>(0)
+    private val _countOfQuestions = MutableLiveData(0)
     val countOfQuestions: LiveData<Int> = _countOfQuestions
 
+    private var countOfCorrectAnswer = 0
 
     private val _progress = MutableLiveData(0)
     val progress: LiveData<Int> = _progress
@@ -36,6 +37,7 @@ class SentenceBuildViewModel @Inject constructor(
 
     fun chekAnswer(answer: List<String>): Boolean{
         if (answer == _questionModel.value?.answerWordsList){
+            countOfCorrectAnswer++
             return true
         }else{
             return false
@@ -54,6 +56,11 @@ class SentenceBuildViewModel @Inject constructor(
         questionModelForSkipButton = word
         _questionModel.value = word
     }
+
+    fun countOfCorrectQeustions(): Int{
+        return countOfCorrectAnswer
+    }
+
     fun getSentenceModel(level: String) {
         _responseModelData.postValue(SentenceBuildState.Loading(true))
         viewModelScope.launch {

@@ -13,16 +13,15 @@ class QuizVariantsListAdapter : ListAdapter<AnswerModel, QuizVariantsListAdapter
     DIF_UTIL
 ) {
     private var onItemClick: ((variant: AnswerModel) -> Unit)? = null
-
+    private var selectedPosition = false
 
     fun onItemClickListener(onItemClick: (variant: AnswerModel) -> Unit) {
         this.onItemClick = onItemClick
     }
 
-    class QuizWH(
+    inner class QuizWH(
         private val binding: ExampleForQuizVariantsBinding
     ) : ViewHolder(binding.root) {
-        private var correctItem = 0L
         fun bind(data: AnswerModel, position: Int, onItemClick: ((AnswerModel) -> Unit)?) {
             binding.tvContainerNumber.text = position.inc().toString()
             binding.tvContainerAnswer.text = data.answer
@@ -33,6 +32,7 @@ class QuizVariantsListAdapter : ListAdapter<AnswerModel, QuizVariantsListAdapter
             binding.tvContainerAnswer.setTextColor(Color.GRAY)
 
             itemView.setOnClickListener {
+                selectedPosition = true
                 if(data.isCorrect) {
                     onItemClick?.invoke(data)
                     binding.linearLayout.setBackgroundResource(R.drawable.shape_rounded_containers_correct)
@@ -46,7 +46,6 @@ class QuizVariantsListAdapter : ListAdapter<AnswerModel, QuizVariantsListAdapter
                     binding.tvContainerNumber.setBackgroundResource(R.drawable.shape_rounded_variants_wrong)
                     binding.tvContainerNumber.setTextColor(Color.WHITE)
                     binding.tvContainerAnswer.setTextColor(Color.RED)
-
                 }
             }
         }
@@ -62,7 +61,7 @@ class QuizVariantsListAdapter : ListAdapter<AnswerModel, QuizVariantsListAdapter
 
     override fun onBindViewHolder(holder: QuizWH, position: Int) {
         holder.bind(getItem(position), position, onItemClick)
-
+        holder.itemView.isClickable = selectedPosition
     }
 
     companion object {

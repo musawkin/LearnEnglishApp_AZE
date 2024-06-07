@@ -41,7 +41,7 @@ class SpeechRecognitionFragment : Fragment() {
 
         viewModel.progress.observe(viewLifecycleOwner){count->
             count?.let {
-                binding?.tvProgressCount?.text = (count + 1).toString()
+                binding?.tvProgressCount?.text = count.inc().toString()
             }
         }
 
@@ -70,10 +70,10 @@ class SpeechRecognitionFragment : Fragment() {
         }
 
         binding?.btConfirm?.setOnClickListener {
+            false.isClickable()
             hideKeyboard(binding?.btConfirm!!)
             viewModel.checkAnswer(binding?.etInputCorrectAnswer?.text.toString()
                 .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() })
-
             viewModel.state.observe(viewLifecycleOwner) { state ->
                 state?.let {
                     when (state) {
@@ -115,6 +115,7 @@ class SpeechRecognitionFragment : Fragment() {
         }
 
         binding?.btContinue?.setOnClickListener {
+            true.isClickable()
             increaseStep()
             changeContinueButtonState(ContinueBtStates.NORMAL)
             viewModel.startRecognition()
@@ -195,10 +196,8 @@ class SpeechRecognitionFragment : Fragment() {
     }
 
     private fun Boolean.isClickable(){
-        binding?.imagePlaySpeaker?.isClickable = this
         binding?.btConfirm?.isClickable = this
-        binding?.etInputCorrectAnswer?.isClickable = this
-        binding?.etInputCorrectAnswer?.text?.clear()
+        binding?.etInputCorrectAnswer?.isEnabled = this
 
     }
 

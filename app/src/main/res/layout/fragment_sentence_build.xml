@@ -51,6 +51,7 @@
         android:layout_marginTop="5dp"
         android:paddingHorizontal="50dp"
         app:indicatorColor="@color/green"
+        app:trackStopIndicatorSize="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvProgressCount"
@@ -136,16 +137,20 @@
 
     <Button
         android:id="@+id/btSkip"
-        android:layout_width="310dp"
-        android:layout_height="58dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="24dp"
         android:backgroundTint="@color/blue"
         android:text="@string/button_skip"
         android:textAllCaps="true"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHeight_percent="0.076"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97"
+        app:layout_constraintWidth_percent="0.75" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/continueButtonLayout"
