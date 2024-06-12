@@ -61,6 +61,7 @@ class QuizFragment : Fragment() {
         difficultyLevel?.let { viewModel.getQuestionList(it) }
 
         variantsAdapter.onItemClickListener { variant ->
+            binding?.testFrame?.isVisible = true
             if (variant.isCorrect){
                 changeContinueButtonState(ContinueBtStates.CORRECT)
             }
