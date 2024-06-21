@@ -15,7 +15,7 @@ class QuizFirebaseDatasource @Inject constructor(
         val docRef =
             db.collection("wordsForQuiz")
                 .document(difficultyLevel)
-                .collection("questionModel_map")
+                .collection("questionsForQuiz")
         val result = kotlin.runCatching {
             Tasks.await(docRef.get())
         }

@@ -58,7 +58,7 @@ class SignInFragment : Fragment() {
             .build()
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
 
-        binding?.signInButton?.setOnClickListener {
+        binding?.btnGoogleSignIn?.setOnClickListener {
             signInWithGoogle()
         }
     }
@@ -108,9 +108,6 @@ class SignInFragment : Fragment() {
                 findTopNavController().navigate(R.id.action_signInFragment_to_mainFragment)
                 val args = MainActivityArgs(true)
                 requireActivity().intent.putExtras(args.toBundle())
-//                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.fragmentContainerMainGraph, MainFragment())
-//                    .commit()
                 Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
             }
         }

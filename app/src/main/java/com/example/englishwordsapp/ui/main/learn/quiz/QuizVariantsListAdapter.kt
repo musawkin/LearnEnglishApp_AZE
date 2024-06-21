@@ -13,8 +13,8 @@ class QuizVariantsListAdapter : ListAdapter<AnswerModel, QuizVariantsListAdapter
     DIF_UTIL
 ) {
     private var onItemClick: ((variant: AnswerModel) -> Unit)? = null
-    private var selectedPosition = -1
-
+    private var isAnswered: Boolean = false
+    private var correctAnswerPosition: Int = -1
     fun onItemClickListener(onItemClick: (variant: AnswerModel) -> Unit) {
         this.onItemClick = onItemClick
     }
@@ -31,39 +31,40 @@ class QuizVariantsListAdapter : ListAdapter<AnswerModel, QuizVariantsListAdapter
             binding.tvContainerNumber.setTextColor(Color.GRAY)
             binding.tvContainerAnswer.setTextColor(Color.GRAY)
 
+            if (data.isCorrect) {
+                correctAnswerPosition = position
+            }
+
             itemView.setOnClickListener {
-                if(data.isCorrect) {
-                    onItemClick?.invoke(data)
-                    selectedPosition = position
+                if (isAnswered) return@setOnClickListener // Блокируем повторные клики
+
+                isAnswered = true
+                onItemClick?.invoke(data)
+                if (data.isCorrect) {
                     binding.linearLayout.setBackgroundResource(R.drawable.shape_rounded_containers_correct)
                     binding.tvContainerNumber.setBackgroundResource(R.drawable.shape_rounded_variants_correct)
                     binding.tvContainerNumber.setTextColor(Color.WHITE)
                     binding.tvContainerAnswer.setTextColor(Color.GREEN)
-                }
-                else{
-                    onItemClick?.invoke(data)
-                    selectedPosition = position
+                } else {
                     binding.linearLayout.setBackgroundResource(R.drawable.shape_rounded_containers_wrong)
                     binding.tvContainerNumber.setBackgroundResource(R.drawable.shape_rounded_variants_wrong)
                     binding.tvContainerNumber.setTextColor(Color.WHITE)
                     binding.tvContainerAnswer.setTextColor(Color.RED)
-                    if (selectedPosition != -1) {
-                        notifyItemChanged(findPositionByIsCorrect(true))
-                    }
+                    // Отображаем правильный ответ
+                    notifyItemChanged(correctAnswerPosition)
                 }
-                if (selectedPosition != -1 && currentList[selectedPosition].isCorrect) {
-                    binding.linearLayout.setBackgroundResource(R.drawable.shape_rounded_containers_correct)
-                    binding.tvContainerNumber.setBackgroundResource(R.drawable.shape_rounded_variants_correct)
-                    binding.tvContainerNumber.setTextColor(Color.WHITE)
-                    binding.tvContainerAnswer.setTextColor(Color.GREEN)
-                }
+            }
+
+            // Если состояние ответа уже известно и это правильный ответ
+            if (isAnswered && data.isCorrect) {
+                binding.linearLayout.setBackgroundResource(R.drawable.shape_rounded_containers_correct)
+                binding.tvContainerNumber.setBackgroundResource(R.drawable.shape_rounded_variants_correct)
+                binding.tvContainerNumber.setTextColor(Color.WHITE)
+                binding.tvContainerAnswer.setTextColor(Color.GREEN)
             }
         }
     }
 
-    private fun findPositionByIsCorrect(isCorrect: Boolean): Int {
-        return currentList.indexOfFirst { it.isCorrect == isCorrect }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuizWH {
         val inflater = LayoutInflater.from(parent.context)
@@ -74,6 +75,11 @@ class QuizVariantsListAdapter : ListAdapter<AnswerModel, QuizVariantsListAdapter
 
     override fun onBindViewHolder(holder: QuizWH, position: Int) {
         holder.bind(getItem(position), position, onItemClick)
+    }
+
+    fun reset() {
+        isAnswered = false
+        notifyDataSetChanged()
     }
 
     companion object {

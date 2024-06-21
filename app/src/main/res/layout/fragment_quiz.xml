@@ -92,18 +92,6 @@
 
 
     <Button
-        android:id="@+id/testFrame"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        android:background="#888585"
-        android:alpha="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topWelcomeView"
-        app:layout_constraintBottom_toTopOf="@id/btSkip"/>
-
-    <Button
         android:id="@+id/btSkip"
         android:layout_width="0dp"
         android:layout_height="0dp"
