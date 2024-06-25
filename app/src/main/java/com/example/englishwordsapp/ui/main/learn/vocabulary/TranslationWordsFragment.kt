@@ -33,7 +33,6 @@ class TranslationWordsFragment : Fragment() {
     private var binding: FragmentTranslationWordsBinding? = null
     private val adapterForWords by lazy { VocabularyListAdapter() }
     private val loadingAdapter by lazy { LoaderStateAdapter() }
-    private val listOfWords = mutableListOf<SimpleWordsModel>()
     private lateinit var textToSpeech: TextToSpeech
     private val viewModel by viewModels<VocabularyTranslationViewModel>()
 
@@ -42,16 +41,16 @@ class TranslationWordsFragment : Fragment() {
         savedInstanceState: Bundle?): View? {
         binding = FragmentTranslationWordsBinding.inflate(layoutInflater, container, false)
 
-//        textToSpeech = TextToSpeech(requireContext()) { status ->
-//            if (status == TextToSpeech.SUCCESS) {
-//                val result = textToSpeech.setLanguage(Locale.US)
-//                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-//                    // Обработка ошибки
-//                }
-//            } else {
-//                // Обработка ошибки
-//            }
-//        }
+        textToSpeech = TextToSpeech(requireContext()) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                val result = textToSpeech.setLanguage(Locale.US)
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    // Обработка ошибки
+                }
+            } else {
+                // Обработка ошибки
+            }
+        }
         textToSpeech = TextToSpeech(requireContext(), null)
 
         return binding?.root
@@ -90,16 +89,7 @@ class TranslationWordsFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let { query ->
-                    val filteredList = listOfWords.filter { item ->
-                        item.word?.contains(
-                            query,
-                            ignoreCase = true
-                        ) == true || item.translationToAze?.contains(
-                            query,
-                            ignoreCase = true
-                        ) == true
-                    }.toMutableList()
-//                    adapterForWords.submitList(filteredList)
+                    viewModel.getWordsWithPaging()
                     return true
                 }
                 return false

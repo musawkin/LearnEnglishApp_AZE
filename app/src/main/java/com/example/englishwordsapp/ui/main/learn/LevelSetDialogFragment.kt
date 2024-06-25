@@ -1,6 +1,8 @@
 package com.example.englishwordsapp.ui.main.learn
 
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +15,9 @@ import com.example.englishwordsapp.databinding.LevelSetDialogFragmentBinding
 class LevelSetDialogFragment : DialogFragment() {
     private var binding: LevelSetDialogFragmentBinding? = null
     var onLevelSelectedListener: OnLevelSelectedListener? = null
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.CustomDialogTheme)
     }
 
     override fun onCreateView(
@@ -28,6 +31,8 @@ class LevelSetDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val width = resources.getDimensionPixelSize(R.dimen.dialog_width)
         val height = resources.getDimensionPixelSize(R.dimen.level_dialog_height)

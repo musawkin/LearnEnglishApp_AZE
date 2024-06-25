@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.englishwordsapp.data.paging.WordsPagingSource
 import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -15,13 +16,16 @@ import javax.inject.Inject
 class WordsPagingRepo @Inject constructor(
     private val wordsPagingSource: WordsPagingSource,
 ) {
-    fun getPagedWords(): Flow<PagingData<SimpleWordsModel>> {
-        val pagingConfig = PagingConfig(pageSize = 30, initialLoadSize = 30)
-        val pager = Pager(
-            config = pagingConfig,
-            pagingSourceFactory = {wordsPagingSource}
-        )
-        return pager.flow
-    }
+
+fun getPagedWords(): Flow<PagingData<SimpleWordsModel>> {
+    val pagingConfig = PagingConfig(pageSize = 30, initialLoadSize = 30)
+    val pager = Pager(
+        config = pagingConfig,
+        pagingSourceFactory = {wordsPagingSource}
+    )
+    return pager.flow
+}
 
 }
+
+
