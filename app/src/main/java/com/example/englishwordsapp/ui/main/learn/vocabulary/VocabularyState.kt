@@ -1,7 +1,7 @@
 package com.example.englishwordsapp.ui.main.learn.vocabulary
 
 import androidx.paging.PagingData
-import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
+import com.example.englishwordsapp.ui.main.learn.quiz.SimpleWordsModel
 
 
 sealed class VocabularyState {

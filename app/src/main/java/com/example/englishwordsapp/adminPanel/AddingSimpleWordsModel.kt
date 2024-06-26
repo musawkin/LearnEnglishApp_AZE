@@ -1,14 +1,18 @@
 package com.example.englishwordsapp.adminPanel
 
+import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class AddingSimpleWordsModel {
 
-    fun addWords(){
+//     для загрузски слов в раздел словарь
+    fun addWordsToVocabulary(){
+
+
         val db = Firebase.firestore
 
-        val finalList = Words.listOfWords
+        val finalList = WordsForVocabulary.listOfElementaryWords
 
         for(i in finalList){
             val wordData = hashMapOf(
@@ -19,14 +23,42 @@ class AddingSimpleWordsModel {
                 "word" to i.word
             )
 
-//            db.collection("wordsForVocabulary")
-//                .add(wordData)
-//                .addOnSuccessListener { documentReference ->
-//                    Log.d("Musa","Error mesage :$documentReference")
-//                }
-//                .addOnFailureListener { e ->
-//                    Log.d("Musa","Error mesage :$e")
-//                }
+            db.collection("wordsForVocabulary")
+                .add(wordData)
+                .addOnSuccessListener { documentReference ->
+                    Log.d("Musa","Error mesage :$documentReference")
+                }
+                .addOnFailureListener { e ->
+                    Log.d("Musa","Error mesage :$e")
+                }
         }
     }
+
+
+//     для загрузски слов в раздел квиз
+    fun addWordsToQuiz(){
+        val db = Firebase.firestore
+
+        val finalList = WordsForQuiz.listOfIntermediateWords
+
+        for(i in finalList){
+            val wordData = hashMapOf(
+                "answer" to i.answer,
+                "question" to i.question,
+                "variants" to i.variants
+            )
+
+            db.collection("wordsForQuiz")
+                .document("intermediate_level")
+                .collection("questionsForQuiz")
+                .add(wordData)
+                .addOnSuccessListener { documentReference ->
+                    Log.d("Musa","Error mesage :$documentReference")
+                }
+                .addOnFailureListener { e ->
+                    Log.d("Musa","Error mesage :$e")
+                }
+        }
+    }
+
 }

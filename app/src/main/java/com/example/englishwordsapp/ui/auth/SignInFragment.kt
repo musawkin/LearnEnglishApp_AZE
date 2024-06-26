@@ -66,29 +66,21 @@ class SignInFragment : Fragment() {
     private fun signInWithGoogle(){
         val signInIntent = googleSignInClient.signInIntent
         launcher.launch(signInIntent)
-        Log.d("Musaqq", "signInWithGoogle: ")
     }
 
     private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             result->
-        Log.d("Musaqq", "launcher: 1")
         if (result.resultCode == Activity.RESULT_OK){
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            Log.d("Musaqq", "launcher: 2")
             handleResults(task)
         }else{
-            Log.d("Musaqq", "launcher: 3")
         }
     }
 
     private fun handleResults(task: Task<GoogleSignInAccount>) {
-        Log.d("Musaqq", "handleResults:1 ")
-
         if (task.isSuccessful){
             val account: GoogleSignInAccount? = task.result
             if (account!=null){
-                Log.d("Musaqq", "handleResults:2 ")
-
                 updateUI(account)
             }
         }
@@ -98,13 +90,10 @@ class SignInFragment : Fragment() {
     }
 
     private fun updateUI(account: GoogleSignInAccount) {
-        Log.d("Musaqq", "updateUI:1 ")
 
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful){
-                Log.d("Musaqq", "updateUI:2 ")
-
                 findTopNavController().navigate(R.id.action_signInFragment_to_mainFragment)
                 val args = MainActivityArgs(true)
                 requireActivity().intent.putExtras(args.toBundle())

@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.englishwordsapp.databinding.ExampleWordTranslationBinding
-import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
+import com.example.englishwordsapp.ui.main.learn.quiz.SimpleWordsModel
 
 class VocabularyListAdapter: PagingDataAdapter<SimpleWordsModel, VocabularyListAdapter.VocabularyWH>(DIFF_UTIL) {
 

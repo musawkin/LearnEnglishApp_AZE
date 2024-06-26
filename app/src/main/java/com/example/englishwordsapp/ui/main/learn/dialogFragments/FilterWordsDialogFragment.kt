@@ -1,4 +1,4 @@
-package com.example.englishwordsapp.ui.main.learn
+package com.example.englishwordsapp.ui.main.learn.dialogFragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

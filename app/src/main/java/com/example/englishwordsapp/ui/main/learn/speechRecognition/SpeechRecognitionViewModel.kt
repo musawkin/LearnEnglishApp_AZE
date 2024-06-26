@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.englishwordsapp.data.model.core.ResultWrapper
 import com.example.englishwordsapp.data.repositories.SpeechRecognitionRepositoryImpl
-import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
+import com.example.englishwordsapp.ui.main.learn.quiz.SimpleWordsModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

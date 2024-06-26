@@ -3,13 +3,7 @@ package com.example.englishwordsapp.data.paging
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.example.englishwordsapp.data.paging.WordsPagingSource
-import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import com.example.englishwordsapp.ui.main.learn.quiz.SimpleWordsModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

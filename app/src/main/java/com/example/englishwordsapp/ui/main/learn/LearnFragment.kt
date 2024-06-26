@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.FragmentLearnBinding
 import com.example.englishwordsapp.extensions.findTopNavController
+import com.example.englishwordsapp.ui.main.learn.dialogFragments.LevelSetDialogFragment
 import com.example.englishwordsapp.ui.main.learn.quiz.QuizFragment
 import com.example.englishwordsapp.ui.main.learn.sentenceBuild.SentenceBuildFragment
 import com.example.englishwordsapp.ui.main.learn.speechRecognition.SpeechRecognitionFragment
@@ -31,7 +32,9 @@ class LearnFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setNamePhoto()
+
+        setUserData()
+
 
         binding?.btQuiz?.setOnClickListener {
             showDifficultyLevelDialog(QuizFragment(), R.id.quizFragment)
@@ -69,7 +72,7 @@ class LearnFragment : Fragment() {
         findTopNavController().navigate(fragmentID, bundle)
     }
 
-    private fun setNamePhoto(){
+    private fun setUserData(){
         auth = FirebaseAuth.getInstance()
 
         var currentUser = auth.currentUser
@@ -84,6 +87,7 @@ class LearnFragment : Fragment() {
             Toast.makeText(requireContext(), "Error receiving data", Toast.LENGTH_SHORT).show()
         }
     }
+
 
 
 }

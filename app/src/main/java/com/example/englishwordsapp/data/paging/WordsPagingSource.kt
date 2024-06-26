@@ -2,8 +2,7 @@ package com.example.englishwordsapp.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
-import com.google.firebase.firestore.DocumentSnapshot
+import com.example.englishwordsapp.ui.main.learn.quiz.SimpleWordsModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await

@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.FragmentSentenceBuildBinding
-import com.example.englishwordsapp.ui.main.learn.ResultDialogFragment
+import com.example.englishwordsapp.ui.main.learn.dialogFragments.ResultDialogFragment
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 

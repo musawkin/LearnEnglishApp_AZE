@@ -1,4 +1,4 @@
-package com.example.englishwordsapp.ui.main.learn
+package com.example.englishwordsapp.ui.main.learn.quiz
 
 class SimpleWordsModel(
     val word: String? = null,

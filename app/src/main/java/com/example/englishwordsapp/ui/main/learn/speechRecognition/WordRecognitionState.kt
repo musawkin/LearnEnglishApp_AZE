@@ -1,7 +1,6 @@
 package com.example.englishwordsapp.ui.main.learn.speechRecognition
 
-import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
-import com.example.englishwordsapp.ui.main.learn.vocabulary.VocabularyState
+import com.example.englishwordsapp.ui.main.learn.quiz.SimpleWordsModel
 
 sealed class WordRecognitionState {
 

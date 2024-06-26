@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.englishwordsapp.data.model.core.ResultWrapper
 import com.example.englishwordsapp.data.repositories.QuizRepositoryImpl
-import com.example.englishwordsapp.ui.main.learn.SimpleWordsModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,7 +46,6 @@ class QuizViewModel @Inject constructor(
         _question.value = word
     }
 
-    //TODO : Buna baxmaq lazımdır
     fun getQuestionList(difficultyLevel: String){
         _questionModelData.postValue(QuizState.Loading(true))
         viewModelScope.launch {
@@ -56,7 +54,9 @@ class QuizViewModel @Inject constructor(
                     when(it){
                         is ResultWrapper.Success ->{
                             _questionModelData.postValue(QuizState.Loading(false))
-                            questionsList.addAll(it.data)
+                            val randomList = it.data.shuffled().take(20)
+                            questionsList.addAll(randomList)
+
                             withContext(Dispatchers.Main){
                                 _countOfQuestions.value = questionsList.size
                                 val word = questionsList.removeLast()

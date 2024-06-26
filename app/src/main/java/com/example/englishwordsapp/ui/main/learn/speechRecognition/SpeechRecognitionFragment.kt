@@ -14,7 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.englishwordsapp.R
 import com.example.englishwordsapp.databinding.FragmentSpeechRecognitionBinding
-import com.example.englishwordsapp.ui.main.learn.ResultDialogFragment
+import com.example.englishwordsapp.ui.main.learn.dialogFragments.ResultDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 

@@ -1,6 +1,5 @@
-package com.example.englishwordsapp.ui.main.learn
+package com.example.englishwordsapp.ui.main.learn.dialogFragments
 
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
