@@ -12,7 +12,7 @@ class AddingSimpleWordsModel {
 
         val db = Firebase.firestore
 
-        val finalList = WordsForVocabulary.listOfElementaryWords
+        val finalList = WordsForVocabulary.listOfAdvanceWordsForVocabulary
 
         for(i in finalList){
             val wordData = hashMapOf(
@@ -39,26 +39,28 @@ class AddingSimpleWordsModel {
     fun addWordsToQuiz(){
         val db = Firebase.firestore
 
-        val finalList = WordsForQuiz.listOfIntermediateWords
+//        val finalList =
 
-        for(i in finalList){
-            val wordData = hashMapOf(
-                "answer" to i.answer,
-                "question" to i.question,
-                "variants" to i.variants
-            )
-
-            db.collection("wordsForQuiz")
-                .document("intermediate_level")
-                .collection("questionsForQuiz")
-                .add(wordData)
-                .addOnSuccessListener { documentReference ->
-                    Log.d("Musa","Error mesage :$documentReference")
-                }
-                .addOnFailureListener { e ->
-                    Log.d("Musa","Error mesage :$e")
-                }
-        }
+//        for(i in finalList){
+//            val wordData = hashMapOf(
+//                "answer" to i.answer,
+//                "question" to i.question,
+//                "variants" to i.variants
+//            )
+//
+//            db.collection("wordsForQuiz")
+//                .document("advance_level")
+//                .collection("questionsForQuiz")
+//                .add(wordData)
+//                .addOnSuccessListener { documentReference ->
+//                    Log.d("Musa","Error mesage :$documentReference")
+//                }
+//                .addOnFailureListener { e ->
+//                    Log.d("Musa","Error mesage :$e")
+//                }
+//        }
     }
+
+
 
 }

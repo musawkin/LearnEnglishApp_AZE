@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.englishwordsapp.R
+import com.example.englishwordsapp.adminPanel.AddingSimpleWordsModel
 import com.example.englishwordsapp.databinding.FragmentLearnBinding
 import com.example.englishwordsapp.extensions.findTopNavController
 import com.example.englishwordsapp.ui.main.learn.dialogFragments.LevelSetDialogFragment
@@ -32,9 +33,7 @@ class LearnFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         setUserData()
-
 
         binding?.btQuiz?.setOnClickListener {
             showDifficultyLevelDialog(QuizFragment(), R.id.quizFragment)

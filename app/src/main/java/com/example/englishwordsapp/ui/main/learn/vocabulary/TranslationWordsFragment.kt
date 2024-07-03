@@ -2,11 +2,13 @@ package com.example.englishwordsapp.ui.main.learn.vocabulary
 
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.speech.tts.Voice
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.paging.CombinedLoadStates
@@ -18,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
 @AndroidEntryPoint
-class TranslationWordsFragment : Fragment() {
+class TranslationWordsFragment : Fragment(), TextToSpeech.OnInitListener {
 
     private var binding: FragmentTranslationWordsBinding? = null
     private val adapterForWords by lazy { VocabularyListAdapter() }
@@ -30,20 +32,21 @@ class TranslationWordsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
         binding = FragmentTranslationWordsBinding.inflate(layoutInflater, container, false)
-
-        textToSpeech = TextToSpeech(requireContext()) { status ->
-            if (status == TextToSpeech.SUCCESS) {
-                val result = textToSpeech.setLanguage(Locale.US)
-                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    // Обработка ошибки
-                }
-            } else {
-                // Обработка ошибки
-            }
-        }
-        textToSpeech = TextToSpeech(requireContext(), null)
-
+        textToSpeech = TextToSpeech(requireContext(), this)
         return binding?.root
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS){
+            textToSpeech.language = Locale.US
+            val voices = textToSpeech.voices
+            val selectedVoice = voices.firstOrNull { it.locale == Locale.US && it.quality == Voice.QUALITY_HIGH}
+            selectedVoice?.let {
+                textToSpeech.voice = it
+            }
+        }else{
+            Toast.makeText(requireContext(), "A sound error occurred", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,7 +69,6 @@ class TranslationWordsFragment : Fragment() {
 
         adapterForWords.onItemClickListener { word->
             word?.let {
-                textToSpeech.setLanguage(Locale.US)
                 textToSpeech.speak(word.word, TextToSpeech.QUEUE_FLUSH, null, null)
             }
         }

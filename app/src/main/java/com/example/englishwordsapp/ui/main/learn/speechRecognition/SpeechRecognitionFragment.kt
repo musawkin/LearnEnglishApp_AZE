@@ -3,11 +3,13 @@ package com.example.englishwordsapp.ui.main.learn.speechRecognition
 import android.content.Context
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.speech.tts.Voice
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -19,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
 @AndroidEntryPoint
-class SpeechRecognitionFragment : Fragment() {
+class SpeechRecognitionFragment : Fragment(), TextToSpeech.OnInitListener {
     private var binding: FragmentSpeechRecognitionBinding? = null
     private lateinit var textToSpeech: TextToSpeech
     private var isResultShown = false
@@ -29,12 +31,26 @@ class SpeechRecognitionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
         binding = FragmentSpeechRecognitionBinding.inflate(layoutInflater)
-        textToSpeech = TextToSpeech(requireContext(), null)
         return binding?.root
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS){
+            textToSpeech.language = Locale.US
+
+            val voices = textToSpeech.voices
+            val selectedVoice = voices.firstOrNull { it.locale == Locale.US && it.quality == Voice.QUALITY_HIGH}
+            selectedVoice?.let {
+                textToSpeech.voice = it
+            }
+        }else{
+            Toast.makeText(requireContext(), "A sound error occurred", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        textToSpeech = TextToSpeech(requireContext(), this)
 
         val difficultyLevel = arguments?.getString("difficultyLevel")
         difficultyLevel?.let { viewModel.loadWords(it) }
@@ -55,9 +71,7 @@ class SpeechRecognitionFragment : Fragment() {
             when(word){
                 is WordRecognitionState.Success->{
                     binding?.progressBarLoadingData?.isVisible = false
-//                    viewModel.playSound(word.listOfQuestions.word!!)
-                    textToSpeech.setLanguage(Locale.US)
-                    textToSpeech.speak(word.listOfQuestions.word, TextToSpeech.QUEUE_FLUSH, null, null)
+                    word.listOfQuestions.word?.let { pronounceWord(it) }
                 }
 
                 is WordRecognitionState.Error -> {
@@ -109,7 +123,6 @@ class SpeechRecognitionFragment : Fragment() {
             viewModel.word.observe(viewLifecycleOwner){word->
                 word?.let {
                     it.word?.let { it1 -> pronounceWord(it1) }
-//                    viewModel.playSound(word.word!!)
                 }
             }
         }
@@ -130,8 +143,7 @@ class SpeechRecognitionFragment : Fragment() {
             viewModel.skipWord()
             viewModel.word.observe(viewLifecycleOwner){word->
                 word?.let {
-                    textToSpeech.setLanguage(Locale.US)
-                    textToSpeech.speak(it.word, TextToSpeech.QUEUE_FLUSH, null, null)
+                    it.word?.let { it1 -> pronounceWord(it1) }
                 }
             }
         }
@@ -141,13 +153,13 @@ class SpeechRecognitionFragment : Fragment() {
         }
     }
 
+
     private fun hideKeyboard(view: View){
         val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun pronounceWord(word: String){
-        textToSpeech.setLanguage(Locale.US)
         textToSpeech.speak(word, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 

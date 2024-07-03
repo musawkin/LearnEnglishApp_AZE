@@ -90,7 +90,7 @@
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/answerChipGroup"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_marginTop="30dp"
         android:layout_marginHorizontal="20dp"
         android:paddingStart="6dp"
@@ -106,7 +106,7 @@
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/suggestedChipGroup"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="24dp"
         android:paddingStart="6dp"

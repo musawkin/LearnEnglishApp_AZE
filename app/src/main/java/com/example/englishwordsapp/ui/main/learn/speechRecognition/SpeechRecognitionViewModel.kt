@@ -94,7 +94,8 @@ class SpeechRecognitionViewModel @Inject constructor(
                     when (it) {
                         is ResultWrapper.Success -> {
                             wordsModelData.postValue(WordRecognitionState.Loading(false))
-                            wordsList.addAll(it.data)
+                            val randomList = it.data.shuffled().take(20)
+                            wordsList.addAll(randomList)
                             withContext(Dispatchers.Main) {
                                 _countOfQuestions.value = wordsList.size
                                 val word = wordsList.removeLast()
